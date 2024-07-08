@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import Link from 'next/link';
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import Link from "next/link";
 import {
   Dialog,
   DialogTrigger,
@@ -26,11 +26,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-
-import { register , verifyEmail } from "@/actions/auth"
-import { redirect } from "next/navigation";
-
-
+import { register, verifyEmail } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -45,6 +42,8 @@ const formSchema = z
   });
 
 export default function Home() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,9 +57,9 @@ export default function Home() {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [initialTime, setInitialTime] = useState<number | null>(null);
   const [countdown, setCountdown] = useState(300); // 300 seconds = 5 minutes
-  const [verificationCode, setVerificationCode] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [errorMessageDialog, setErrorMessageDialog] = useState('');
+  const [verificationCode, setVerificationCode] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessageDialog, setErrorMessageDialog] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Ref to store the interval ID
@@ -72,7 +71,7 @@ export default function Home() {
       timerRef.current = setInterval(() => {
         const elapsed = Math.floor((Date.now() - initialTime) / 1000);
         setCountdown((prevCountdown) => Math.max(300 - elapsed, 0));
-        console.log(localStorage.getItem('access_token'));
+        console.log(localStorage.getItem("access_token"));
         if (countdown <= 1) {
           clearInterval(timerRef.current!);
           timerRef.current = null;
@@ -91,46 +90,56 @@ export default function Home() {
     };
   }, [isDialogOpen, initialTime, countdown]);
 
-  const handleSubmit = async (values: z.infer<typeof formSchema>) =>  {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setIsSubmitting(true);
+      let data = await register({
+        username: values.username,
+        email: values.emailAddress,
+        password: values.password,
+      });
 
-    setIsSubmitting(true);
-    let data = await register({
-      username: values.username,
-      email: values.emailAddress,
-      password: values.password,
-    })
-
-    if (data.status ===201){
-      setDialogOpen(true);
-      setInitialTime(Date.now());
-    }else if (data.status === 208){
-      setDialogOpen(true);
-    }else{
-      setErrorMessage(data.message)
+      if (data.status === 201) {
+        setDialogOpen(true);
+        setInitialTime(Date.now());
+      } else if (data.status === 208) {
+        setDialogOpen(true);
+      } else {
+        setErrorMessage(data.message);
+      }
+      setIsSubmitting(false);
+    } catch (error) {
+      console.error("Register error:", error);
+      setErrorMessage("Failed to register. Please try again."); // Genel hata durumu
     }
-    setIsSubmitting(false);
-    
   };
-  
 
   const handleOK = async () => {
-    let data = await verifyEmail({
-      email: form.getValues("emailAddress"),
-      verificationCode:verificationCode
-    })
-
-    if (data.status === 200){
-      setDialogOpen(false);
-    }else{
-      setErrorMessageDialog(data.message)
+    try{
+      let data = await verifyEmail({
+        email: form.getValues("emailAddress"),
+        verificationCode: verificationCode,
+      });
+  
+      if (data.status === 200) {
+        setDialogOpen(false);
+        router.push("/dashboard");
+      } else {
+        setErrorMessageDialog(data.message);
+      }
+    }catch(error){
+      console.error("Verify error:", error);
+      setErrorMessageDialog("Failed to verify. Please try again."); // Genel hata durumu
     }
-
   };
 
   return (
     <main className="flex min-h-screen">
       {/* Sol Taraf: Form */}
-      <div className="flex flex-col items-center justify-center w-1/2 p-10" style={{ backgroundColor: "#1c1c1c" }}>
+      <div
+        className="flex flex-col items-center justify-center w-1/2 p-10"
+        style={{ backgroundColor: "#1c1c1c" }}
+      >
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
@@ -143,7 +152,7 @@ export default function Home() {
                 <FormItem>
                   <FormLabel className="text-white">Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="username"  {...field} />
+                    <Input placeholder="username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,7 +165,11 @@ export default function Home() {
                 <FormItem>
                   <FormLabel className="text-white">Email address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email address" type="email" {...field} />
+                    <Input
+                      placeholder="Email address"
+                      type="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -182,32 +195,45 @@ export default function Home() {
                 <FormItem>
                   <FormLabel className="text-white">Password confirm</FormLabel>
                   <FormControl>
-                    <Input placeholder="Password confirm" type="password" {...field} />
+                    <Input
+                      placeholder="Password confirm"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
-            <Button type="submit" className="w-full bg-white text-black" disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+
+            <Button
+              type="submit"
+              className="w-full bg-white text-black"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
             <FormMessage>{errorMessage}</FormMessage>
           </form>
         </Form>
-        
+
         {/* Additional Links and OAuth */}
         <div className="mt-4 text-center text-white">
-          <p className="mb-8">Already have an account? <Link href="/login" className="text-blue-400">Log in</Link></p>
+          <p className="mb-8">
+            Already have an account?{" "}
+            <Link href="/login" className="text-blue-400">
+              Log in
+            </Link>
+          </p>
           <p className="m-4">Or sign in with</p>
-          
+
           <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
             <GoogleLogin
-              onSuccess={credentialResponse => {
+              onSuccess={(credentialResponse) => {
                 console.log(credentialResponse);
               }}
               onError={() => {
-                console.log('Login Failed');
+                console.log("Login Failed");
               }}
               theme="filled_blue"
             />
@@ -238,20 +264,22 @@ export default function Home() {
           <DialogHeader>
             <DialogTitle>Verification Code Sent</DialogTitle>
             <DialogDescription>
-              A verification code has been sent to {form.getValues("emailAddress")}. Please enter it below.
+              A verification code has been sent to{" "}
+              {form.getValues("emailAddress")}. Please enter it below.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center">
-            <p className="mb-4">Time remaining: {Math.floor(countdown / 60)}:{String(countdown % 60).padStart(2, '0')}s</p>
+            <p className="mb-4">
+              Time remaining: {Math.floor(countdown / 60)}:
+              {String(countdown % 60).padStart(2, "0")}s
+            </p>
             <Input
-            placeholder="Enter verification code"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
-          />
+              placeholder="Enter verification code"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+            />
           </div>
-          <DialogDescription>
-            {errorMessageDialog}
-          </DialogDescription>
+          <DialogDescription>{errorMessageDialog}</DialogDescription>
           <DialogFooter>
             <Button onClick={() => setDialogOpen(false)}>Close</Button>
             <Button onClick={handleOK}>OK</Button>

@@ -57,12 +57,13 @@ import GenerateBreadcrumbs from "@/components/generateBreadcrumbs"
 
 
 
-export default function Dashboard() {
-  return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+const page = () => {
+    return (
+      
+            <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-         <GenerateBreadcrumbs/>
+         <GenerateBreadcrumbs />
           <div className="relative ml-auto flex-1 md:grow-0">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -167,5 +168,8 @@ export default function Dashboard() {
         </main>
       </div>
     </div>
-  )
-}
+
+    );
+};
+
+export default page;

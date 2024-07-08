@@ -1,0 +1,4 @@
+
+interface  GetUserData {
+    type: string;
+}

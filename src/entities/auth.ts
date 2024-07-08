@@ -10,3 +10,8 @@ interface VerifyRegisterData {
     email: string;
     verificationCode: string;
 }
+
+interface LoginData{
+    email: string;
+    password: string;
+}
