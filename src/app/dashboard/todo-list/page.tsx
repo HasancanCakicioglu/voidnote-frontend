@@ -11,11 +11,11 @@ import SmallHeader from "@/components/smallHeader";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
-import { UserTreeNotes } from "@/entities/user";
-import { createTreeNote, deleteTreeNote } from "@/actions/tree";
+import { UserTodoList } from "@/entities/user";
+import { createTodoList, deleteTodoList } from "@/actions/todo";
 
 const Page = () => {
-  const [notes, setTreeNotes] = useState<UserTreeNotes[]>([]);
+  const [notes, setTodoNotes] = useState<UserTodoList[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
@@ -26,9 +26,9 @@ const Page = () => {
   const notesPerPage = 12;
 
   useEffect(() => {
-    const fetchTreeNotes = async () => {
+    const fetchTodoNotes = async () => {
       try {
-        const response = await getUser({ type: "trees" });
+        const response = await getUser({ type: "todos" });
         console.log(response);
 
         if (response.success === false) {
@@ -39,7 +39,7 @@ const Page = () => {
           });
         }
 
-        setTreeNotes(response.data.trees);
+        setTodoNotes(response.data.todos);
       } catch (error: any) {
         toast({
           variant: "destructive",
@@ -49,7 +49,7 @@ const Page = () => {
       }
     };
 
-    fetchTreeNotes();
+    fetchTodoNotes();
   }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,9 +57,9 @@ const Page = () => {
   };
 
   const handleAddButton = async () => {
-    let response = await createTreeNote();
+    let response = await createTodoList();
     if (response.success) {
-      router.push(`/dashboard/tree-note/${response.data._id}`);
+      router.push(`/dashboard/todo-list/${response.data._id}`);
     } else {
       toast({
         variant: "destructive",
@@ -70,10 +70,10 @@ const Page = () => {
   };
 
   const handleDelete = async (id: string) => {
-    const response = await deleteTreeNote({ id });
-
+    const response = await deleteTodoList({ id });
+    console.log(response);
     if (response.success) {
-      setTreeNotes((notes) => notes.filter((note) => note._id !== id));
+      setTodoNotes((notes) => notes.filter((note) => note._id !== id));
     } else {
       toast({
         variant: "destructive",
@@ -109,7 +109,7 @@ const Page = () => {
             handleAddButton={handleAddButton}
             setCurrentPage={setCurrentPage}
             setSortOrder={setSortOrder}
-            type="tree-note"
+            type="todo-list"
           />
           
         </main>

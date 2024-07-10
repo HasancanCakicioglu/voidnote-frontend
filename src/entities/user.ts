@@ -17,3 +17,11 @@ export interface UserTreeNotes {
     brief: string;
     updatedAt: Date;
 }
+
+export interface UserTodoList{
+    _id:string;
+    title:string;
+    completedJobs:number;
+    totalJobs:number;
+    updatedAt:Date;
+}

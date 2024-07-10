@@ -1,12 +1,13 @@
 import SuccessResponse from "./api_success";
 
 
-export interface createTodoListSuccessResponse extends SuccessResponse {
-    data: { _id: string, title: string};
-}
-
 export interface getTodoListSuccessResponse extends SuccessResponse {
-    data: { title: string,content:string};
+    data: { userID:string,title: string,completedJobs:number,totalJobs:number,todos:[subTodo]};
+}
+interface subTodo{
+    content:string,
+    completed:boolean,
+    priority:number,
 }
 
 export interface  GetTodoList{

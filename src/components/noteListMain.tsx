@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import NotesCards from "@/components/noteCards"; // Varsayalım ki bu bileşen halihazırda tanımlı
-import { UserNotes } from "@/entities/user";
+import { UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
 
 type NoteListMainProps = {
-  notes: UserNotes[];
+  notes: UserNotes[] | UserTreeNotes[] | UserTodoList[];
   searchTerm: string;
   sortOrder: "date" | "alphabet";
   currentPage: number;
@@ -32,7 +32,7 @@ type NoteListMainProps = {
   handleDelete: (id: string) => void;
   setSortOrder: (order: "date" | "alphabet") => void;
   setCurrentPage: (page: number) => void;
-  type:"note"|"tree-note";
+  type:"note"|"tree-note" | "todo-list" | "calendar";
 };
 
 const NoteListMain: React.FC<NoteListMainProps> = ({

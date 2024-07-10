@@ -10,8 +10,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { deleteNote } from "@/actions/note";
-import { CircleX} from "lucide-react";
-import { UserNotes } from "@/entities/user";
+import { CircleX } from "lucide-react";
+import { UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
 
 // Tarihi daha okunabilir bir formata dönüştürmek için bir yardımcı fonksiyon
 const formatDate = (date: Date) => {
@@ -26,14 +26,14 @@ const formatDate = (date: Date) => {
 };
 
 type NotesProps = {
-  notes: UserNotes[];
+  notes: UserNotes[] | UserTreeNotes[] | UserTodoList[];
   layout: "grid" | "row";
   searchTerm: string; // Arama terimini prop olarak ekleyin
   sortOrder: "date" | "alphabet"; // Sıralama kriterini belirten yeni prop
   currentPage: number;
   notesPerPage: number;
   handleDelete: (id: string) => void;
-  type:"note"|"tree-note";
+  type: "note" | "tree-note" | "todo-list" | "calendar";
 };
 
 const NotesCards: React.FC<NotesProps> = ({
@@ -77,7 +77,7 @@ const NotesCards: React.FC<NotesProps> = ({
         filteredNotes.map((note) => (
           <Link key={note._id} href={`/dashboard/${type}/${note._id}`} passHref>
             <Card
-              className={`mb-4 cursor-pointer hover:shadow-lg transition-shadow duration-200 ${
+              className={`-mb-2 cursor-pointer hover:shadow-lg transition-shadow duration-200 ${
                 layout === "row"
                   ? "flex flex-row items-center justify-center text-center"
                   : ""
@@ -101,15 +101,24 @@ const NotesCards: React.FC<NotesProps> = ({
                 </CardDescription>
                 {layout === "grid" && <Separator />}
               </CardHeader>
-              <CardContent className="justify-between w-full">
-                <p className="overflow-hidden">
-                  {note.brief ? note.brief + "..." : "No brief available"}
-                </p>
-              </CardContent>
-              <CardFooter className={layout === "grid" ? "mt-auto" : ""}>
+              {type !== "todo-list" && (
+                <CardContent className="justify-between w-full">
+                  <p className="overflow-hidden">
+                  {(note as UserNotes | UserTreeNotes).brief! + "..."} {/* Non-null assertion operator */}
+                  </p>
+                </CardContent>
+              )}
+              <CardFooter
+                className={
+                  layout === "grid"
+                    ? "mt-auto flex justify-between items-center"
+                    : "flex justify-between items-center"
+                }
+              >
                 <div className="text-xs text-muted-foreground">
                   Note ID: <strong>{note._id}</strong>
                 </div>
+                {type ==="todo-list" && (<div className="text-xs text-muted-foreground"> {(note as UserTodoList).completedJobs + "/"+(note as UserTodoList).totalJobs}</div>)}
               </CardFooter>
             </Card>
           </Link>
