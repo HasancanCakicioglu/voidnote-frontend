@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { UserNotes } from "@/entities/note";
 import { deleteNote } from "@/actions/note";
 import { CircleX} from "lucide-react";
+import { UserNotes } from "@/entities/user";
 
 // Tarihi daha okunabilir bir formata dönüştürmek için bir yardımcı fonksiyon
 const formatDate = (date: Date) => {
@@ -33,6 +33,7 @@ type NotesProps = {
   currentPage: number;
   notesPerPage: number;
   handleDelete: (id: string) => void;
+  type:"note"|"tree-note";
 };
 
 const NotesCards: React.FC<NotesProps> = ({
@@ -43,6 +44,7 @@ const NotesCards: React.FC<NotesProps> = ({
   currentPage,
   notesPerPage,
   handleDelete,
+  type,
 }) => {
   // Sıralama kriterine göre notları sıralayın
   const sortedNotes = notes.sort((a, b) => {
@@ -73,7 +75,7 @@ const NotesCards: React.FC<NotesProps> = ({
     >
       {filteredNotes.length > 0 ? (
         filteredNotes.map((note) => (
-          <Link key={note._id} href={`/dashboard/note/${note._id}`} passHref>
+          <Link key={note._id} href={`/dashboard/${type}/${note._id}`} passHref>
             <Card
               className={`mb-4 cursor-pointer hover:shadow-lg transition-shadow duration-200 ${
                 layout === "row"

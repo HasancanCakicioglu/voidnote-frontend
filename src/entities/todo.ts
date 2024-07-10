@@ -1,19 +1,19 @@
 import SuccessResponse from "./api_success";
 
 
-export interface createNoteSuccessResponse extends SuccessResponse {
+export interface createTodoListSuccessResponse extends SuccessResponse {
     data: { _id: string, title: string};
 }
 
-export interface getNoteSuccessResponse extends SuccessResponse {
+export interface getTodoListSuccessResponse extends SuccessResponse {
     data: { title: string,content:string};
 }
 
-export interface  GetNote{
+export interface  GetTodoList{
     id: string;
 }
 
-export interface  UpdateNote{
+export interface  UpdateTodoList{
     id: string;
     title:string,
     content:string,

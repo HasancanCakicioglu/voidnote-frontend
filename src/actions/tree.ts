@@ -2,20 +2,15 @@
 import apiClient from "@lib/axios";
 import ErrorResponse from "@/entities/api_error";
 import { cookies } from "next/headers";
-import {
-  createNoteSuccessResponse,
-  GetNote,
-  getNoteSuccessResponse,
-  UpdateNote,
-} from "@/entities/note";
+import {createTreeNoteSuccessResponse, GetTreeNote , getTreeNoteSuccessResponse, UpdateTreeNote} from "@/entities/tree";
 import SuccessResponse from "@/entities/api_success";
 import { handleApiError } from "./api";
 
-export async function createNote(): Promise<
-  createNoteSuccessResponse | ErrorResponse
-> {
+
+
+export async function createTreeNote(): Promise<createTreeNoteSuccessResponse | ErrorResponse> {
   try {
-    const token = cookies().get("access_token");
+    const token = cookies().get("access_token")
 
     if (!token) {
       return {
@@ -27,14 +22,13 @@ export async function createNote(): Promise<
       };
     }
 
-    const response = await apiClient.post<createNoteSuccessResponse>(
-      "/note/create",
-      [],
-      {
+    
+    const response = await apiClient.post<createTreeNoteSuccessResponse>(
+      "/tree/create",[],{
         headers: {
           Authorization: `Bearer ${token.value}`,
         },
-      }
+        }
     );
 
     return response.data;
@@ -43,11 +37,12 @@ export async function createNote(): Promise<
   }
 }
 
-export async function getNote(
-  data: GetNote
-): Promise<getNoteSuccessResponse | ErrorResponse> {
+
+
+export async function getTreeNote(data: GetTreeNote): Promise<getTreeNoteSuccessResponse | ErrorResponse> {
+
   try {
-    const token = cookies().get("access_token");
+    const token = cookies().get("access_token")
 
     if (!token) {
       return {
@@ -59,26 +54,25 @@ export async function getNote(
       };
     }
 
-    const response = await apiClient.get<getNoteSuccessResponse>(
-      `/note/get/${data.id}`,
-      {
+    const response = await apiClient.get<getTreeNoteSuccessResponse>(
+      `/tree/get/${data.id}`,{
         headers: {
           Authorization: `Bearer ${token.value}`,
         },
-      }
+        }
     );
 
+  
     return response.data;
   } catch (error: any) {
     return handleApiError(error);
   }
 }
 
-export async function updateNote(
-  data: UpdateNote
-): Promise<createNoteSuccessResponse | ErrorResponse> {
+
+export async function updateTreeNote(data: UpdateTreeNote): Promise<createTreeNoteSuccessResponse | ErrorResponse> {
   try {
-    const token = cookies().get("access_token");
+    const token = cookies().get("access_token")
 
     if (!token) {
       return {
@@ -90,27 +84,26 @@ export async function updateNote(
       };
     }
 
-    const response = await apiClient.post<createNoteSuccessResponse>(
-      `/note/update/${data.id}`,
-      data,
-      {
+
+    const response = await apiClient.post<createTreeNoteSuccessResponse>(
+      `/tree/update/${data.id}`,data,{
         headers: {
           Authorization: `Bearer ${token.value}`,
         },
-      }
+        }
     );
 
+  
     return response.data;
   } catch (error: any) {
     return handleApiError(error);
   }
 }
 
-export async function deleteNote(
-  data: GetNote
-): Promise<SuccessResponse | ErrorResponse> {
+
+export async function deleteTreeNote(data: GetTreeNote): Promise<SuccessResponse | ErrorResponse> {
   try {
-    const token = cookies().get("access_token");
+    const token = cookies().get("access_token")
 
     if (!token) {
       return {
@@ -122,12 +115,11 @@ export async function deleteNote(
     }
 
     const response = await apiClient.delete<SuccessResponse>(
-      `/note/delete/${data.id}`,
-      {
+      `/tree/delete/${data.id}`,{
         headers: {
           Authorization: `Bearer ${token.value}`,
         },
-      }
+        }
     );
 
     return response.data;
@@ -135,3 +127,6 @@ export async function deleteNote(
     return handleApiError(error);
   }
 }
+
+
+
