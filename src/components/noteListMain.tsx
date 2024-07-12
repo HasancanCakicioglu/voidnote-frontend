@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import NotesCards from "@/components/noteCards"; // Varsayalım ki bu bileşen halihazırda tanımlı
-import { UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
+import { UserCalendar, UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
 
 type NoteListMainProps = {
-  notes: UserNotes[] | UserTreeNotes[] | UserTodoList[];
+  notes: UserNotes[] | UserTreeNotes[] | UserTodoList[] | UserCalendar[];
   searchTerm: string;
   sortOrder: "date" | "alphabet";
   currentPage: number;

@@ -62,8 +62,8 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          href="/dashboard/calendar-note"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/calendar-note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+          href="/dashboard/calendar"
+          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/calendar') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <CalendarDays className="h-5 w-5 ml-2" />
           {open && <span className="ml-3 text-base">Calendar Note</span>}

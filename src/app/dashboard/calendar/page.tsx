@@ -5,16 +5,16 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { getUser } from "@/actions/user";
-import { createNote, deleteNote } from "@/actions/note";
 import { useEffect, useState } from "react";
 import SmallHeader from "@/components/smallHeader";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
-import { UserNotes } from "@/entities/user";
+import { UserCalendar, UserNotes } from "@/entities/user";
+import { createCalendar, deleteCalendar } from "@/actions/calendar";
 
 const Page = () => {
-  const [notes, setNotes] = useState<UserNotes[]>([]);
+  const [notes, setNotes] = useState<UserCalendar[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
@@ -27,8 +27,8 @@ const Page = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await getUser({ type: "notes" });
-
+        const response = await getUser({ type: "calendars" });
+        console.log(response)
         if (response.success === false) {
           toast({
             variant: "destructive",
@@ -36,13 +36,11 @@ const Page = () => {
             description: response.message,
           });
         }else{
-          setNotes(response.data.notes);
+          setNotes(response.data.calendars);
         }
 
 
       } catch (error: any) {
-        console.log("aaaa")
-        console.log(error);
         toast({
           variant: "destructive",
           title: "Something went wrong.",
@@ -59,9 +57,9 @@ const Page = () => {
   };
 
   const handleAddButton = async () => {
-    let response = await createNote();
+    let response = await createCalendar();
     if (response.success) {
-      router.push(`/dashboard/note/${response.data._id}`);
+      router.push(`/dashboard/calendar/${response.data._id}`);
     } else {
       toast({
         variant: "destructive",
@@ -72,7 +70,8 @@ const Page = () => {
   };
 
   const handleDelete = async (id: string) => {
-    const response = await deleteNote({ id });
+    const response = await deleteCalendar({ id });
+    console.log(response)
 
     if (response.success) {
       setNotes((notes) => notes.filter((note) => note._id !== id));
@@ -111,7 +110,7 @@ const Page = () => {
             handleAddButton={handleAddButton}
             setCurrentPage={setCurrentPage}
             setSortOrder={setSortOrder}
-            type="note"
+            type="calendar"
           />
           
         </main>

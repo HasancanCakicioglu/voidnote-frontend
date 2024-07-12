@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { deleteNote } from "@/actions/note";
 import { CircleX } from "lucide-react";
-import { UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
+import { UserCalendar, UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
 
 // Tarihi daha okunabilir bir formata dönüştürmek için bir yardımcı fonksiyon
 const formatDate = (date: Date) => {
@@ -26,7 +26,7 @@ const formatDate = (date: Date) => {
 };
 
 type NotesProps = {
-  notes: UserNotes[] | UserTreeNotes[] | UserTodoList[];
+  notes: UserNotes[] | UserTreeNotes[] | UserTodoList[] | UserCalendar[];
   layout: "grid" | "row";
   searchTerm: string; // Arama terimini prop olarak ekleyin
   sortOrder: "date" | "alphabet"; // Sıralama kriterini belirten yeni prop
@@ -85,7 +85,11 @@ const NotesCards: React.FC<NotesProps> = ({
             >
               <CardHeader className="flex flex-col">
                 <CardTitle className="flex relative">
-                  {note.title || "Untitled Note"}
+                  {note.title
+                    ? note.title.length > 10
+                      ? note.title.substring(0, 10) + "..."
+                      : note.title
+                    : "Untitled Note"}
                   <button
                     className="absolute top-0 right-0 p-1 rounded-full  hover:bg-gray-300 focus:outline-none"
                     onClick={(event) => {
@@ -104,7 +108,8 @@ const NotesCards: React.FC<NotesProps> = ({
               {type !== "todo-list" && (
                 <CardContent className="justify-between w-full">
                   <p className="overflow-hidden">
-                  {(note as UserNotes | UserTreeNotes).brief! + "..."} {/* Non-null assertion operator */}
+                    {(note as UserNotes | UserTreeNotes).brief! + "..."}{" "}
+                    {/* Non-null assertion operator */}
                   </p>
                 </CardContent>
               )}
@@ -118,7 +123,14 @@ const NotesCards: React.FC<NotesProps> = ({
                 <div className="text-xs text-muted-foreground">
                   Note ID: <strong>{note._id}</strong>
                 </div>
-                {type ==="todo-list" && (<div className="text-xs text-muted-foreground"> {(note as UserTodoList).completedJobs + "/"+(note as UserTodoList).totalJobs}</div>)}
+                {type === "todo-list" && (
+                  <div className="text-xs text-muted-foreground">
+                    {" "}
+                    {(note as UserTodoList).completedJobs +
+                      "/" +
+                      (note as UserTodoList).totalJobs}
+                  </div>
+                )}
               </CardFooter>
             </Card>
           </Link>

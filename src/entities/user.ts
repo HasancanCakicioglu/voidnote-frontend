@@ -25,3 +25,12 @@ export interface UserTodoList{
     totalJobs:number;
     updatedAt:Date;
 }
+
+export interface UserCalendar{
+    _id:string;
+    title:string;
+    content:string;
+    date:Date;
+    updatedAt:Date;
+    createdAt:Date;
+}
