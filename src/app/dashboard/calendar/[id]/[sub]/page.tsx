@@ -3,6 +3,7 @@ import React, { useState, useEffect , useRef } from 'react';
 import TiptapEditor from '@/components/tiptap'; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
 import { getNote, updateNote } from "@/actions/note"; // getNote fonksiyonunun doğru yolu buraya ekleyin
 import SmallHeader from '@/components/smallHeader';
+import { getSubCalendar, updateSubCalendars } from '@/actions/calendar';
 
 
 
@@ -30,22 +31,23 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
       try {
         if (!params.id) return; 
 
-        const response = await getNote({
-          id: params.id  
+        const response = await getSubCalendar({
+          id_first: params.id,
+          id_second: params.sub
         });
+
+        console.log("responseee ",response)
 
         if (!response) {
           setError('Error fetching note');
           return;
         }
-        
+        console.log(response)
         if ("data" in response) {
           setTitle(response.data.title)
           setSavedContent(response.data.content)
         }
         setIsEditorReady(true); // Editörün hazır olduğunu belirtmek için state'i güncelliyoruz
-
-
 
       } catch (error: any) {
         setError(error.message || 'Error fetching note');
@@ -58,11 +60,11 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
 
 
   const buttonClick = async () => {
-    let data = await updateNote({
-      "id": params.id,
-      "title": title,
-      "content": savedContent,
-      "brief": getPlainTextPreview(savedContent, 50)
+    let data = await updateSubCalendars({
+      id_first: params.id,
+      id_second: params.sub,
+      title: title,
+      content: savedContent,
     })
 
     if (!data){

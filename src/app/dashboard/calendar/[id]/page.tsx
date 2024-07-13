@@ -1,14 +1,12 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import SmallHeader from '@/components/smallHeader';
-import { createSubCalendars, getCalendar } from '@/actions/calendar';
+import { createSubCalendars, deleteSubCalendars, getCalendar } from '@/actions/calendar';
 import { toast } from '@/components/ui/use-toast';
 import { Calendar } from '@/entities/calendar';
 import { useRouter } from "next/navigation";
 
-
-const CalendarPage= ({ params }: { params: { id: string } }) => {
-
+const CalendarPage = ({ params }: { params: { id: string } }) => {
   const [calendar, setCalendar] = useState<Calendar | null>(null);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -27,7 +25,7 @@ const CalendarPage= ({ params }: { params: { id: string } }) => {
               description: response.message,
             });
           } else {
-            console.log(response)
+            console.log(response);
             setCalendar(response.data);
           }
         } catch (error: any) {
@@ -40,18 +38,56 @@ const CalendarPage= ({ params }: { params: { id: string } }) => {
       };
       fetchCalendar();
     }
-  }, []);
+  }, [params.id]);
 
-  const handleDateClick = async(date: Date) => {
+  const handleDateClick = async (date: Date, calendarId: string | undefined) => {
     setSelectedDate(date);
-    console.log("Selected date:", date);
+
+    if (calendarId) {
+      router.push(`/dashboard/calendar/${params.id}/${calendarId}`);
+      return;
+    }
+
     let response = await createSubCalendars({
-        id: params.id,
-        date: date,
-    })
-    console.log(response)
+      id: params.id,
+      date: date,
+    });
+    console.log(response);
     if (response.success) {
-        router.push(`/dashboard/calendar/${params.id}/${response.data._id}`);
+      router.push(`/dashboard/calendar/${params.id}/${response.data._id}`);
+    }
+  };
+
+  const handleDeleteClick = async (calendarId: string | undefined) => {
+    console.log(calendarId);
+    if (calendarId) {
+      try {
+        const response = await deleteSubCalendars({
+          id_first: params.id,
+          id_second: calendarId,
+        });
+        if (response.success === false) {
+          toast({
+            variant: "destructive",
+            title: "Something went wrong.",
+            description: response.message,
+          });
+        } else {
+          setCalendar((prevCalendar) => {
+            if (!prevCalendar) return prevCalendar;
+            return {
+              ...prevCalendar,
+              calendars: prevCalendar.calendars.filter((note) => note._id !== calendarId),
+            };
+          });
+        }
+      } catch (error: any) {
+        toast({
+          variant: "destructive",
+          title: "Something went wrong.",
+          description: error.message || "Error deleting calendar entry",
+        });
+      }
     }
   };
 
@@ -94,28 +130,41 @@ const CalendarPage= ({ params }: { params: { id: string } }) => {
     const startDay = startDate.getDay();
     const endDay = endDate.getDate();
     const today = new Date();
-
+  
     for (let i = 0; i < startDay; i++) {
       dates.push(<div key={`empty-${i}`} className="py-4"></div>);
     }
-
+  
     for (let day = 1; day <= endDay; day++) {
       const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-      const note = calendar?.calendars.find(note => new Date(note.date).toDateString() === date.toDateString());
+      const note = calendar?.calendars.find(note => note.date && new Date(note.date).toDateString() === date.toDateString());
       const isToday = date.toDateString() === today.toDateString();
-
+  
       dates.push(
         <div
           key={day}
-          className={`py-4 cursor-pointer ${selectedDate?.getTime() === date.getTime() ? 'bg-blue-200' : 'bg-gray-100'} ${note ? 'bg-blue-300 border border-blue-500' : 'border border-gray-300'} ${isToday ? 'bg-red-200' : ''} rounded-lg m-1`}
-          onClick={() => handleDateClick(date)}
+          className={`relative py-4 cursor-pointer ${selectedDate?.getTime() === date.getTime() ? 'bg-blue-200' : 'bg-gray-100'} ${note ? 'bg-blue-300 ' : 'border border-gray-300'} ${isToday ? 'bg-red-200' : ''} rounded-lg m-1`}
+          onClick={() => handleDateClick(date, note?._id)}
         >
           {isToday ? 'Today' : day}
+          {note?._id && (
+            <div className="absolute top-1 right-1">
+              <button
+                className="text-xs text-red-500 hover:text-red-700"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteClick(note._id);
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          )}
           {note && <div className="text-xs text-blue-500">{note.title}</div>}
         </div>
       );
     }
-
+  
     return (
       <div className="grid grid-cols-7 text-center border border-gray-500 rounded-lg p-2">
         {dates}

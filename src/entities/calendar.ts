@@ -1,10 +1,11 @@
 import SuccessResponse from "./api_success";
-import { IdInterface } from "./common";
+import { IdInterface, IdsInterface } from "./common";
 
 export interface SubCalendar{
+    _id?:string,
     title:string,
     content:string,
-    date:Date,
+    date?:Date,
     createdAt?:Date,
     updatedAt?:Date
 }
@@ -12,8 +13,7 @@ export interface SubCalendar{
 export interface Calendar{
     id:string,
     title:string,
-    calendars:[{date:Date,title:string}],
-    notes:[SubCalendar]
+    calendars:SubCalendar[],
 
 }
 
@@ -23,4 +23,8 @@ export interface getCalendarSuccessResponse extends SuccessResponse {
 
 export interface createSubCalendar extends IdInterface{
     date:Date,
+}
+
+export interface updateSubCalendar extends IdsInterface, SubCalendar {
+
 }

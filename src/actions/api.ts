@@ -6,7 +6,7 @@ export function handleApiError(error: any): ErrorResponse {
       const { success, status, message, data,validation } = error.response.data;
       return {
         success: success || false,
-        message: message || "Unknown error occurred",
+        message: message || "Unknown error occurred ",
         status: status || 500,
         data: data || new Map<string, any>(),
         validation: validation || new Map<string, any>(),
