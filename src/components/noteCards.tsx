@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { deleteNote } from "@/actions/note";
 import { CircleX } from "lucide-react";
 import { UserCalendar, UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
 

@@ -1,9 +1,10 @@
 "use client"
 import React, { useState, useEffect , useRef } from 'react';
 import TiptapEditor from '@/components/tiptap'; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
-import { getTreeNote, updateTreeNote } from "@/actions/tree"; // getNote fonksiyonunun doğru yolu buraya ekleyin
+import { createTreeNote, getTreeNote, updateTreeNote } from "@/actions/tree"; // getNote fonksiyonunun doğru yolu buraya ekleyin
 import SmallHeader from '@/components/smallHeader';
-import SuccessResponse from './../../../../entities/api_success';
+import router from 'next/router';
+import { toast} from "@/components/ui/use-toast";
 
 
 const NoteDetailPage = ({ params }: { params: { id: string } }) => {
@@ -71,10 +72,22 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
     }
 
     console.log("Note updated successfully:", data);
-
-
-
   }
+
+  const handleAddButton = async () => {
+    let response = await createTreeNote({
+      parent_id: params.id
+    });
+    if (response.success) {
+      router.push(`/dashboard/tree-note/${response.data._id}`);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong.",
+        description: response.message,
+      });
+    }
+  };
 
   return (
     <div className='sm:gap-4 sm:py-4 sm:pl-14'>
@@ -94,6 +107,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
           <p>Loading editor...</p> // Editör henüz hazır değilse yükleme durumu gösterilebilir
         )}
       </div>
+      <button onClick={handleAddButton}>create new</button>
       <button onClick={buttonClick} className="mt-4 bg-primary text-primary-foreground py-2 px-4 rounded-md">Save</button>
     </div>
     </div>

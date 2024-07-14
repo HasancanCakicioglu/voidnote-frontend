@@ -2,13 +2,13 @@
 import apiClient from "@lib/axios";
 import ErrorResponse from "@/entities/api_error";
 import { cookies } from "next/headers";
-import {createTreeNoteSuccessResponse, GetTreeNote , getTreeNoteSuccessResponse, UpdateTreeNote} from "@/entities/tree";
+import {createTreeNoteData, createTreeNoteSuccessResponse, GetTreeNote , getTreeNoteSuccessResponse, UpdateTreeNote} from "@/entities/tree";
 import SuccessResponse from "@/entities/api_success";
 import { handleApiError } from "./api";
 
 
 
-export async function createTreeNote(): Promise<createTreeNoteSuccessResponse | ErrorResponse> {
+export async function createTreeNote(data:createTreeNoteData): Promise<createTreeNoteSuccessResponse | ErrorResponse> {
   try {
     const token = cookies().get("access_token")
 
@@ -24,7 +24,7 @@ export async function createTreeNote(): Promise<createTreeNoteSuccessResponse | 
 
     
     const response = await apiClient.post<createTreeNoteSuccessResponse>(
-      "/tree/create",[],{
+      "/tree/create",data,{
         headers: {
           Authorization: `Bearer ${token.value}`,
         },

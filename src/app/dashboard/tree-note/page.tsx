@@ -57,7 +57,7 @@ const Page = () => {
   };
 
   const handleAddButton = async () => {
-    let response = await createTreeNote();
+    let response = await createTreeNote({});
     if (response.success) {
       router.push(`/dashboard/tree-note/${response.data._id}`);
     } else {
