@@ -14,6 +14,7 @@ export interface UserTreeNotes {
     _id: string;
     title: string;
     parent_id?: string;
+    children_id:string[];
     brief: string;
     updatedAt: Date;
 }

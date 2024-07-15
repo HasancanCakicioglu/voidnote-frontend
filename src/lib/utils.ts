@@ -17,8 +17,3 @@ export function extractWords(input: string, keyword: string): string {
   return "";
 }
 
-
-export const handleRoute = (route:string) => {
-  const router = useRouter();
-  router.push(`/${route}`); // Yeni rotaya yönlendir
-};

@@ -12,7 +12,7 @@ const Tiptap = ({ description, onChange }: {description: string; onChange: (desc
     content: description,
     editorProps: {
       attributes: {
-        class: 'rounded-md min-h-[76vh] border border-input bg-back p-4',
+        class: 'rounded-md border border-input bg-back p-4',
       },
     },
     onUpdate({ editor }) {
@@ -107,7 +107,7 @@ const Tiptap = ({ description, onChange }: {description: string; onChange: (desc
 
       {/* Tiptap Editor */}
       <div className=" bg-white border border-gray-300 rounded-md shadow-sm">
-        <div className="overflow-y-auto overflow-x-auto p-4 max-h-[80vh] min-h-[80vh]">
+        <div className="overflow-y-auto overflow-x-auto p-4">
           <EditorContent editor={editor}/>
         </div>
       </div>
