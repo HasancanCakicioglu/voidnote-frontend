@@ -4,7 +4,7 @@ import { ModeToggle } from './ModeToggle'
 
 const Navbar = () => {
   return (
-    <header className="py-4">
+    <header className="py-4 border-b">
       <div className=" px-5 flex justify-between items-center">
         <Link href="/" className="flex items-center">
           <Image src="/logo.png" alt="VoidNote Logo" width={40} height={40} />
