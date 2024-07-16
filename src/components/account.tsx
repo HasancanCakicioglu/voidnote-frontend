@@ -9,18 +9,15 @@ import { logout } from '@/store/slice';
 import { deleteAccessToken } from '@/actions/auth';
 import { useRouter } from 'next/navigation';
 
-
 const Account = () => {
   const account = useSelector((state: RootState) => state.account);
   const dispatch = useDispatch();
   const router = useRouter();
 
-
   const handleLogout = async () => {
-    
     const response = await deleteAccessToken();
     console.log(response);
-    if (response){
+    if (response) {
       dispatch(logout());
       router.push('/');
     }
@@ -39,7 +36,7 @@ const Account = () => {
                   height={36}
                   alt="Avatar"
                   className="overflow-hidden rounded-full"
-                  style={{ width: "auto", height: "auto" }} // Bu satırı ekleyin
+                  style={{ width: "auto", height: "auto" }}
                 />
               ) : (
                 <div className="flex items-center justify-center h-9 w-9 rounded-full bg-gray-200 text-gray-500">
@@ -67,7 +64,9 @@ const Account = () => {
             <div className="hover:text-gray-300">Login</div>
           </Link>
           <Link href="/register">
-            <div className="hover:text-gray-300">Register</div>
+            <button className="text-white px-4 py-2 rounded bg-gradient-to-r from-purple-300 to-purple-800 hover:from-purple-100 hover:to-purple-700">
+              Create an Account
+            </button>
           </Link>
         </div>
       )}
