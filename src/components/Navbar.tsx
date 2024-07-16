@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ModeToggle } from './ModeToggle'
+import Account from './account'
 
 const Navbar = () => {
   return (
@@ -25,13 +26,8 @@ const Navbar = () => {
           </Link>
         </nav>
         <div className="flex space-x-8 items-center">
-          <Link href="/login">
-            <div className="hover:text-gray-300">Login</div>
-          </Link>
-          <Link href="/register">
-            <div className="hover:text-gray-300">Register</div>
-          </Link>
           <ModeToggle />
+          <Account />
         </div>
       </div>
     </header>

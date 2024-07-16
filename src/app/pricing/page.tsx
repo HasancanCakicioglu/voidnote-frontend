@@ -1,12 +1,7 @@
 import Head from 'next/head'
-import NavBar from '@/components/Navbar';
 export default function Pricing() {
   return (
     <div>
-      <Head>
-        <title>Pricing - VoidNote</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <main className="container mx-auto py-8 text-center">
         <h1 className="text-4xl font-bold mb-8">Pricing</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

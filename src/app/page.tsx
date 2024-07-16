@@ -2,7 +2,7 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col">
       <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-4">Welcome to VoidNote</h1>
         <p className="text-lg mb-8">A modern note-taking application with various features to help you organize your thoughts and tasks.</p>

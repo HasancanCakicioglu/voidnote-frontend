@@ -4,10 +4,6 @@ import NavBar from '@/components/Navbar';
 export default function Features() {
   return (
     <div>
-      <Head>
-        <title>Features - VoidNote</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <main className="container mx-auto py-8">
         <h1 className="text-4xl font-bold mb-8 text-center">Features</h1>
         <div className="space-y-8">

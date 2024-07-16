@@ -3,6 +3,8 @@ import apiClient from "@lib/axios";
 import ErrorResponse from "@/entities/api_error";
 import SuccessResponse from "@/entities/api_success";
 import { cookies } from "next/headers";
+import { LoginData, VerifyRegisterData,RegisterData, loginSuccessResponse } from "@/entities/auth";
+import { handleApiError } from "./api";
 
 
 export async function register(
@@ -83,10 +85,10 @@ export const verifyEmail = async (
 
 export const login = async (
   data: LoginData
-): Promise<SuccessResponse | ErrorResponse> => {
+): Promise<loginSuccessResponse | ErrorResponse> => {
   try {
 
-    const response = await apiClient.post<SuccessResponse>(
+    const response = await apiClient.post<loginSuccessResponse>(
       "/auth/signin",
       data,
       { withCredentials: true }
@@ -107,23 +109,17 @@ export const login = async (
     }
     return response.data;
   } catch (error: any) {
-    if (error.response && error.response.data) {
-      const { success, status, message, validation } = error.response.data;
-      return {
-        success: success || false,
-        message: message || "Unknown error occurred",
-        status: status || 500,
-        validation: validation || new Map<string, any>(),
-      };
-    } else {
-      return {
-        success: false,
-        message: "Failed to communicate with the server",
-        status: 500,
-        validation: new Map<string, any>(),
-      };
-    }
+    return handleApiError(error);
   }
 };
 
+
+export const deleteAccessToken = async (): Promise<boolean> => {
+  try {
+    cookies().delete('access_token');
+    return true;
+  } catch (error: any) {
+    return false;
+  }
+}
 

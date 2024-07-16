@@ -26,7 +26,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`flex-shrink-0 ${open ? 'w-52' : 'w-14'} flex flex-col border-r bg-background transition-width duration-200 h-full`}>
+    <div className={`hidden sm:flex flex-shrink-0 ${open ? 'w-52' : 'w-14'} flex-col border-r bg-background transition-width duration-200 h-full `}>
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
         <button
           onClick={toggleSidebar}

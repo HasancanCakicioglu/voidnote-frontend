@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { login } from "@/actions/auth"; // Örneğin, auth işlemleri için bir API çağrısı
+import { useDispatch } from "react-redux";
+import { updateAccountState } from "@/store/slice";
 
 const formSchema = z
   .object({
@@ -13,6 +15,7 @@ const formSchema = z
   });
 
 export default function Login() {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -32,9 +35,11 @@ export default function Login() {
         email: values.emailAddress,
         password: values.password,
       });
+      console.log(data);
 
       // Başarılı giriş durumunda, kullanıcıyı yönlendir
       if (data.success) {
+        dispatch(updateAccountState({ email: data.data.email, image: data.data.image}));
         router.push("/dashboard"); // Örneğin, başarılı girişte dashboard'a yönlendir
       } else {
         setErrorMessage(data.message); // Giriş başarısız ise hata mesajını göster
