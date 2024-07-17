@@ -23,7 +23,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 const SidebarMobile = () => {
     return (
-        <div>
+        <div className="flex sm:hidden">
             <Sheet>
             <SheetTrigger asChild>
               <Button size="icon" variant="outline" className="sm:hidden mt-2 ml-2">
@@ -41,28 +41,28 @@ const SidebarMobile = () => {
                   <span className="sr-only">Menu</span>
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/note"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <NotebookText className="h-5 w-5" />
                   Note
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/tree-note"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <FolderTree className="h-5 w-5" />
                   Tree Note
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/todo-list"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <ListTodo className="h-5 w-5" />
                   Todo List
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/calendar"
                   className="flex items-center gap-4 px-2.5 text-foreground"
                 >
                   <CalendarDays className="h-5 w-5" />
@@ -70,7 +70,7 @@ const SidebarMobile = () => {
                 </Link>
 
                 <Link
-                  href="#"
+                  href="/dashboard/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Settings className="h-5 w-5" />

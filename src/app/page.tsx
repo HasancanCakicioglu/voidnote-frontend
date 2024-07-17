@@ -5,12 +5,12 @@ import AnimatedNumbers from "@/components/animatedNumbers";
 const Home = () => {
   return (
     <div
-      className={`flex flex-col grow transition-colors duration-500 min-w-full`}
+      className={`mt-10 md:mt-0 flex flex-col grow transition-colors duration-500 min-w-full`}
     >
       <main className="container mx-auto my-auto">
         <section className="flex flex-col md:flex-row items-center mb-16">
           <div className="md:w-1/2 px-4">
-            <h1 className="text-6xl md:text-8xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
+            <h1 className="text-6xl lg:text-8xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
               Welcome to VoidNote
             </h1>
             <p className="text-xl text-gray-700 dark:text-gray-300 mb-4">
