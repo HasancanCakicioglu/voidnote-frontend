@@ -1,17 +1,80 @@
 'use client';
 
+import { home } from '@/actions/main';
 import { useState, useEffect } from 'react';
+import { toast } from './ui/use-toast';
+import { homeSuccessResponse } from '@/entities/home';
 
-interface AnimatedNumbersProps {
-  finalUsers: number;
-  finalNotes: number;
-  finalLetters: number;
-}
 
-const AnimatedNumbers: React.FC<AnimatedNumbersProps> = ({ finalUsers, finalNotes, finalLetters }) => {
+
+
+const formatNumber = (number: number) => {
+  const units = ["", "K", "M", "B", "T", "P", "E", "Z", "Y", "B", "BB", "BBB"];
+  let unitIndex = 0;
+
+  while (number >= 1000 && unitIndex < units.length - 1) {
+    number /= 1000;
+    unitIndex++;
+  }
+
+  return number.toFixed(1) + units[unitIndex];
+};
+
+
+const formatSize = (size: number) => {
+  const units = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB", "BB"];
+  let unitIndex = 0;
+
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex++;
+  }
+
+  return size.toFixed(1) + units[unitIndex];
+};
+
+
+const AnimatedNumbers = () => {
   const [users, setUsers] = useState(0);
   const [notes, setNotes] = useState(0);
-  const [letters, setLetters] = useState(0);
+  const [savedData, setSavedData] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        let response = await home();
+
+        if (response.success === false) {
+          toast({
+            variant: "destructive",
+            title: "Something went wrong.",
+            description: response.message,
+          });
+        } else {
+          response = response as homeSuccessResponse;
+          console.log(response)
+          const usersData = response.data.find(item => item.collection === 'voidnote.users')?.count || 0;
+          const notesData = response.data.filter(item => item.collection !== 'voidnote.users').reduce((total, item) => total + item.count, 0);
+          const savedDataSize = response.data.reduce((total, item) => total + item.storageSize, 0);
+
+          setUsers(usersData);
+          setNotes(notesData);
+          setSavedData(savedDataSize);
+        }
+      } catch (error: any) {
+        console.error(error);
+        toast({
+          variant: "destructive",
+          title: "Something went wrong.",
+          description: error.message || "Error fetching notes",
+        });
+      }
+    };
+
+    fetchHomeData();
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
     const animateCount = (setter: (value: number) => void, finalValue: number) => {
@@ -27,30 +90,30 @@ const AnimatedNumbers: React.FC<AnimatedNumbersProps> = ({ finalUsers, finalNote
       }, 20); // Adjust the speed here
     };
 
-    animateCount(setUsers, finalUsers);
-    animateCount(setNotes, finalNotes);
-    animateCount(setLetters, finalLetters);
-  }, [finalUsers, finalNotes, finalLetters]);
+    animateCount(setUsers, users);
+    animateCount(setNotes, notes);
+    animateCount(setSavedData, savedData);
+  }, [loading]);
 
   return (
     <div className="flex flex-col md:flex-row justify-around text-gray-700 dark:text-gray-300">
       <div className="mb-8 md:mb-0">
         <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
-          {users.toLocaleString()}+
+          {formatNumber(users)}+
         </h3>
         <p className="text-lg">Number of Users</p>
       </div>
       <div className="mb-8 md:mb-0">
         <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
-          {notes.toLocaleString()}+
+          {formatNumber(notes)}+
         </h3>
         <p className="text-lg">Created Notes</p>
       </div>
       <div>
         <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
-          {letters.toLocaleString()}+
+          {formatSize(savedData)}+
         </h3>
-        <p className="text-lg">Saved Letters</p>
+        <p className="text-lg">Saved Data</p>
       </div>
     </div>
   );

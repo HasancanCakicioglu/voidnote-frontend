@@ -44,11 +44,7 @@ const Home = () => {
         </section>
 
         <section className="mt-16 text-center">
-          <AnimatedNumbers
-            finalUsers={5000000}
-            finalNotes={10000000}
-            finalLetters={8000000}
-          />
+          <AnimatedNumbers/>
         </section>
       </main>
     </div>

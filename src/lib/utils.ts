@@ -17,3 +17,9 @@ export function extractWords(input: string, keyword: string): string {
   return "";
 }
 
+export function capitalizeWords(str:string) {
+  return str.replace(/\w\S*/g, function(word) {
+    return word[0].toUpperCase() + word.slice(1);
+  });
+}
+

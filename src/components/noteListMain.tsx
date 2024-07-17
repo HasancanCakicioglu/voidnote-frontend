@@ -21,6 +21,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import NotesCards from "@/components/noteCards"; // Varsayalım ki bu bileşen halihazırda tanımlı
 import { UserCalendar, UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
+import definitions from "@/constants/definition";
 
 type NoteListMainProps = {
   notes: UserNotes[] | UserTreeNotes[] | UserTodoList[] | UserCalendar[];
@@ -55,14 +56,14 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
       <div className="flex items-center mb-2">
         <TabsList className="flex space-x-2 border-b border-gray-200">
           <TabsTrigger
-            className="flex items-center px-4 py-2 font-medium text-gray-700 transition-colors duration-200 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 data-[state=active]:text-gray-900 data-[state=active]:border-b-2 data-[state=active]:border-blue-500"
+            className="flex items-center px-4 py-2 font-medium  transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-2  data-[state=active]:border-b-2 data-[state=active]:border-blue-500"
             value="grid"
           >
             <LayoutGrid size={18} />
             <span className="ml-2 hidden sm:inline">Grid View</span>
           </TabsTrigger>
           <TabsTrigger
-            className="flex items-center px-4 py-2 font-medium text-gray-700 transition-colors duration-200 ease-in-out hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 data-[state=active]:text-gray-900 data-[state=active]:border-b-2 data-[state=active]:border-blue-500"
+            className="flex items-center px-4 py-2 font-medium  transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-2   data-[state=active]:border-b-2 data-[state=active]:border-blue-500"
             value="row"
           >
             <Rows3 size={18} />
@@ -122,11 +123,9 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
       <TabsContent value="grid">
         <Card x-chunk="dashboard-06-chunk-0">
           <CardHeader>
-            <CardTitle>{type}</CardTitle>
+            <CardTitle>{definitions[type].name}</CardTitle>
             <CardDescription>
-              Explore the world of digital note-taking, uncovering a wide range
-              of tools and techniques to capture and organize thoughts more
-              efficiently on the web.
+            {definitions[type].description}
             </CardDescription>
             <Separator />
           </CardHeader>
@@ -176,11 +175,9 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
       <TabsContent value="row">
         <Card x-chunk="dashboard-06-chunk-0">
           <CardHeader>
-            <CardTitle>Notes</CardTitle>
+            <CardTitle>{definitions[type].name}</CardTitle>
             <CardDescription>
-              Explore the world of digital note-taking, uncovering a wide range
-              of tools and techniques to capture and organize thoughts more
-              efficiently on the web.
+              {definitions[type].description}
             </CardDescription>
             <Separator />
           </CardHeader>
