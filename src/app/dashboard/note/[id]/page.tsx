@@ -8,9 +8,9 @@ import { getNoteSuccessResponse } from "@/entities/note";
 
 const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   const [savedContent, setSavedContent] = useState<string>("");
-  const [title, setTitle] = useState<string>(""); 
-  const [isEditorReady, setIsEditorReady] = useState<boolean>(false); 
-  const [changed,setChanged] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
+  const [isEditorReady, setIsEditorReady] = useState<boolean>(false);
+  const [changed, setChanged] = useState<boolean>(false);
 
   const handleSave = (content: string) => {
     setChanged(true);
@@ -82,9 +82,9 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
         <input
           type="text"
           value={title || "Untitled Note"}
-          onChange={(e)=>{
-            setChanged(true)
-            setTitle(e.target.value)
+          onChange={(e) => {
+            setChanged(true);
+            setTitle(e.target.value);
           }}
           className="text-2xl font-bold mb-4"
         />
@@ -95,14 +95,17 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
           {!isEditorReady && <p>Loading editor...</p>}
         </div>
         <button
-  disabled={!changed}
-  onClick={buttonClick}
-  className={`mt-4 py-2 px-4 rounded-md 
-    ${changed ? 'bg-primary text-primary-foreground' : 'bg-gray-400 text-gray-700 cursor-not-allowed'}`}
->
-  Save
-</button>
-
+          disabled={!changed}
+          onClick={buttonClick}
+          className={`mt-4 py-2 px-4 rounded-md 
+    ${
+      changed
+        ? "bg-primary text-primary-foreground"
+        : "bg-gray-400 text-gray-700 cursor-not-allowed"
+    }`}
+        >
+          Save
+        </button>
       </div>
     </div>
   );

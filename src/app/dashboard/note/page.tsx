@@ -1,6 +1,6 @@
-"use client";
-import { Search } from "lucide-react";
+'use client';
 
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { getUser } from "@/actions/user";
 import { createNote, deleteNote } from "@/actions/note";
@@ -10,15 +10,18 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
 import { UserNotes } from "@/entities/user";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@components/ui/dialog'; // Make sure to use the correct path
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const [notes, setNotes] = useState<UserNotes[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
+  const [open, setOpen] = useState(false);
+  const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
 
   const router = useRouter();
-
   const notesPerPage = 12;
 
   useEffect(() => {
@@ -64,18 +67,26 @@ const Page = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    const response = await deleteNote({ id });
+  const handleDeleteClick = (id: string) => {
+    setNoteToDelete(id);
+    setOpen(true);
+  };
 
-    if (response.success) {
-      setNotes((notes) => notes.filter((note) => note._id !== id));
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Something went wrong.",
-        description: response.message,
-      });
+  const handleConfirmDelete = async () => {
+    if (noteToDelete) {
+      const response = await deleteNote({ id: noteToDelete });
+
+      if (response.success) {
+        setNotes((notes) => notes.filter((note) => note._id !== noteToDelete));
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Something went wrong.",
+          description: response.message,
+        });
+      }
     }
+    setOpen(false);
   };
 
   return (
@@ -100,7 +111,7 @@ const Page = () => {
             sortOrder={sortOrder}
             currentPage={currentPage}
             notesPerPage={notesPerPage}
-            handleDelete={handleDelete}
+            handleDelete={handleDeleteClick}
             handleAddButton={handleAddButton}
             setCurrentPage={setCurrentPage}
             setSortOrder={setSortOrder}
@@ -108,6 +119,23 @@ const Page = () => {
           />
         </main>
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogDescription>
+            Are you sure you want to delete the note? This action cannot be undone.
+          </DialogDescription>
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="default" onClick={handleConfirmDelete}>
+              Yes, Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -130,6 +130,15 @@ const NotesCards: React.FC<NotesProps> = ({
                       (note as UserTodoList).totalJobs}
                   </div>
                 )}
+                                  <button
+                    className="top-0 right-0 p-1 rounded-full  hover:bg-gray-300 focus:outline-none"
+                    onClick={(event) => {
+                      event.preventDefault(); // Prevent default link behavior
+                      handleDelete(note._id); // Call your delete function
+                    }}
+                  >
+                    <CircleX />
+                  </button>
               </CardFooter>
             </Card>
           </Link>
