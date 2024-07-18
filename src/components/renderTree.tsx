@@ -79,7 +79,7 @@ interface TreeViewProps {
 
 const TreeView: React.FC<TreeViewProps> = ({ rootNodeId, nodes, onAddClick, onNodeClick,onNodeDelete }) => {
     const rootNode = nodes.find(n => n._id === rootNodeId);
-
+    console.log("nocceeee",nodes)
     if (!rootNode) {
         return <div>Root node not found</div>;
     }

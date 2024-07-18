@@ -1,7 +1,6 @@
 "use client"
 import React, { useState, useEffect , useRef } from 'react';
 import TiptapEditor from '@/components/tiptap'; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
-import { getNote, updateNote } from "@/actions/note"; // getNote fonksiyonunun doğru yolu buraya ekleyin
 import SmallHeader from '@/components/smallHeader';
 import { getSubCalendar, updateSubCalendars } from '@/actions/calendar';
 
@@ -79,16 +78,16 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
   }
 
   return (
-    <div className='sm:gap-4 sm:py-4 sm:pl-14'>
+    <div className='sm:gap-4 sm:py-4  md:px-14 max-w-full min-w-full'>
       <SmallHeader/>
-      <div className="flex flex-col min-h-screen max-w-[90vw] p-8 mx-auto">
+      <div className="flex flex-col p-4 sm:p-8">
       <input
         type="text"
         value={title || 'Untitled Note'}
         onChange={(e) => setTitle(e.target.value)}
         className="text-2xl font-bold mb-4"
       />
-      <div className="max-w-full rounded-md overflow-x-auto min-h-full">
+      <div className="min-w-full rounded-md overflow-hidden max-w-[60vw] flex flex-grow">
       {isEditorReady && ( // Editör hazır olduğunda gösterilecek
           <TiptapEditor description={savedContent} onChange={handleSave} />
         )}
