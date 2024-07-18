@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { CircleX } from "lucide-react";
 import { UserCalendar, UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
 
-// Tarihi daha okunabilir bir formata dönüştürmek için bir yardımcı fonksiyon
 const formatDate = (date: Date) => {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -27,8 +19,8 @@ const formatDate = (date: Date) => {
 type NotesProps = {
   notes: UserNotes[] | UserTreeNotes[] | UserTodoList[] | UserCalendar[];
   layout: "grid" | "row";
-  searchTerm: string; // Arama terimini prop olarak ekleyin
-  sortOrder: "date" | "alphabet"; // Sıralama kriterini belirten yeni prop
+  searchTerm: string;
+  sortOrder: "date" | "alphabet";
   currentPage: number;
   notesPerPage: number;
   handleDelete: (id: string) => void;
@@ -45,7 +37,6 @@ const NotesCards: React.FC<NotesProps> = ({
   handleDelete,
   type,
 }) => {
-  // Sıralama kriterine göre notları sıralayın
   const sortedNotes = notes.sort((a, b) => {
     if (sortOrder === "date") {
       return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
@@ -57,47 +48,42 @@ const NotesCards: React.FC<NotesProps> = ({
   const startIndex = (currentPage - 1) * notesPerPage;
   const endIndex = startIndex + notesPerPage;
 
-  // Arama terimine göre notları filtrele
   const filteredNotes = sortedNotes
-    .filter((note) =>
-      note.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    .filter((note) => note.title.toLowerCase().includes(searchTerm.toLowerCase()))
     .slice(startIndex, endIndex);
 
   return (
     <div
       className={
         layout === "grid"
-          ? "grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-auto-rows-auto"
-          : "grid gap-4 flex-col"
+          ? "grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+          : "flex flex-col gap-4"
       }
     >
       {filteredNotes.length > 0 ? (
         filteredNotes.map((note) => (
           <Link key={note._id} href={`/dashboard/${type}/${note._id}`} passHref>
             <Card
-              className={`-mb-2 cursor-pointer hover:shadow-lg transition-shadow duration-200 ${
-                layout === "row"
-                  ? "flex flex-row items-center justify-center text-center"
-                  : ""
-              } h-full`}
+              className={`-mb-2 cursor-pointer hover:shadow-lg transition-shadow duration-200 h-full ${layout ==="row"?"flex items-center justify-between":""}`}
             >
               <CardHeader className="flex flex-col">
-                <CardTitle className="flex relative">
+                <CardTitle className="flex relative text-xs sm:text-base md:text-xl lg:text-2xl justify-between">
                   {note.title
                     ? note.title.length > 10
                       ? note.title.substring(0, 10) + "..."
                       : note.title
                     : "Untitled Note"}
-                  <button
-                    className="absolute top-0 right-0 p-1 rounded-full  hover:bg-gray-300 focus:outline-none"
+                  {layout === "grid" && (
+                    <button
+                    className="top-0 right-0 p-1 rounded-full  hover:bg-gray-300 focus:outline-none "
                     onClick={(event) => {
-                      event.preventDefault(); // Prevent default link behavior
-                      handleDelete(note._id); // Call your delete function
+                      event.preventDefault();
+                      handleDelete(note._id);
                     }}
                   >
                     <CircleX />
                   </button>
+                  )}
                 </CardTitle>
                 <CardDescription className="text-xs text-muted-foreground">
                   {formatDate(note.updatedAt)}
@@ -105,10 +91,9 @@ const NotesCards: React.FC<NotesProps> = ({
                 {layout === "grid" && <Separator />}
               </CardHeader>
               {type !== "todo-list" && (
-                <CardContent className="justify-between w-full">
-                  <p className="overflow-hidden">
-                    {(note as UserNotes | UserTreeNotes).brief! + "..."}{" "}
-                    {/* Non-null assertion operator */}
+                <CardContent className="justify-between">
+                  <p className="overflow-hidden text-xs sm:text-base md:text-xl">
+                    {(note as UserNotes | UserTreeNotes).brief! + "..."}
                   </p>
                 </CardContent>
               )}
@@ -119,18 +104,15 @@ const NotesCards: React.FC<NotesProps> = ({
                     : "flex justify-between items-center"
                 }
               >
-                <div className="text-xs text-muted-foreground">
+                <div className={`text-xs text-muted-foreground hidden md:flex`}>
                   Note ID: <strong>{note._id}</strong>
                 </div>
                 {type === "todo-list" && (
                   <div className="text-xs text-muted-foreground">
-                    {" "}
-                    {(note as UserTodoList).completedJobs +
-                      "/" +
-                      (note as UserTodoList).totalJobs}
+                    {(note as UserTodoList).completedJobs + "/" + (note as UserTodoList).totalJobs}
                   </div>
                 )}
-                                  <button
+              {layout === "row" && (                <button
                     className="top-0 right-0 p-1 rounded-full  hover:bg-gray-300 focus:outline-none"
                     onClick={(event) => {
                       event.preventDefault(); // Prevent default link behavior
@@ -138,7 +120,7 @@ const NotesCards: React.FC<NotesProps> = ({
                     }}
                   >
                     <CircleX />
-                  </button>
+                  </button>)}
               </CardFooter>
             </Card>
           </Link>

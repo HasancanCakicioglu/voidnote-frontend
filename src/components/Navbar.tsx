@@ -13,7 +13,7 @@ const Navbar = () => {
           <Image src="/logo.png" alt="VoidNote Logo" width={40} height={40} />
           <span className="ml-2 text-lg font-bold">VoidNote</span>
         </Link>
-        <nav className="hidden sm:flex space-x-8">
+        <nav className="hidden md:flex space-x-8">
           <Link href="/pricing">
             <div className="hover:text-gray-300">Pricing</div>
           </Link>

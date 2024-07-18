@@ -1,5 +1,4 @@
 import SuccessResponse from "./api_success";
-import { createTreeNote } from '@/actions/tree';
 
 
 export interface createTreeNoteSuccessResponse extends SuccessResponse {

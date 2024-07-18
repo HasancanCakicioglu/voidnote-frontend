@@ -90,10 +90,10 @@ const Page = () => {
   };
 
   return (
-    <div className="flex w-full flex-col bg-muted/40">
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+    <div className="flex flex-col bg-muted/40 max-w-full min-w-full">
+      <div className="flex flex-col sm:gap-4 sm:py-4 lg:px-10">
         <SmallHeader>
-          <div className="relative w-full md:w-[200px] lg:w-[336px]">
+          <div className="max-w-[60vw]  md:w-[200px] lg:w-[336px]">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
@@ -104,7 +104,7 @@ const Page = () => {
             />
           </div>
         </SmallHeader>
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+        <main className="items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <NoteListMain
             notes={notes}
             searchTerm={searchTerm}

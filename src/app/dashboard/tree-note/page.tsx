@@ -29,7 +29,6 @@ const Page = () => {
     const fetchTreeNotes = async () => {
       try {
         const response = await getUser({ type: "trees" });
-        console.log(response);
 
         if (response.success === false) {
           toast({
@@ -85,7 +84,7 @@ const Page = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+      <div className="flex flex-col sm:gap-4 sm:py-4 lg:px-10 ">
         <SmallHeader>
           <div className="relative w-full md:w-[200px] lg:w-[336px]">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -100,7 +99,7 @@ const Page = () => {
         </SmallHeader>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <NoteListMain
-            notes={notes}
+            notes={notes.filter((note) => !note.parent_id)}
             searchTerm={searchTerm}
             sortOrder={sortOrder}
             currentPage={currentPage}

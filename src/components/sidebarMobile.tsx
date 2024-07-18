@@ -23,15 +23,15 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 const SidebarMobile = () => {
     return (
-        <div className="flex sm:hidden">
+        <div className="flex md:hidden">
             <Sheet>
             <SheetTrigger asChild>
-              <Button size="icon" variant="outline" className="sm:hidden mt-2 ml-2">
+              <Button size="icon" variant="outline" className="md:hidden mt-2 ml-2">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="sm:max-w-xs">
+            <SheetContent side="left" className="md:max-w-xs">
               <nav className="grid gap-6 text-lg font-medium">
                 <Link
                   href="#"

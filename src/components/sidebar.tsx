@@ -26,7 +26,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`hidden sm:flex flex-shrink-0 ${open ? 'w-52' : 'w-14'} flex-col border-r bg-background transition-width duration-200 h-full `}>
+    <div className={`hidden md:flex flex-shrink-0 ${open ? 'w-52' : 'w-14'} flex-col border-r bg-background transition-width duration-200 h-full `}>
       <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
         <button
           onClick={toggleSidebar}
@@ -50,7 +50,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/tree-note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <FolderTree className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Tree Note</span>}
+          {open && <span className="ml-3 text-base">Tree</span>}
         </Link>
 
         <Link
@@ -66,7 +66,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/calendar') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <CalendarDays className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Calendar Note</span>}
+          {open && <span className="ml-3 text-base">Calendar</span>}
         </Link>
 
         <Link
