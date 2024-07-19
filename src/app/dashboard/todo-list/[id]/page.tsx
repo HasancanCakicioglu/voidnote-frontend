@@ -1,48 +1,41 @@
 "use client";
 
-import { createSubTodoList, deleteSubTodo, getTodoList, updateSubTodo } from '@/actions/todo';
-import SmallHeader from '@/components/smallHeader';
+import { createSubTodoList, deleteSubTodo, getTodoList, updateSubTodo, updateTodoList } from '@/actions/todo';
 import { subTodo } from '@/entities/todo';
 import React, { useState, useEffect } from 'react';
-import { Search, ListFilter } from 'lucide-react'; // Importing icons for search and sort
-
-type TodoItem = {
-  _id: number;
-  content: string;
-  priority: 1 | 2 | 3;
-  completed: boolean;
-};
+import { Search, ListFilter, Save } from 'lucide-react';
+import { toast } from "@/components/ui/use-toast";
+import SmallHeader from '@/components/smallHeader';
 
 const TodoListPage = ({ params }: { params: { id: string } }) => {
   const [todos, setTodos] = useState<subTodo[]>([]);
+  const [title, setTitle] = useState<string | null>(null);
   const [newTodo, setNewTodo] = useState<string>("");
   const [priority, setPriority] = useState<1 | 2 | 3>(1);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<string>("priority");
+  const [changed, setChanged] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchNote = async () => {
       try {
         if (!params.id) return;
 
-        const response = await getTodoList({
-          id: params.id
-        });
+        const response = await getTodoList({ id: params.id });
         if (!response) {
           setError('Error fetching note');
           return;
         }
+        setTitle(response.data.title);
         setTodos(response.data.todos);
-
       } catch (error: any) {
         setError(error.message || 'Error fetching note');
       }
     };
 
-    fetchNote(); // fetchNote fonksiyonunu useEffect içinde çağırın
-
-  }, []); // useEffect'in id parametresine bağımlı olmasını sağlıyoruz
+    fetchNote();
+  }, [params.id]);
 
   const handleAddTodo = async () => {
     let response = await createSubTodoList({
@@ -93,6 +86,23 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
     }
   };
 
+  const saveTitle = async () => {
+    let response = await updateTodoList({
+      id: params.id,
+      title: title ?? undefined,
+    });
+
+    if (response && response.success) {
+      setChanged(false);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong.",
+        description: response.message,
+      });
+    }
+  };
+
   const filteredTodos = todos.filter(todo =>
     todo.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -107,30 +117,51 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
   });
 
   return (
-    <div className="p-4 sm:gap-4 sm:py-4 sm:px-8 max-w-full min-w-full">
+    <div className="p-2 sm:p-10 max-w-full min-w-full">
+      <div className="hidden md:flex mb-10"><SmallHeader/></div>
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold mb-2 sm:mb-0">Todo List</h1>
-        <div className="flex flex-col sm:flex-row items-center space-x-2">
-          <div className="relative mb-2 sm:mb-0">
+        <div className="flex items-center w-full sm:w-auto mb-2 sm:mb-0">
+          <input
+            type="text"
+            value={title || "Untitled"}
+            onChange={(e) => {
+              setChanged(true);
+              setTitle(e.target.value);
+            }}
+            placeholder="Title"
+            className="border p-2 rounded-md border-gray-700 mr-2 flex-grow sm:flex-grow-0"
+          />
+          <button
+            disabled={!changed}
+            onClick={saveTitle}
+            className={`border p-2 py-2 px-4 rounded-md ${
+              changed ? "bg-primary text-primary-foreground" : "bg-gray-400 text-gray-700 cursor-not-allowed"
+            }`}
+          >
+            <Save />
+          </button>
+        </div>
+        <div className="flex flex-row items-center w-full sm:w-auto  space-y-2 sm:space-y-0 space-x-2">
+          <div className="relative w-full sm:w-auto">
             <input
               type="text"
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="border p-2 rounded-md border-gray-700 pl-10 sm:pl-4"
+              className="border p-2 rounded-md border-gray-700 pl-10 w-full"
             />
-            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
-          <div className="relative mb-2 sm:mb-0">
+          <div className="relative w-full sm:w-auto">
             <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
-              className="border p-2 rounded-md  border-gray-700  pl-10"
+              className="border p-2 rounded-md border-gray-700 w-full"
             >
               <option value="priority">Priority</option>
               <option value="completed">Completed</option>
             </select>
-            <ListFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          
           </div>
         </div>
       </div>
@@ -140,12 +171,12 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
           placeholder="New Todo"
-          className="border p-2 rounded-md flex-grow mr-0 sm:mr-2 mb-2 sm:mb-0  border-gray-700 text-white"
+          className="border mr-2 p-2 rounded-md flex-grow mb-2 sm:mb-0 border-gray-700"
         />
         <select
           value={priority}
           onChange={(e) => setPriority(Number(e.target.value) as 1 | 2 | 3)}
-          className="border p-2 rounded-md mb-2 sm:mb-0  border-gray-700 "
+          className="border p-2 rounded-md mb-2 sm:mb-0 border-gray-700"
         >
           <option value={1}>Priority 1</option>
           <option value={2}>Priority 2</option>
@@ -162,8 +193,8 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
         {sortedTodos.map(todo => (
           <div
             key={todo._id}
-            className={`p-4 border rounded-md flex justify-between items-center ${
-              todo.completed ? "bg-gray-500 border-gray-700 text-white" : " border-gray-600"
+            className={`p-2 sm:p-4 border rounded-md flex justify-between items-center ${
+              todo.completed ? "bg-gray-500 border-gray-700 text-white" : "border-gray-600"
             }`}
           >
             <span className={todo.completed ? "line-through text-white" : ""}>{todo.content}</span>

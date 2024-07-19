@@ -1,82 +1,58 @@
-import React from 'react';
 import { BookOpenIcon, Network, ClipboardListIcon, CalendarIcon } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, } from '../../components/ui/card'
+import Image from 'next/image';
+
+const features = [
+  {
+    title: 'Note',
+    description: 'A simple yet powerful way to jot down quick thoughts, ideas, or reminders. All your notes are saved online and can be accessed from anywhere.',
+    imageSrc: '/note.jpg',
+    align: 'left'
+  },
+  {
+    title: 'Tree Note',
+    description: 'Organize your notes hierarchically, creating structured outlines for complex ideas. Tree notes help you manage and visualize your notes in a more organized manner.',
+    imageSrc: '/tree.jpg',
+    align: 'right'
+  },
+  {
+    title: 'To-Do List',
+    description: 'Keep track of tasks and prioritize your day with a flexible to-do list feature. Manage your daily tasks efficiently and never miss an important deadline.',
+    imageSrc: '/todo.jpg',
+    align: 'left'
+  },
+  {
+    title: 'Calendar Note',
+    description: 'Schedule events, deadlines, and important dates with an integrated calendar view. Add notes to specific dates and keep track of your schedule effortlessly.',
+    imageSrc: '/calendar.jpg',
+    align: 'right'
+  },
+];
 
 const FeaturesPage: React.FC = () => {
   return (
     <div className="container mx-auto px-6 py-12">
-      <div className="max-w-4xl mx-auto space-y-12">
-        {/* Note Feature */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="md:w-1/2 text-left text-lg text-gray-800 dark:text-gray-300">
-                <CardTitle className="text-2xl font-bold">Note</CardTitle>
-                <p>
-                  A simple yet powerful way to jot down quick thoughts, ideas, or reminders.
-                  All your notes are saved online and can be accessed from anywhere.
-                </p>
-              </div>
-              <div className="md:w-1/2 flex justify-center">
-                <BookOpenIcon className="w-24 h-24 text-purple-600" />
-              </div>
+      <div className="text-center mb-12">
+        <h1 className="text-5xl font-bold mb-4">VoidNote</h1>
+        <p className="text-lg text-gray-500 dark:text-gray-400 mb-8">An online note-taking application with various features to help you stay organized.</p>
+        <div className="flex justify-center space-x-4 text-gray-800 dark:text-gray-300">
+          <BookOpenIcon className="w-8 h-8" />
+          <Network className="w-8 h-8" />
+          <ClipboardListIcon className="w-8 h-8" />
+          <CalendarIcon className="w-8 h-8" />
+        </div>
+      </div>
+      <div className="max-w-6xl mx-auto space-y-12">
+        {features.map((feature, index) => (
+          <div key={index} className={`flex flex-col md:flex-row ${feature.align === 'left' ? '' : 'md:flex-row-reverse'} items-center justify-between space-y-6 md:space-y-0`}>
+            <div className="flex justify-center md:justify-start">
+              <Image src={feature.imageSrc} alt={feature.title} width={400} height={300} className="rounded-lg border-8 border-gray-300 dark:border-gray-600" />
             </div>
-          </CardHeader>
-        </Card>
-
-        {/* Tree Note Feature */}
-        <Card>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="md:w-1/2 flex justify-center">
-                <Network className="w-24 h-24 text-purple-600" />
-              </div>
-              <div className="md:w-1/2 text-right text-lg text-gray-800 dark:text-gray-300">
-                <CardTitle className="text-2xl font-bold">Tree Note</CardTitle>
-                <p>
-                  Organize your notes hierarchically, creating structured outlines for complex ideas.
-                  Tree notes help you manage and visualize your notes in a more organized manner.
-                </p>
-              </div>
+            <div className={`md:w-1/2 p-6 ${feature.align === 'left' ? 'text-left' : 'text-right'} text-lg text-gray-800 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-lg shadow-lg`}>
+              <h2 className="text-2xl font-bold">{feature.title}</h2>
+              <p className="mt-2">{feature.description}</p>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* To-Do List Feature */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="md:w-1/2 text-left text-lg text-gray-800 dark:text-gray-300">
-                <CardTitle className="text-2xl font-bold">To-Do List</CardTitle>
-                <p>
-                  Keep track of tasks and prioritize your day with a flexible to-do list feature.
-                  Manage your daily tasks efficiently and never miss an important deadline.
-                </p>
-              </div>
-              <div className="md:w-1/2 flex justify-center">
-                <ClipboardListIcon className="w-24 h-24 text-purple-600" />
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
-
-        {/* Calendar Note Feature */}
-        <Card>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div className="md:w-1/2 flex justify-center">
-                <CalendarIcon className="w-24 h-24 text-purple-600" />
-              </div>
-              <div className="md:w-1/2 text-right text-lg text-gray-800 dark:text-gray-300">
-                <CardTitle className="text-2xl font-bold">Calendar Note</CardTitle>
-                <p>
-                  Schedule events, deadlines, and important dates with an integrated calendar view.
-                  Add notes to specific dates and keep track of your schedule effortlessly.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        ))}
       </div>
     </div>
   );

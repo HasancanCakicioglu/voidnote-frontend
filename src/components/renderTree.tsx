@@ -48,7 +48,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, allNodes, onAddClick, onNodeC
                     onClick={() => onAddClick(node._id)}
                 />
                 <CircleX
-                    className="h-4 w-4 ml-2 cursor-pointer"
+                    className="h-4 w-4 ml-10 cursor-pointer"
                     onClick={() => onNodeDelete(node._id)}/>
             </div>
             {isExpanded && childrenNodes.length > 0 && (

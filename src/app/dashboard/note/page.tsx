@@ -12,6 +12,7 @@ import NoteListMain from "@/components/noteListMain";
 import { UserNotes } from "@/entities/user";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@components/ui/dialog'; // Make sure to use the correct path
 import { Button } from "@/components/ui/button";
+import ConfirmDeleteDialog from "@/components/confirmDelete";
 
 const Page = () => {
   const [notes, setNotes] = useState<UserNotes[]>([]);
@@ -19,7 +20,7 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
   const [open, setOpen] = useState(false);
-  const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
+  const [noteToDelete, setNoteToDelete] = useState<{id:string,title:string} | null>(null);
 
   const router = useRouter();
   const notesPerPage = 12;
@@ -67,17 +68,17 @@ const Page = () => {
     }
   };
 
-  const handleDeleteClick = (id: string) => {
-    setNoteToDelete(id);
+  const handleDeleteClick = (id: string,title:string) => {
+    setNoteToDelete({id:id,title:title});
     setOpen(true);
   };
 
   const handleConfirmDelete = async () => {
     if (noteToDelete) {
-      const response = await deleteNote({ id: noteToDelete });
+      const response = await deleteNote({ id: noteToDelete.id });
 
       if (response.success) {
-        setNotes((notes) => notes.filter((note) => note._id !== noteToDelete));
+        setNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
       } else {
         toast({
           variant: "destructive",
@@ -120,22 +121,13 @@ const Page = () => {
         </main>
       </div>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogTitle>Confirm Delete</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to delete the note? This action cannot be undone.
-          </DialogDescription>
-          <DialogFooter>
-            <Button variant="secondary" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="default" onClick={handleConfirmDelete}>
-              Yes, Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ConfirmDeleteDialog
+        open={open}
+        setOpen={setOpen}
+        handleConfirmDelete={handleConfirmDelete}
+        noteToDelete={noteToDelete}
+        type="note"
+      />
     </div>
   );
 };

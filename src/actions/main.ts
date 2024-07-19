@@ -12,16 +12,6 @@ homeSuccessResponse | ErrorResponse
   try {
     const token = cookies().get("access_token");
 
-    if (!token) {
-      return {
-        success: false,
-        message: "Access token not found",
-        status: 401,
-        data: new Map<string, any>(),
-        validation: new Map<string, any>(),
-      };
-    }
-
     const response = await apiClient.get<homeSuccessResponse>(
       "/main/home",
     );

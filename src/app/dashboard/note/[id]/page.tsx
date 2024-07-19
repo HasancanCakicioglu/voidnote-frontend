@@ -72,6 +72,8 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
         title: "Something went wrong.",
         description: response.message,
       });
+    }else{
+      setChanged(false)
     }
   };
 

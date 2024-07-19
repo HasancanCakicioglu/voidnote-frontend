@@ -30,7 +30,7 @@ type NoteListMainProps = {
   currentPage: number;
   notesPerPage: number;
   handleAddButton: () => void;
-  handleDelete: (id: string) => void;
+  handleDelete: (id: string,title:string) => void;
   setSortOrder: (order: "date" | "alphabet") => void;
   setCurrentPage: (page: number) => void;
   type:"note"|"tree-note" | "todo-list" | "calendar";

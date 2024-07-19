@@ -6,6 +6,7 @@ import { createSubCalendars, deleteSubCalendars, getCalendar } from '@/actions/c
 import { toast } from '@/components/ui/use-toast';
 import { Calendar } from '@/entities/calendar';
 import { useRouter } from "next/navigation";
+import { CircleX } from 'lucide-react'; // Import the CircleX icon from Lucid React
 
 const CalendarPage = ({ params }: { params: { id: string } }) => {
   const [calendar, setCalendar] = useState<Calendar | null>(null);
@@ -142,7 +143,7 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
       dates.push(
         <div
           key={day}
-          className={`text-black relative py-2 cursor-pointer ${selectedDate?.getTime() === date.getTime() ? 'bg-blue-300' : 'bg-gray-200'} ${note ? 'bg-blue-400' : 'border border-gray-300'} ${isToday ? 'bg-red-300' : ''} rounded-lg m-1 text-xs md:text-sm`}
+          className={`min-h-[10vh] text-black relative py-2 cursor-pointer  ${note ? 'bg-blue-400' : 'border bg-gray-200 border-gray-300'} ${isToday ? 'bg-red-400' : ''} rounded-lg m-1 text-xs md:text-sm`}
           onClick={() => handleDateClick(date, note?._id)}
         >
           {isToday ? 'Today' : day}
@@ -155,11 +156,11 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
                   handleDeleteClick(note._id);
                 }}
               >
-                ✕
+                <CircleX className="h-4 w-4" /> {/* Using Lucid React CircleX icon */}
               </button>
             </div>
           )}
-          {note && <div className="text-xs text-blue-600">{note.title}</div>}
+          {note && <div className="text-xs text-white">{note.title}</div>}
         </div>
       );
     }
@@ -175,8 +176,8 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="sm:gap-4 sm:py-4 md:px-8 max-w-full min-w-full">
-      <SmallHeader />
-      <div className="flex flex-col min-h-screen max-w-[90vw] p-4 mx-auto">
+      <SmallHeader/>
+      <div className="flex flex-col max-w-[90vw] p-4 mx-auto">
         <h1 className="text-xl md:text-2xl font-bold mb-4">{calendar.title}</h1>
         {renderHeader()}
         {renderDaysOfWeek()}

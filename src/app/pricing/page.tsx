@@ -1,10 +1,10 @@
 import Head from 'next/head'
 export default function Pricing() {
   return (
-    <div>
-      <main className="container mx-auto py-8 text-center">
+    <div className="mx-auto pt-10">
+      <main className="py-8 text-center ">
         <h1 className="text-4xl font-bold mb-8">Pricing</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-[50vw]">
           <div className="bg-white text-black p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Free</h2>
             <p className="text-xl mb-4">$0/month</p>

@@ -12,17 +12,11 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
   const [error, setError] = useState<string | null>(null); // Hata durumu için state kullanımı
   const [title, setTitle] = useState<string>(""); // Not başlığı için state kullanımı
   const [isEditorReady,setIsEditorReady] = useState<boolean>(false); // Editörün hazır olup olmadığını kontrol etmek için state kullanımı
-
+  const [changed, setChanged] = useState<boolean>(false);
 
   const handleSave = (content: string) => {
+    setChanged(true)
     setSavedContent(content);
-  };
-
-  const getPlainTextPreview = (html: string, length: number) => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-    const text = tempDiv.innerText; // Sadece metni al
-    return text.slice(0, length);
   };
 
   useEffect(() => {
@@ -54,6 +48,7 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
     };
 
     fetchNote(); // fetchNote fonksiyonunu useEffect içinde çağırın
+    setChanged(false)
 
   }, []); // useEffect'in id parametresine bağımlı olmasını sağlıyoruz
 
@@ -70,10 +65,7 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
       setError('Error updating note');
       return;
     }
-
-    console.log("Note updated successfully:", data);
-
-
+    setChanged(false)
 
   }
 
@@ -84,7 +76,9 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
       <input
         type="text"
         value={title || 'Untitled Note'}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => {
+          setChanged(true)
+          setTitle(e.target.value)}}
         className="text-2xl font-bold mb-4"
       />
       <div className="min-w-full rounded-md overflow-hidden max-w-[60vw] flex flex-grow">
@@ -95,7 +89,18 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
           <p>Loading editor...</p> // Editör henüz hazır değilse yükleme durumu gösterilebilir
         )}
       </div>
-      <button onClick={buttonClick} className="mt-4 bg-primary text-primary-foreground py-2 px-4 rounded-md">Save</button>
+      <button
+          disabled={!changed}
+          onClick={buttonClick}
+          className={`mt-4 py-2 px-4 rounded-md 
+    ${
+      changed
+        ? "bg-primary text-primary-foreground"
+        : "bg-gray-400 text-gray-700 cursor-not-allowed"
+    }`}
+        >
+          Save
+        </button>
     </div>
     </div>
   );

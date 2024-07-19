@@ -13,12 +13,15 @@ import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
 import { UserTodoList } from "@/entities/user";
 import { createTodoList, deleteTodoList } from "@/actions/todo";
+import ConfirmDeleteDialog from "@/components/confirmDelete";
 
 const Page = () => {
   const [notes, setTodoNotes] = useState<UserTodoList[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
+  const [open, setOpen] = useState(false);
+  const [noteToDelete, setNoteToDelete] = useState<{id:string,title:string} | null>(null);
 
   const router = useRouter();
   const { toast } = useToast();
@@ -69,22 +72,32 @@ const Page = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    const response = await deleteTodoList({ id });
-    console.log(response);
-    if (response.success) {
-      setTodoNotes((notes) => notes.filter((note) => note._id !== id));
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Something went wrong.",
-        description: response.message,
-      });
+
+
+  const handleDeleteClick = (id: string,title:string) => {
+    setNoteToDelete({id:id,title:title});
+    setOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (noteToDelete) {
+      const response = await deleteTodoList({ id: noteToDelete.id });
+
+      if (response.success) {
+        setTodoNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Something went wrong.",
+          description: response.message,
+        });
+      }
     }
+    setOpen(false);
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div className="flex flex-col bg-muted/40 max-w-full min-w-full">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:px-10">
         <SmallHeader>
           <div className="relative w-full md:w-[200px] lg:w-[336px]">
@@ -105,7 +118,7 @@ const Page = () => {
             sortOrder={sortOrder}
             currentPage={currentPage}
             notesPerPage={notesPerPage}
-            handleDelete={handleDelete}
+            handleDelete={handleDeleteClick}
             handleAddButton={handleAddButton}
             setCurrentPage={setCurrentPage}
             setSortOrder={setSortOrder}
@@ -114,6 +127,13 @@ const Page = () => {
           
         </main>
       </div>
+      <ConfirmDeleteDialog
+        open={open}
+        setOpen={setOpen}
+        handleConfirmDelete={handleConfirmDelete}
+        noteToDelete={noteToDelete}
+        type="todo list"
+      />
     </div>
   );
 };

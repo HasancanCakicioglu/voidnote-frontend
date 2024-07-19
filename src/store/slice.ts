@@ -1,32 +1,63 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export interface Preferences {
+  theme: string;
+  language: string;
+}
 
 export interface AccountState {
+  _id: string;
+  username: string;
   email: string;
-  image: string;
+  verified: boolean;
+  profilePhotoUrl: string;
+  authMethod: string;
+  preferences: Preferences;
+  plan: string;
+  createdAt: string;
+  updatedAt: string;
+  notes: any[];
+  todos: any[];
+  calendars: any[];
+  trees: any[];
 }
 
 const initialState: AccountState = {
-    email: '',
-    image: ''
-}
+  _id: '',
+  username: '',
+  email: '',
+  verified: false,
+  profilePhotoUrl: '',
+  authMethod: '',
+  preferences: {
+    theme: 'light',
+    language: 'en',
+  },
+  plan: 'Free Plan',
+  createdAt: '',
+  updatedAt: '',
+  notes: [],
+  todos: [],
+  calendars: [],
+  trees: [],
+};
 
 export const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
     updateAccountState: (state, action: PayloadAction<AccountState>) => {
-        state.email = action.payload.email;
-        state.image = action.payload.image;
+      return { ...state, ...action.payload };
+    },
+    updatePreferences: (state, action: PayloadAction<Preferences>) => {
+      state.preferences = action.payload;
     },
     logout: (state) => {
-      state.email = '';
-      state.image = '';
-    }
+      return initialState;
+    },
   },
-})
+});
 
-// Action creators are generated for each case reducer function
-export const { updateAccountState,logout } = accountSlice.actions
+export const { updateAccountState, updatePreferences, logout } = accountSlice.actions;
 
-export default accountSlice.reducer
+export default accountSlice.reducer;

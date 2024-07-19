@@ -23,7 +23,7 @@ type NotesProps = {
   sortOrder: "date" | "alphabet";
   currentPage: number;
   notesPerPage: number;
-  handleDelete: (id: string) => void;
+  handleDelete: (id: string,title:string) => void;
   type: "note" | "tree-note" | "todo-list" | "calendar";
 };
 
@@ -78,7 +78,7 @@ const NotesCards: React.FC<NotesProps> = ({
                     className="top-0 right-0 p-1 rounded-full  hover:bg-gray-300 focus:outline-none "
                     onClick={(event) => {
                       event.preventDefault();
-                      handleDelete(note._id);
+                      handleDelete(note._id,note.title);
                     }}
                   >
                     <CircleX />
@@ -116,7 +116,7 @@ const NotesCards: React.FC<NotesProps> = ({
                     className="top-0 right-0 p-1 rounded-full  hover:bg-gray-300 focus:outline-none"
                     onClick={(event) => {
                       event.preventDefault(); // Prevent default link behavior
-                      handleDelete(note._id); // Call your delete function
+                      handleDelete(note._id,note.title); // Call your delete function
                     }}
                   >
                     <CircleX />

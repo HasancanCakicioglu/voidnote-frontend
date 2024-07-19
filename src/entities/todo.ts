@@ -20,9 +20,8 @@ export interface  GetTodoList{
 
 export interface  UpdateTodoList{
     id: string;
-    title:string,
-    content:string,
-    brief:string
+    title?:string,
+
 }
 
 export interface addSubTodoListSuccessResponse extends SuccessResponse {

@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import SuccessResponse from "@/entities/api_success";
 import { handleApiError } from "./api";
 import { createSuccessResponse, IdInterface, IdsInterface } from "@/entities/common";
-import { getTodoListSuccessResponse ,addSubTodoListSuccessResponse,addSubTodoData, UpdateSubTodo} from "@/entities/todo";
+import { getTodoListSuccessResponse ,addSubTodoListSuccessResponse,addSubTodoData, UpdateSubTodo, UpdateTodoList} from "@/entities/todo";
 
 export async function createTodoList(): Promise<
   createSuccessResponse | ErrorResponse
@@ -68,7 +68,38 @@ export async function getTodoList(
       return handleApiError(error);
     }
   }
-  
+
+  export async function updateTodoList(
+    data: UpdateTodoList
+  ): Promise<SuccessResponse | ErrorResponse> {
+    try {
+      const token = cookies().get("access_token");
+
+      if (!token) {
+        return {
+          success: false,
+          message: "Access token not found",
+          status: 401,
+          validation: new Map<string, any>(),
+        };
+      }
+
+      const response = await apiClient.post<SuccessResponse>(
+        `/todo/update/${data.id}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token.value}`,
+          },
+        }
+      );
+
+      return response.data;
+    }
+    catch (error: any) {
+      return handleApiError(error);
+    }
+  }
   
   export async function deleteTodoList(
     data: IdInterface
