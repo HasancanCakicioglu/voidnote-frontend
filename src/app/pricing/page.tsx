@@ -1,4 +1,4 @@
-import Head from 'next/head'
+
 export default function Pricing() {
   return (
     <div className="mx-auto pt-10">

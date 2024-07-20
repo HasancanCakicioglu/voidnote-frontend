@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import TiptapEditor from "@/components/tiptap"; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
+import TiptapEditor, { TiptapRef } from "@/components/tiptap"; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
 import { getNote, updateNote } from "@/actions/note"; // getNote fonksiyonunun doğru yolu buraya ekleyin
 import SmallHeader from "@/components/smallHeader";
 import { toast } from "@/components/ui/use-toast";
@@ -11,6 +11,16 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   const [title, setTitle] = useState<string>("");
   const [isEditorReady, setIsEditorReady] = useState<boolean>(false);
   const [changed, setChanged] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState("");
+  const tiptapRef = useRef<TiptapRef>(null);
+  
+  const addTextFromParent = () => {
+    console.log("addTextFromParent")
+    if (tiptapRef.current) {
+      console.log("a",tiptapRef.current)
+      tiptapRef.current.handleAddText();
+    }
+  };
 
   const handleSave = (content: string) => {
     setChanged(true);
@@ -80,6 +90,16 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="sm:gap-4 sm:py-4  md:px-14 max-w-full min-w-full">
       <SmallHeader />
+       <div className="flex mb-2 space-x-2">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          className="border rounded-md p-2 w-full"
+          placeholder="Enter text to add"
+        />
+         <button onClick={addTextFromParent} className="bg-blue-500 text-white rounded-md px-4 py-2 mb-4"></button>
+      </div> 
       <div className="flex flex-col p-4 sm:p-8">
         <input
           type="text"
@@ -92,7 +112,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
         />
         <div className=" min-w-full rounded-md overflow-hidden max-w-[60vw] flex flex-grow">
           {isEditorReady && (
-            <TiptapEditor description={savedContent} onChange={handleSave} />
+            <TiptapEditor ref={tiptapRef} description={savedContent} onChange={handleSave} inputValue={inputValue} />
           )}
           {!isEditorReady && <p>Loading editor...</p>}
         </div>
