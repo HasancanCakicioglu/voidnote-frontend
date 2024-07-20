@@ -17,7 +17,6 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   const addTextFromParent = () => {
     console.log("addTextFromParent")
     if (tiptapRef.current) {
-      console.log("a",tiptapRef.current)
       tiptapRef.current.handleAddText();
     }
   };

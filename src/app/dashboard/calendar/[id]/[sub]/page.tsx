@@ -1,8 +1,9 @@
 "use client"
 import React, { useState, useEffect , useRef } from 'react';
-import TiptapEditor from '@/components/tiptap'; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
+import TiptapEditor, { TiptapRef } from '@/components/tiptap'; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
 import SmallHeader from '@/components/smallHeader';
 import { getSubCalendar, updateSubCalendars } from '@/actions/calendar';
+import VariableSidebar from '@/components/variableSidebar';
 
 
 
@@ -13,6 +14,14 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
   const [title, setTitle] = useState<string>(""); // Not başlığı için state kullanımı
   const [isEditorReady,setIsEditorReady] = useState<boolean>(false); // Editörün hazır olup olmadığını kontrol etmek için state kullanımı
   const [changed, setChanged] = useState<boolean>(false);
+  const tiptapRef = useRef<TiptapRef>(null);
+  
+  const addTextFromParent = () => {
+    console.log("addTextFromParent")
+    if (tiptapRef.current) {
+      tiptapRef.current.handleAddText();
+    }
+  };
 
   const handleSave = (content: string) => {
     setChanged(true)
@@ -28,8 +37,6 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
           id_first: params.id,
           id_second: params.sub
         });
-
-        console.log("responseee ",response)
 
         if (!response) {
           setError('Error fetching note');
@@ -70,8 +77,10 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
   }
 
   return (
-    <div className='sm:gap-4 sm:py-4  md:px-14 max-w-full min-w-full'>
+    <div className="flex flex-grow">
+      <div className='sm:gap-4 sm:py-4 md:px-10 max-w-full w-full'>
       <SmallHeader/>
+
       <div className="flex flex-col p-4 sm:p-8">
       <input
         type="text"
@@ -83,7 +92,7 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
       />
       <div className="min-w-full rounded-md overflow-hidden max-w-[60vw] flex flex-grow">
       {isEditorReady && ( // Editör hazır olduğunda gösterilecek
-          <TiptapEditor description={savedContent} onChange={handleSave} />
+          <TiptapEditor ref={tiptapRef} description={savedContent} onChange={handleSave} inputValue={"a"} />
         )}
         {!isEditorReady && (
           <p>Loading editor...</p> // Editör henüz hazır değilse yükleme durumu gösterilebilir
@@ -102,6 +111,9 @@ const NoteDetailPage = ({ params }: { params: { id: string ,sub:string} }) => {
           Save
         </button>
     </div>
+
+    </div>
+    <VariableSidebar/>
     </div>
   );
 };

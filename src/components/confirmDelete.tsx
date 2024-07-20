@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button';
 interface ConfirmDeleteDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  noteToDelete: { title: string } | null;
+  noteToDelete: string  | null | undefined;
   handleConfirmDelete: () => void;
-  type: 'note' | 'tree note' | 'calendar note' | 'todo list';
+  type: 'note' | 'tree note' | 'calendar note' | 'todo list' | 'variable';
 }
 
 const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({ open, setOpen, noteToDelete, handleConfirmDelete, type }) => {
@@ -17,7 +17,7 @@ const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({ open, setOpen
       <DialogContent>
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogDescription>
-          Are you sure you want to delete the '<span className="font-bold">{noteToDelete?.title && noteToDelete.title !== "Untitled" ? noteToDelete.title : "Untitled"}</span>' {type}? This action cannot be undone.
+          Are you sure you want to delete the '<span className="font-bold">{noteToDelete && noteToDelete !== "Untitled" ? noteToDelete : "Untitled"}</span>' {type}? This action cannot be undone.
         </DialogDescription>
         <DialogFooter>
           <Button variant="secondary" onClick={() => setOpen(false)}>

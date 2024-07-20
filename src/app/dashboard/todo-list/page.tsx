@@ -131,7 +131,7 @@ const Page = () => {
         open={open}
         setOpen={setOpen}
         handleConfirmDelete={handleConfirmDelete}
-        noteToDelete={noteToDelete}
+        noteToDelete={noteToDelete?.title}
         type="todo list"
       />
     </div>
