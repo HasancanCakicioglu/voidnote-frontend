@@ -34,7 +34,7 @@ export interface updateSubCalendar extends IdsInterface, SubCalendar {
 export interface getCalendarVariablesSuccessResponse extends SuccessResponse
 {
     data: {
-        date: string;
+        date: Date;
         variables: {
             [key: string]: number[];
         };
