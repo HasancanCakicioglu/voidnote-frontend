@@ -9,9 +9,13 @@ import { getUser } from '@/actions/user';
 import { toast } from '@/components/ui/use-toast';
 import { UserAnalysis } from '@/entities/user';
 import { getCalendarVariables } from '@/actions/calendar';
+import { getNoteVariables } from '@/actions/note';
+import { getTreeNoteVariable } from '@/actions/tree';
+// Import getTreeVariables if you have an endpoint for it
+// import { getTreeVariables } from '@/actions/tree';
 
 interface VariableData {
-  date: Date;
+  date?: Date;
   variables: Map<string, number[]>;
 }
 
@@ -75,71 +79,123 @@ const HomePage: React.FC = () => {
   };
 
 
-    const prepareChartData = () => {
+  const prepareChartData = () => {
     const chartData = {
       labels: [] as string[],
       datasets: selectedVariables.map((variable) => ({
         label: variable,
-        data: [] as { x: Date; y: number, showDot: boolean }[],
+        data: [] as { x: number | Date; y: number; showDot?: boolean }[],
         fill: false,
         backgroundColor: '',
         borderColor: '',
-        pointRadius: (ctx: any) => (ctx.raw.showDot ? 3 : 0),
-        pointHoverRadius: (ctx: any) => (ctx.raw.showDot ? 5 : 0),
+        pointRadius: (ctx: any) => (ctx.raw && ctx.raw.showDot ? 3 : 0),
+        pointHoverRadius: (ctx: any) => (ctx.raw && ctx.raw.showDot ? 5 : 0),
       })),
     };
-
-    const allVariableData: { [key: string]: { date: Date; value: number }[] } = {};
-    variables.forEach((vd) => {
-      vd.variables.forEach((values, key) => {
-        if (!allVariableData[key]) {
-          allVariableData[key] = [];
-        }
-        values.forEach((value) => {
-          allVariableData[key].push({ date: vd.date, value });
+  
+    if (analysisType === 'calendar') {
+      const allVariableData: { [key: string]: { date: Date; value: number }[] } = {};
+  
+      variables.forEach((vd) => {
+        vd.variables.forEach((values, key) => {
+          if (!allVariableData[key]) {
+            allVariableData[key] = [];
+          }
+          values.forEach((value) => {
+            allVariableData[key].push({ date: vd.date!, value });
+          });
         });
       });
-    });
-
-    selectedVariables.forEach((variable, idx) => {
-      const usedColors = chartData.datasets.map(dataset => dataset.backgroundColor);
-      const color = getRandomColor(usedColors);
-      chartData.datasets[idx].backgroundColor = color;
-      chartData.datasets[idx].borderColor = color;
-
-      const variableData = allVariableData[variable].sort((a, b) => a.date.getTime() - b.date.getTime());
-
-      let allDates = variableData.map(dataPoint => dataPoint.date);
-      let minDate = new Date(Math.min(...allDates.map(d => d.getTime())));
-      let maxDate = new Date(Math.max(...allDates.map(d => d.getTime())));
-
-      for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
-        const existingDataPoint = variableData.find(dataPoint => dataPoint.date.getTime() === d.getTime());
-        if (existingDataPoint) {
-          chartData.datasets[idx].data.push({ x: existingDataPoint.date, y: existingDataPoint.value, showDot: true });
-        } else {
-          const previousDataPoint = variableData.findLast(dataPoint => dataPoint.date.getTime() < d.getTime());
-          const nextDataPoint = variableData.find(dataPoint => dataPoint.date.getTime() > d.getTime());
-          if (previousDataPoint && nextDataPoint) {
-            const daysBetween = (nextDataPoint.date.getTime() - previousDataPoint.date.getTime()) / (1000 * 60 * 60 * 24);
-            const interpolatedValue = previousDataPoint.value + ((d.getTime() - previousDataPoint.date.getTime()) / (1000 * 60 * 60 * 24)) * (nextDataPoint.value - previousDataPoint.value) / daysBetween;
-            chartData.datasets[idx].data.push({ x: new Date(d), y: interpolatedValue, showDot: false });
+  
+      selectedVariables.forEach((variable, idx) => {
+        const usedColors = chartData.datasets.map((dataset) => dataset.backgroundColor);
+        const color = getRandomColor(usedColors);
+        chartData.datasets[idx].backgroundColor = color;
+        chartData.datasets[idx].borderColor = color;
+  
+        const variableData = allVariableData[variable];
+        if (variableData) {
+          const sortedVariableData = variableData.sort((a, b) => a.date.getTime() - b.date.getTime());
+  
+          let allDates = sortedVariableData.map((dataPoint) => dataPoint.date);
+          let minDate = new Date(Math.min(...allDates.map((d) => d.getTime())));
+          let maxDate = new Date(Math.max(...allDates.map((d) => d.getTime())));
+  
+          for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
+            const existingDataPoint = sortedVariableData.find((dataPoint) => dataPoint.date.getTime() === d.getTime());
+            if (existingDataPoint) {
+              chartData.datasets[idx].data.push({ x: existingDataPoint.date, y: existingDataPoint.value, showDot: true });
+            } else {
+              const previousDataPoint = sortedVariableData.findLast((dataPoint) => dataPoint.date.getTime() < d.getTime());
+              const nextDataPoint = sortedVariableData.find((dataPoint) => dataPoint.date.getTime() > d.getTime());
+              if (previousDataPoint && nextDataPoint) {
+                const daysBetween = (nextDataPoint.date.getTime() - previousDataPoint.date.getTime()) / (1000 * 60 * 60 * 24);
+                const interpolatedValue =
+                  previousDataPoint.value +
+                  ((d.getTime() - previousDataPoint.date.getTime()) / (1000 * 60 * 60 * 24)) *
+                    ((nextDataPoint.value - previousDataPoint.value) / daysBetween);
+                chartData.datasets[idx].data.push({ x: new Date(d), y: interpolatedValue, showDot: false });
+              }
+            }
           }
         }
-      }
-    });
-
-    chartData.labels = Array.from(new Set(chartData.datasets.flatMap(dataset => dataset.data.map(point => point.x.toDateString()))));
-
+      });
+  
+      chartData.labels = Array.from(new Set(chartData.datasets.flatMap((dataset) => dataset.data.map((point) => (point.x as Date).toDateString()))));
+    } else {
+      const allVariableData: { [key: string]: { value: number }[] } = {};
+  
+      variables.forEach((vd) => {
+        vd.variables.forEach((values, key) => {
+          if (!allVariableData[key]) {
+            allVariableData[key] = [];
+          }
+          values.forEach((value) => {
+            allVariableData[key].push({ value });
+          });
+        });
+      });
+  
+      selectedVariables.forEach((variable, idx) => {
+        const usedColors = chartData.datasets.map((dataset) => dataset.backgroundColor);
+        const color = getRandomColor(usedColors);
+        chartData.datasets[idx].backgroundColor = color;
+        chartData.datasets[idx].borderColor = color;
+  
+        const variableData = allVariableData[variable];
+        if (variableData) {
+          chartData.datasets[idx].data = variableData.map((dataPoint, index) => ({
+            x: index,
+            y: dataPoint.value,
+            showDot: true,
+          }));
+        }
+      });
+  
+      chartData.labels = Array.from(new Set(chartData.datasets.flatMap((dataset) => dataset.data.map((point) => point.x.toString()))));
+    }
+  
     return chartData;
   };
+  
+  
+  
 
   const handleNoteTitleChange = async (e: string) => {
+    setSelectedVariables([]);
     setNoteID(e);
-
-    const response = await getCalendarVariables({ id: e });
-
-    if (response.success === false) {
+    let response;
+  
+    if (analysisType === 'calendar') {
+      response = await getCalendarVariables({ id: e });
+    } else if (analysisType === 'note') {
+      response = await getNoteVariables({ id: e });
+    } else if (analysisType === 'tree') {
+      // Uncomment the next line if you have a getTreeVariables function
+       response = await getTreeNoteVariable({ id: e });
+    }
+  
+    if (response?.success === false) {
       toast({
         variant: "destructive",
         title: "Something went wrong.",
@@ -147,20 +203,44 @@ const HomePage: React.FC = () => {
       });
       return;
     }
-    if (response.success && response.data) {
-      const formattedData: VariableData[] = response.data.map((item: { date: string; variables: { [key: string]: number[]; }; }) => {
+  
+    if (response?.success) {
+      let formattedData: VariableData[] = [];
+  
+      if (analysisType === 'calendar' && Array.isArray(response.data)) {
+        formattedData = response.data.map((item: { date?: string; variables: { [key: string]: number[]; }; }) => {
+          const variablesMap = new Map<string, number[]>(
+            Object.entries(item.variables)
+          );
+  
+          return {
+            date: item.date ? new Date(item.date) : undefined, // Only convert if date is provided
+            variables: variablesMap
+          };
+        });
+      } else {
+        const item = response.data;
         const variablesMap = new Map<string, number[]>(
           Object.entries(item.variables)
         );
-        return {
-          date: new Date(item.date), // Convert string to Date
+  
+        formattedData = [{
+          date: item.date ? new Date(item.date) : undefined, // Only convert if date is provided
           variables: variablesMap
-        };
-      });
-
+        }];
+      }
+  
       setVariables(formattedData);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Unexpected data format.",
+        description: "The data received is not in the expected format.",
+      });
     }
   };
+  
+  
 
   return (
     <div className="flex flex-grow w-full">
@@ -174,7 +254,12 @@ const HomePage: React.FC = () => {
         <div className="flex flex-row justify-between items-center mb-4">
           <div className="mr-4 flex-1">
             <label className="block text-sm font-medium mb-1">Note Type</label>
-            <Select value={analysisType} onValueChange={setAnalysisType}>
+            <Select value={analysisType} onValueChange={(e)=>{
+              setNoteID("")
+              setVariables([])
+              setSelectedVariables([])
+              setAnalysisType(e)
+            }}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select analysis type" />
               </SelectTrigger>

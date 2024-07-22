@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import TiptapEditor from "@/components/tiptap";
+import React, { useState, useEffect, useRef } from "react";
+import TiptapEditor, { TiptapRef } from "@/components/tiptap";
 import {
   createTreeNote,
   deleteTreeNote,
@@ -12,6 +12,7 @@ import { toast } from "@/components/ui/use-toast";
 import { UserTreeNotes } from "@/entities/user";
 import { getUser } from "@/actions/user";
 import TreeView from "@/components/renderTree";
+import VariableSidebar from "@/components/variableSidebar";
 
 const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   const [savedContent, setSavedContent] = useState<string>("");
@@ -21,6 +22,43 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   const [notes, setTreeNotes] = useState<UserTreeNotes[]>([]);
   const [id, setid] = useState<string>(params.id);
   const [changed, setChanged] = useState<boolean>(false);
+
+  const [inputValue, setInputValue] = useState("");
+  const tiptapRef = useRef<TiptapRef>(null);
+
+  const [variables, setvariables] = useState<string[]>([]);
+  const [open, setOpen] = useState(false);
+  const [indexToDelete, setIndexToDelete] = useState<number | null>(null);
+  const [titleToDelete, setTitleToDelete] = useState<string | null>(null);
+
+  const handleVariableClick = (e: string) => {
+    if (tiptapRef.current) {
+      tiptapRef.current.handleAddVariable(e + "[]");
+    }
+  };
+
+  const handleAddItem = () => {
+    if (inputValue.trim() !== "" && !variables.includes(inputValue)) {
+      setvariables([...variables, inputValue]);
+      setInputValue("");
+    } else if (variables.includes(inputValue)) {
+      toast({
+        variant: "destructive",
+        title: "Duplicate",
+        description: "You cannot add more than one of the same variable",
+      });
+    }
+  };
+
+  const handleDeleteItem = () => {
+    if (indexToDelete !== null) {
+      const newvariables = [...variables];
+      newvariables.splice(indexToDelete, 1)[0];
+      setvariables(newvariables);
+      setOpen(false);
+      setChanged(true);
+    }
+  };
 
   const handleSave = (content: string) => {
     setChanged(true);
@@ -51,6 +89,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
         }
 
         if ("data" in response) {
+          setvariables(Object.keys(response.data.variables));
           setTitle(response.data.title);
           setSavedContent(response.data.content);
         }
@@ -89,10 +128,34 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   }, []);
 
   const buttonClick = async () => {
+    const variablesMap = new Map<string, number[]>();
+    const regex = /(\w+)\[(\d+)\]/g;
+    let match;
+
+    while ((match = regex.exec(savedContent)) !== null) {
+      const variable = match[1];
+      const value = parseInt(match[2], 10);
+
+      if (variables.includes(variable)) {
+        if (!variablesMap.has(variable)) {
+          variablesMap.set(variable, [value]);
+        } else {
+          variablesMap.get(variable)?.push(value);
+        }
+      }
+    }
+    const variablesObject = Array.from(variablesMap.entries()).reduce((acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
+    }, {} as { [key: string]: number[] });
+
+    console.log("bu mapdir = ", variablesObject);
+
     let data = await updateTreeNote({
       id: id,
       title: title,
       content: savedContent,
+      variables: variablesObject,
       brief: getPlainTextPreview(savedContent, 50),
     });
 
@@ -139,7 +202,8 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <div className="sm:gap-4 sm:py-4  md:px-14 max-w-full min-w-full">
+    <div className="flex flex-grow">
+    <div className="sm:gap-4 sm:py-4 md:px-10 max-w-full w-full">
       <SmallHeader />
       <div className="mt-4 p-4  overflow-x-auto">
         <h2 className="text-xl font-bold mb-4">Tree Notes</h2>
@@ -165,7 +229,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
         />
         <div className="min-w-full rounded-md overflow-hidden max-w-[60vw] flex flex-grow">
           {isEditorReady ? (
-            <TiptapEditor description={savedContent} onChange={handleSave} />
+            <TiptapEditor ref={tiptapRef} description={savedContent} onChange={handleSave} />
           ) : (
             <p>Loading editor...</p>
           )}
@@ -185,6 +249,22 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
           </button>
         </div>
       </div>
+      </div>
+      <VariableSidebar
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        variables={variables}
+        setVariables={setvariables}
+        indexToDelete={indexToDelete}
+        setIndexToDelete={setIndexToDelete}
+        titleToDelete={titleToDelete}
+        setTitleToDelete={setTitleToDelete}
+        handleAddItem={handleAddItem}
+        handleDeleteItem={handleDeleteItem}
+        handleVariableClick={handleVariableClick}
+        open={open}
+        setOpen={setOpen}
+      />
     </div>
   );
 };

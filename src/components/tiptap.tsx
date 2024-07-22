@@ -9,14 +9,13 @@ import { Toggle } from "@components/ui/toggle"; // ShadCN Toggle bileşenini kul
 interface TiptapProps {
   description: string;
   onChange: (description: string) => void;
-  inputValue: string;
 }
 
 export interface TiptapRef {
   handleAddVariable: (variable:string) => void;
 }
 
-const Tiptap = forwardRef<TiptapRef, TiptapProps>(({ description, onChange, inputValue }, ref) => {
+const Tiptap = forwardRef<TiptapRef, TiptapProps>(({ description, onChange }, ref) => {
 
   const editor = useEditor({
     extensions: [StarterKit, Underline, Highlight.configure({ multicolor: true })],

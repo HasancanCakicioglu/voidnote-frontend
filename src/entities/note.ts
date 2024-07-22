@@ -6,7 +6,11 @@ export interface createNoteSuccessResponse extends SuccessResponse {
 }
 
 export interface getNoteSuccessResponse extends SuccessResponse {
-    data: { title: string,content:string};
+    data: { title: string,content:string,variables:{ [key: string]: number[] }};
+}
+
+export interface getNoteVariablesSuccessResponse extends SuccessResponse {
+    data: {variables:{ [key: string]: number[] }};
 }
 
 export interface  GetNote{
@@ -17,5 +21,8 @@ export interface  UpdateNote{
     id: string;
     title:string,
     content:string,
+    variables: {
+        [key: string]: number[];
+    };
     brief:string
 }

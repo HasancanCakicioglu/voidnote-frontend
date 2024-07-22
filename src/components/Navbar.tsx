@@ -42,7 +42,7 @@ const Navbar = () => {
             <span className="sr-only">Toggle Menu</span>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-45 p-4 bg-white shadow-lg rounded-md">
+        <PopoverContent className="w-45 p-4 shadow-lg rounded-md">
           <nav className="grid gap-6 text-lg font-medium">
             <div className="flex flex-col space-y-4">
               <Link href="/register">

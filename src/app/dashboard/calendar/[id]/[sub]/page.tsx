@@ -95,7 +95,6 @@ const NoteDetailPage = ({
   }, []);
 
   const buttonClick = async () => {
-    console.log("bu aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ")
     const variablesMap = new Map<string, number[]>();
     const regex = /(\w+)\[(\d+)\]/g;
     let match;
@@ -161,7 +160,6 @@ const NoteDetailPage = ({
                 ref={tiptapRef}
                 description={savedContent}
                 onChange={handleSave}
-                inputValue={"a"}
               />
             )}
             {!isEditorReady && (
