@@ -56,8 +56,7 @@ const AnimatedNumbers = () => {
           const usersData = response.data.find(item => item.collection === 'voidnote.users')?.count || 0;
           const notesData = response.data.filter(item => item.collection !== 'voidnote.users').reduce((total, item) => total + item.count, 0);
           const savedDataSize = response.data.reduce((total, item) => total + item.storageSize, 0);
-          console.log("usersData", usersData)
-          console.log("notesData", notesData)
+
           setUsers(usersData);
           setNotes(notesData);
           setSavedData(savedDataSize);

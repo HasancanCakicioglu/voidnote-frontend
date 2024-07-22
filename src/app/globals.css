@@ -74,3 +74,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --input-bg: #f0f0f0;
+  --input-border: #cccccc;
+  --button-bg: #1c1c1c;
+  --button-text: #ffffff;
+  --link-color: #0070f3;
+}
+
+[data-theme='dark'] {
+  --bg-color: #1c1c1c;
+  --text-color: #ffffff;
+  --input-bg: #333333;
+  --input-border: #555555;
+  --button-bg: #ffffff;
+  --button-text: #000000;
+  --link-color: #4a90e2;
+}

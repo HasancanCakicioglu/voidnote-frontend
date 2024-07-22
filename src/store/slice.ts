@@ -6,20 +6,20 @@ export interface Preferences {
 }
 
 export interface AccountState {
-  _id: string;
-  username: string;
+  _id?: string;
+  username?: string;
   email: string;
-  verified: boolean;
+  verified?: boolean;
   profilePhotoUrl: string;
-  authMethod: string;
-  preferences: Preferences;
-  plan: string;
-  createdAt: string;
-  updatedAt: string;
-  notes: any[];
-  todos: any[];
-  calendars: any[];
-  trees: any[];
+  authMethod?: string;
+  preferences?: Preferences;
+  plan?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  notes?: any[];
+  todos?: any[];
+  calendars?: any[];
+  trees?: any[];
 }
 
 const initialState: AccountState = {

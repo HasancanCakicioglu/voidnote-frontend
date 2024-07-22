@@ -26,8 +26,12 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-import { register, verifyEmail } from "@/actions/auth";
+import { google, register, verifyEmail } from "@/actions/auth";
 import { useRouter } from "next/navigation";
+
+import { useDispatch } from "react-redux";
+import { updateAccountState } from "@/store/slice";
+import { toast } from "@/components/ui/use-toast";
 
 const formSchema = z
   .object({
@@ -42,6 +46,7 @@ const formSchema = z
   });
 
 export default function Home() {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,16 +67,13 @@ export default function Home() {
   const [errorMessageDialog, setErrorMessageDialog] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Ref to store the interval ID
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Effect to handle the countdown
   useEffect(() => {
     if (isDialogOpen && initialTime !== null) {
       timerRef.current = setInterval(() => {
         const elapsed = Math.floor((Date.now() - initialTime) / 1000);
         setCountdown((prevCountdown) => Math.max(300 - elapsed, 0));
-        console.log(localStorage.getItem("access_token"));
         if (countdown <= 1) {
           clearInterval(timerRef.current!);
           timerRef.current = null;
@@ -109,149 +111,166 @@ export default function Home() {
       }
       setIsSubmitting(false);
     } catch (error) {
-      console.error("Register error:", error);
-      setErrorMessage("Failed to register. Please try again."); // Genel hata durumu
+      setErrorMessage("Failed to register. Please try again.");
     }
   };
 
   const handleOK = async () => {
-    try{
+    try {
       let data = await verifyEmail({
         email: form.getValues("emailAddress"),
         verificationCode: verificationCode,
       });
-  
+
       if (data.status === 200) {
         setDialogOpen(false);
         router.push("/dashboard");
       } else {
         setErrorMessageDialog(data.message);
       }
-    }catch(error){
-      console.error("Verify error:", error);
-      setErrorMessageDialog("Failed to verify. Please try again."); // Genel hata durumu
+    } catch (error) {
+      setErrorMessageDialog("Failed to verify. Please try again.");
     }
   };
 
   return (
-    <main className="flex min-h-screen">
-      {/* Sol Taraf: Form */}
-      <div
-        className="flex flex-col items-center justify-center w-1/2 p-10"
-        style={{ backgroundColor: "#1c1c1c" }}
-      >
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="max-w-md w-full flex flex-col gap-4"
-          >
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="username" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="emailAddress"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">Email address</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Email address"
-                      type="email"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Password" type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="passwordConfirm"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-white">Password confirm</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Password confirm"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button
-              type="submit"
-              className="w-full bg-white text-black"
-              disabled={isSubmitting}
+    <main className="flex flex-grow dark:bg-gray-900 justify-center">
+      {/* Left Side: Form */}
+      <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-10 ">
+        <div className="dark:bg-gray-800 rounded-lg p-8 shadow-lg w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-6 text-center ">Register</h2>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-4 "
             >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </Button>
-            <FormMessage>{errorMessage}</FormMessage>
-          </form>
-        </Form>
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className=" dark:text-gray">Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="username"
+                        {...field}
+                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="emailAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className=" dark:text-gray">
+                      Email address
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Email address"
+                        type="email"
+                        {...field}
+                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className=" dark:text-gray">Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Password"
+                        type="password"
+                        {...field}
+                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="passwordConfirm"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className=" dark:text-gray">
+                      Password confirm
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Password confirm"
+                        type="password"
+                        {...field}
+                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 dark:bg-blue-700 text-white dark:text-gray-200"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </Button>
+              {errorMessage && (
+                <FormMessage className="text-red-500">
+                  {errorMessage}
+                </FormMessage>
+              )}
+            </form>
+          </Form>
 
-        {/* Additional Links and OAuth */}
-        <div className="mt-4 text-center text-white">
-          <p className="mb-8">
-            Already have an account?{" "}
-            <Link href="/login" className="text-blue-400">
-              Log in
-            </Link>
-          </p>
-          <p className="m-4">Or sign in with</p>
+          <div className="mt-4 text-center">
+            <p className="mb-4 ">
+              Already have an account?{" "}
+              <Link href="/login" className="text-blue-500 hover:underline">
+                Log in
+              </Link>
+            </p>
+            <p className="mb-4 ">Or sign in with</p>
+            <GoogleOAuthProvider clientId="826732552126-6iab49okf9umiqdjg6utueln3omgcanf.apps.googleusercontent.com">
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  if(credentialResponse.credential){
+                    let response = await google({id:credentialResponse.credential});
 
-          <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log(credentialResponse);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-              theme="filled_blue"
-            />
-          </GoogleOAuthProvider>
-        </div>
-      </div>
-
-      {/* Sağ Taraf: Görsel ve Yazı */}
-      <div className="relative w-1/2 h-screen overflow-hidden">
-        <img
-          src="/register.jpg"
-          alt="Registration Background"
-          className="object-cover w-full h-full max-h-screen"
-        />
-        <div className="absolute top-0 left-0 w-full h-full bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-white text-4xl font-bold">
-            Welcome to Our Platform
-          </h1>
+                    if (response.success) {
+                      dispatch(updateAccountState({ email: response.data.email, profilePhotoUrl: response.data.image }));
+                      router.push("/dashboard");
+                    }else{
+                      toast({
+                        variant: "destructive",
+                        title: "Something went wrong.",
+                        description: response.message || "Failed to login with Google",
+                      });
+                    }
+                  }
+                }}
+                onError={() => {
+                  toast({
+                    variant: "destructive",
+                    title: "Something went wrong.",
+                    description: "Failed to login with Google",
+                  });
+                }}
+                theme="filled_blue"
+              />
+            </GoogleOAuthProvider>
+          </div>
         </div>
       </div>
 
