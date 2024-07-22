@@ -13,7 +13,7 @@ interface TiptapProps {
 }
 
 export interface TiptapRef {
-  handleAddText: () => void;
+  handleAddVariable: (variable:string) => void;
 }
 
 const Tiptap = forwardRef<TiptapRef, TiptapProps>(({ description, onChange, inputValue }, ref) => {
@@ -64,19 +64,15 @@ const Tiptap = forwardRef<TiptapRef, TiptapProps>(({ description, onChange, inpu
     }
   }, [editor]);
 
-  const handleAddText = useCallback(() => {
-    console.log("inputValueeeeeeeeeeeeee", inputValue);
+  const handleAddVariable = useCallback((variable: string) => {
     if (editor) {
-      console.log("inputValue", inputValue);
-      editor.chain().focus().insertContent(inputValue).run();
-
+      editor.chain().focus().insertContent(variable).run();
     }
-  }, [editor, inputValue]);
+  }, [editor]);
 
   useImperativeHandle(ref, () => ({
-    handleAddText,
+    handleAddVariable,
   }));
-  
 
   return (
     <div className="flex flex-col w-full">

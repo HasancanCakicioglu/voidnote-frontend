@@ -36,3 +36,9 @@ export interface UserCalendar{
     updatedAt:Date;
     createdAt:Date;
 }
+
+
+export interface UserAnalysis{
+    _id:string;
+    title:string;
+}

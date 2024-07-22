@@ -29,9 +29,9 @@ const Account = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" className="overflow-hidden rounded-full">
-              {account.image ? (
+              {account.profilePhotoUrl ? (
                 <Image
-                  src={account.image}
+                  src={account.profilePhotoUrl}
                   width={36}
                   height={36}
                   alt="Avatar"
@@ -59,12 +59,12 @@ const Account = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <div className="flex space-x-8 items-center">
+        <div className="flex space-x-1 md:space-x-8 items-center">
           <Link href="/login">
             <div className="hover:text-gray-300">Login</div>
           </Link>
           <Link href="/register">
-            <button className="text-white px-4 py-2 rounded bg-gradient-to-r from-purple-300 to-purple-800 hover:from-purple-100 hover:to-purple-700">
+            <button className="text-sm md:text-base text-white px-4 py-2 rounded bg-gradient-to-r from-purple-300 to-purple-800 hover:from-purple-100 hover:to-purple-700">
               Create an Account
             </button>
           </Link>

@@ -43,9 +43,15 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
 
   const handleDateClick = async (date: Date, calendarId: string | undefined) => {
     setSelectedDate(date);
+    const variables = calendar?.variables.join(',');
 
     if (calendarId) {
-      router.push(`/dashboard/calendar/${params.id}/${calendarId}`);
+      let url = `/dashboard/calendar/${params.id}/${calendarId}`;
+      if(variables){
+        url = url+`?variables=${encodeURIComponent(variables)}`;
+        
+      }
+      router.push(url);
       return;
     }
 
@@ -53,9 +59,13 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
       id: params.id,
       date: date,
     });
-
+    
     if (response.success) {
-      router.push(`/dashboard/calendar/${params.id}/${response.data._id}`);
+      let url = `/dashboard/calendar/${params.id}/${response.data._id}`
+      if(variables){
+        url = url+`?variables=${encodeURIComponent(variables)}`;
+      }
+      router.push(url);
     }
   };
 

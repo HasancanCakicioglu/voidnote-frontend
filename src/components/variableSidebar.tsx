@@ -1,45 +1,40 @@
-import React, { useState } from "react";
-import { Trash } from "lucide-react"; // Trash ikonunu kullanmak için
+import React from "react";
+import { Trash } from "lucide-react";
 import ConfirmDeleteDialog from "./confirmDelete";
-import { toast } from "@/components/ui/use-toast";
 
-const VariableSidebar: React.FC = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [items, setItems] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
-  const [indexToDelete, setIndexToDelete] = useState<number | null>(null);
-  const [titleToDelete, setTitleToDelete] = useState<string| null>(null);
+interface VariableSidebarProps {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  variables: string[];
+  setVariables: React.Dispatch<React.SetStateAction<string[]>>;
+  indexToDelete: number | null;
+  setIndexToDelete: React.Dispatch<React.SetStateAction<number | null>>;
+  titleToDelete: string | null;
+  setTitleToDelete: React.Dispatch<React.SetStateAction<string | null>>;
+  handleAddItem: () => void;
+  handleDeleteItem: () => void;
+  handleVariableClick: (e: string) => void;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  const handleAddItem = () => {
-    if (inputValue.trim() !== "" && !items.includes(inputValue)) {
-      setItems([...items, inputValue]);
-      setInputValue("");
-    } else if (items.includes(inputValue)) {
-      toast({
-        variant: "destructive",
-        title: "Duplicate",
-        description: "You cannot add more than one of the same variable",
-      });
-    }
-  };
-
-  const handleDeleteItem = () => {
-
-    if(indexToDelete){
-      const newItems = [...items];
-      const deletedItem = newItems.splice(indexToDelete, 1)[0];
-      setItems(newItems);
-      setOpen(false)
-    }
-
-  };
-
-  const handleVariableClick = (e:string) =>{
-    console.log("aaaa",e.toString())
-  }
-
+const VariableSidebar: React.FC<VariableSidebarProps> = ({
+  inputValue,
+  setInputValue,
+  variables,
+  setVariables,
+  indexToDelete,
+  setIndexToDelete,
+  titleToDelete,
+  setTitleToDelete,
+  handleAddItem,
+  handleDeleteItem,
+  handleVariableClick,
+  open,
+  setOpen,
+}) => {
   return (
-    <div className="hidden lg:flex justify-end ">
+    <div className="hidden lg:flex justify-end">
       {/* Sidebar */}
       <div
         className={
@@ -65,27 +60,31 @@ const VariableSidebar: React.FC = () => {
               Add
             </button>
           </div>
-          
+
           <ul>
-          {items.map((item, index) => (
-            <li key={index} onClick={() => { handleVariableClick(item) }} className="flex justify-between items-center p-2 rounded-md mb-2 border">
-            <div className="flex flex-grow">
-              <span className="flex-grow">{item}</span>
-            </div>
-            <button
-              onClick={() => {
-                setIndexToDelete(index);
-                setTitleToDelete(item);
-                setOpen(true);
-              }}
-              className="text-red-500 hover:text-red-700 ml-2"
-            >
-              <Trash className="h-4 w-4" />
-            </button>
-          </li>
-          
-          ))}
-        </ul>
+            {variables.map((item, index) => (
+              <li
+                key={index}
+                onClick={() => handleVariableClick(item)}
+                className="flex justify-between variables-center p-2 rounded-md mb-2 border"
+              >
+                <div className="flex flex-grow">
+                  <span className="flex-grow">{item}</span>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIndexToDelete(index);
+                    setTitleToDelete(item);
+                    setOpen(true);
+                  }}
+                  className="text-red-500 hover:text-red-700 ml-2"
+                >
+                  <Trash className="h-4 w-4" />
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <ConfirmDeleteDialog
