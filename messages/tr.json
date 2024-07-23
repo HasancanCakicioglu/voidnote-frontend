@@ -17,9 +17,9 @@
         "login": "Giriş Yap",
         "register": "Kayıt Ol",
         "createanaccount": "Hesap Oluştur",
-        "lightmode": "Aydınlık",
-        "darkmode": "Karanlık",
-        "systemmode": "Sistem",
+        "light": "Aydınlık",
+        "dark": "Karanlık",
+        "system": "Sistem",
         "support": "Destek"
     },
     "Login": {

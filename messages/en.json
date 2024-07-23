@@ -54,7 +54,7 @@
         "submitError": "Failed to submit. Please try again."
     },
     "Sidebar":{
-        "notes":"Notes",
+        "note":"Note",
         "tree":"Tree",
         "todolist":"To-Do List",
         "calendar":"Calendar",

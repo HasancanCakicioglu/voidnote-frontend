@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 import { CircleX } from "lucide-react";
 import { UserCalendar, UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
+import { Link } from "@/navigations";
+
 
 const formatDate = (date: Date) => {
   const options: Intl.DateTimeFormatOptions = {
