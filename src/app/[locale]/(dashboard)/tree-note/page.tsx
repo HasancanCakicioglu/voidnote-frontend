@@ -5,17 +5,18 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { getUser } from "@/actions/user";
+import {  deleteNote } from "@/actions/note";
 import { useEffect, useState } from "react";
 import SmallHeader from "@/components/smallHeader";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
-import { UserCalendar, UserNotes } from "@/entities/user";
-import { createCalendar, deleteCalendar } from "@/actions/calendar";
+import { UserTreeNotes } from "@/entities/user";
+import { createTreeNote, deleteTreeNote } from "@/actions/tree";
 import ConfirmDeleteDialog from "@/components/confirmDelete";
+import { useRouter } from "@/navigations";
 
 const Page = () => {
-  const [notes, setNotes] = useState<UserCalendar[]>([]);
+  const [notes, setTreeNotes] = useState<UserTreeNotes[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
@@ -28,21 +29,19 @@ const Page = () => {
   const notesPerPage = 12;
 
   useEffect(() => {
-    const fetchNotes = async () => {
+    const fetchTreeNotes = async () => {
       try {
-        const response = await getUser({ type: "calendars" });
-        console.log(response)
+        const response = await getUser({ type: "trees" });
+
         if (response.success === false) {
           toast({
             variant: "destructive",
             title: "Something went wrong.",
             description: response.message,
           });
-        }else{
-          setNotes(response.data.calendars);
         }
 
-
+        setTreeNotes(response.data.trees);
       } catch (error: any) {
         toast({
           variant: "destructive",
@@ -52,7 +51,7 @@ const Page = () => {
       }
     };
 
-    fetchNotes();
+    fetchTreeNotes();
   }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,9 +59,9 @@ const Page = () => {
   };
 
   const handleAddButton = async () => {
-    let response = await createCalendar();
+    let response = await createTreeNote({});
     if (response.success) {
-      router.push(`/dashboard/calendar/${response.data._id}`);
+      router.push(`/tree-note/${response.data._id}`);
     } else {
       toast({
         variant: "destructive",
@@ -72,7 +71,6 @@ const Page = () => {
     }
   };
 
-
   const handleDeleteClick = (id: string,title:string) => {
     setNoteToDelete({id:id,title:title});
     setOpen(true);
@@ -80,10 +78,10 @@ const Page = () => {
 
   const handleConfirmDelete = async () => {
     if (noteToDelete) {
-      const response = await deleteCalendar({ id: noteToDelete.id });
+      const response = await deleteTreeNote({ id: noteToDelete.id });
 
       if (response.success) {
-        setNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
+        setTreeNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
       } else {
         toast({
           variant: "destructive",
@@ -95,9 +93,10 @@ const Page = () => {
     setOpen(false);
   };
 
+
   return (
     <div className="flex flex-col bg-muted/40 max-w-full min-w-full">
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+      <div className="flex flex-col sm:gap-4 sm:py-4 lg:px-10 ">
         <SmallHeader>
           <div className="relative w-full md:w-[200px] lg:w-[336px]">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -112,7 +111,7 @@ const Page = () => {
         </SmallHeader>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <NoteListMain
-            notes={notes}
+            notes={notes.filter((note) => !note.parent_id)}
             searchTerm={searchTerm}
             sortOrder={sortOrder}
             currentPage={currentPage}
@@ -121,7 +120,7 @@ const Page = () => {
             handleAddButton={handleAddButton}
             setCurrentPage={setCurrentPage}
             setSortOrder={setSortOrder}
-            type="calendar"
+            type="tree-note"
           />
           
         </main>
@@ -131,7 +130,7 @@ const Page = () => {
         setOpen={setOpen}
         handleConfirmDelete={handleConfirmDelete}
         noteToDelete={noteToDelete?.title}
-        type="calendar note"
+        type="tree note"
       />
     </div>
   );

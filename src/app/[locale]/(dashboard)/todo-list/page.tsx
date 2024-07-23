@@ -8,15 +8,15 @@ import { getUser } from "@/actions/user";
 import {  deleteNote } from "@/actions/note";
 import { useEffect, useState } from "react";
 import SmallHeader from "@/components/smallHeader";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
-import { UserTreeNotes } from "@/entities/user";
-import { createTreeNote, deleteTreeNote } from "@/actions/tree";
+import { UserTodoList } from "@/entities/user";
+import { createTodoList, deleteTodoList } from "@/actions/todo";
 import ConfirmDeleteDialog from "@/components/confirmDelete";
+import { useRouter } from "@/navigations";
 
 const Page = () => {
-  const [notes, setTreeNotes] = useState<UserTreeNotes[]>([]);
+  const [notes, setTodoNotes] = useState<UserTodoList[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
@@ -29,9 +29,10 @@ const Page = () => {
   const notesPerPage = 12;
 
   useEffect(() => {
-    const fetchTreeNotes = async () => {
+    const fetchTodoNotes = async () => {
       try {
-        const response = await getUser({ type: "trees" });
+        const response = await getUser({ type: "todos" });
+        console.log(response);
 
         if (response.success === false) {
           toast({
@@ -41,7 +42,7 @@ const Page = () => {
           });
         }
 
-        setTreeNotes(response.data.trees);
+        setTodoNotes(response.data.todos);
       } catch (error: any) {
         toast({
           variant: "destructive",
@@ -51,7 +52,7 @@ const Page = () => {
       }
     };
 
-    fetchTreeNotes();
+    fetchTodoNotes();
   }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,9 +60,9 @@ const Page = () => {
   };
 
   const handleAddButton = async () => {
-    let response = await createTreeNote({});
+    let response = await createTodoList();
     if (response.success) {
-      router.push(`/dashboard/tree-note/${response.data._id}`);
+      router.push(`/todo-list/${response.data._id}`);
     } else {
       toast({
         variant: "destructive",
@@ -71,6 +72,8 @@ const Page = () => {
     }
   };
 
+
+
   const handleDeleteClick = (id: string,title:string) => {
     setNoteToDelete({id:id,title:title});
     setOpen(true);
@@ -78,10 +81,10 @@ const Page = () => {
 
   const handleConfirmDelete = async () => {
     if (noteToDelete) {
-      const response = await deleteTreeNote({ id: noteToDelete.id });
+      const response = await deleteTodoList({ id: noteToDelete.id });
 
       if (response.success) {
-        setTreeNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
+        setTodoNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
       } else {
         toast({
           variant: "destructive",
@@ -93,10 +96,9 @@ const Page = () => {
     setOpen(false);
   };
 
-
   return (
     <div className="flex flex-col bg-muted/40 max-w-full min-w-full">
-      <div className="flex flex-col sm:gap-4 sm:py-4 lg:px-10 ">
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:px-10">
         <SmallHeader>
           <div className="relative w-full md:w-[200px] lg:w-[336px]">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -111,7 +113,7 @@ const Page = () => {
         </SmallHeader>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <NoteListMain
-            notes={notes.filter((note) => !note.parent_id)}
+            notes={notes}
             searchTerm={searchTerm}
             sortOrder={sortOrder}
             currentPage={currentPage}
@@ -120,7 +122,7 @@ const Page = () => {
             handleAddButton={handleAddButton}
             setCurrentPage={setCurrentPage}
             setSortOrder={setSortOrder}
-            type="tree-note"
+            type="todo-list"
           />
           
         </main>
@@ -130,7 +132,7 @@ const Page = () => {
         setOpen={setOpen}
         handleConfirmDelete={handleConfirmDelete}
         noteToDelete={noteToDelete?.title}
-        type="tree note"
+        type="todo list"
       />
     </div>
   );

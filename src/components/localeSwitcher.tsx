@@ -1,6 +1,7 @@
 "use client"
+import { useRouter } from "@/navigations";
 import { useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
+
 
 const LocaleSwitcher = () => {
     const currentLocale = useLocale();

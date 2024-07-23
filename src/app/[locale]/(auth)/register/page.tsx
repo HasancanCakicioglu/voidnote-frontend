@@ -123,7 +123,7 @@ export default function Home() {
 
       if (data.status === 200) {
         setDialogOpen(false);
-        router.push("/dashboard");
+        router.push("/note");
       } else {
         setErrorMessageDialog(data.message);
       }
@@ -245,7 +245,7 @@ export default function Home() {
 
                     if (response.success) {
                       dispatch(updateAccountState({ email: response.data.email, profilePhotoUrl: response.data.image }));
-                      router.push("/dashboard");
+                      router.push("/note");
                     } else {
                       toast({
                         variant: "destructive",

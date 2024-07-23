@@ -39,7 +39,7 @@ export default function Login() {
 
       if (data.success) {
         dispatch(updateAccountState({ email: data.data.email, profilePhotoUrl: data.data.image }));
-        router.push("/dashboard");
+        router.push("/note");
       } else {
         setErrorMessage(data.message);
       }

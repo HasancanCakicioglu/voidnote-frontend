@@ -1,13 +1,13 @@
 "use client";
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from "@/navigations";
+import { Link, useRouter } from "@/navigations";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from './ui/dropdown-menu';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { RootState } from '@/store/store';
 import { logout } from '@/store/slice';
 import { deleteAccessToken } from '@/actions/auth';
-import { useRouter } from 'next/navigation';
+
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CircleUser } from 'lucide-react';
 import { useTranslations } from 'next-intl';

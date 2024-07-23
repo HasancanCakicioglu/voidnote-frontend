@@ -6,13 +6,13 @@ import { getUser } from "@/actions/user";
 import { createNote, deleteNote } from "@/actions/note";
 import { useEffect, useState } from "react";
 import SmallHeader from "@/components/smallHeader";
-import { useRouter } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
 import { UserNotes } from "@/entities/user";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@components/ui/dialog'; // Make sure to use the correct path
 import { Button } from "@/components/ui/button";
 import ConfirmDeleteDialog from "@/components/confirmDelete";
+import { useRouter } from "@/navigations";
 
 const Page = () => {
   const [notes, setNotes] = useState<UserNotes[]>([]);
@@ -58,7 +58,7 @@ const Page = () => {
   const handleAddButton = async () => {
     let response = await createNote();
     if (response.success) {
-      router.push(`/dashboard/note/${response.data._id}`);
+      router.push(`/note/${response.data._id}`);
     } else {
       toast({
         variant: "destructive",

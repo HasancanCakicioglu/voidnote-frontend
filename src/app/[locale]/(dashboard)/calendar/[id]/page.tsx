@@ -5,8 +5,8 @@ import SmallHeader from '@/components/smallHeader';
 import { createSubCalendars, deleteSubCalendars, getCalendar } from '@/actions/calendar';
 import { toast } from '@/components/ui/use-toast';
 import { Calendar } from '@/entities/calendar';
-import { useRouter } from "next/navigation";
 import { CircleX } from 'lucide-react'; // Import the CircleX icon from Lucid React
+import { useRouter } from '@/navigations';
 
 const CalendarPage = ({ params }: { params: { id: string } }) => {
   const [calendar, setCalendar] = useState<Calendar | null>(null);
@@ -46,7 +46,7 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
     const variables = calendar?.variables.join(',');
 
     if (calendarId) {
-      let url = `/dashboard/calendar/${params.id}/${calendarId}`;
+      let url = `/calendar/${params.id}/${calendarId}`;
       if(variables){
         url = url+`?variables=${encodeURIComponent(variables)}`;
         
@@ -61,7 +61,7 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
     });
     
     if (response.success) {
-      let url = `/dashboard/calendar/${params.id}/${response.data._id}`
+      let url = `/calendar/${params.id}/${response.data._id}`
       if(variables){
         url = url+`?variables=${encodeURIComponent(variables)}`;
       }

@@ -1,16 +1,5 @@
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import GenerateBreadcrumbs from "@/components/generateBreadcrumbs"
-import SidebarMobile from "./sidebarMobile";
+
 
 type SmallHeaderProps = {
   children?: React.ReactNode; // children props'u ekliyoruz

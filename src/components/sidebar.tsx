@@ -21,8 +21,12 @@ const Sidebar = () => {
 
   const t = useTranslations("Sidebar")
 
-  // Aktif rotanın belirlenmesi
-  const isActive = (path: string) => pathname.startsWith(path);
+  const isActive = (path: string) => {
+    // Split pathname and check if the current path matches
+    const segments = pathname.split("/");
+    // Ensure that segments have enough parts and match
+    return segments.length > 2 && "/"+segments[2] === path;
+  };
 
   const toggleSidebar = () => {
     setOpen(!open);
@@ -40,8 +44,8 @@ const Sidebar = () => {
         <Separator />
 
         <Link
-          href="/dashboard/note"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+          href="/note"
+          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <NotebookText className="h-5 w-5 ml-2" />
           {open && <span className="ml-3 text-base">{t("note")}</span>}
@@ -49,32 +53,32 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          href="/dashboard/tree-note"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/tree-note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+          href="/tree-note"
+          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/tree-note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <FolderTree className="h-5 w-5 ml-2" />
           {open && <span className="ml-3 text-base">{t("tree")}</span>}
         </Link>
 
         <Link
-          href="/dashboard/todo-list"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/todo-list') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+          href="/todo-list"
+          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/todo-list') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <ListTodo className="h-5 w-5 ml-2" />
           {open && <span className="ml-3 text-base">{t("todolist")}</span>}
         </Link>
 
         <Link
-          href="/dashboard/calendar"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/calendar') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+          href="/calendar"
+          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/calendar') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <CalendarDays className="h-5 w-5 ml-2" />
           {open && <span className="ml-3 text-base">{t("calendar")}</span>}
         </Link>
 
         <Link
-          href="/dashboard/analytics"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/analytics') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+          href="/analytics"
+          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/analytics') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <LineChart className="h-5 w-5 ml-2" />
           {open && <span className="ml-3 text-base">{t("analytics")}</span>}
@@ -83,8 +87,8 @@ const Sidebar = () => {
 
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
         <Link
-          href="/dashboard/settings"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/settings') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+          href="/settings"
+          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/settings') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <Settings className="h-5 w-5 ml-2" />
           {open && <span className="ml-3 text-base">{t("settings")}</span>}

@@ -17,9 +17,9 @@
         "login": "Login",
         "register": "Register",
         "createanaccount": "Create an Account",
-        "lightmode": "Light",
-        "darkmode": "Dark",
-        "systemmode": "System",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System",
         "support": "Support"
     },
     "Login": {

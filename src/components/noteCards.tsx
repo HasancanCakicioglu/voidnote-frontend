@@ -63,7 +63,7 @@ const NotesCards: React.FC<NotesProps> = ({
     >
       {filteredNotes.length > 0 ? (
         filteredNotes.map((note) => (
-          <Link key={note._id} href={`/dashboard/${type}/${note._id}`} passHref>
+          <Link key={note._id} href={`/${type}/${note._id}`} passHref>
             <Card
               className={`-mb-2 cursor-pointer hover:shadow-lg transition-shadow duration-200 h-full ${layout ==="row"?"flex items-center justify-between":""}`}
             >

@@ -5,18 +5,17 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { getUser } from "@/actions/user";
-import {  deleteNote } from "@/actions/note";
 import { useEffect, useState } from "react";
 import SmallHeader from "@/components/smallHeader";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
-import { UserTodoList } from "@/entities/user";
-import { createTodoList, deleteTodoList } from "@/actions/todo";
+import { UserCalendar, UserNotes } from "@/entities/user";
+import { createCalendar, deleteCalendar } from "@/actions/calendar";
 import ConfirmDeleteDialog from "@/components/confirmDelete";
+import { useRouter } from "@/navigations";
 
 const Page = () => {
-  const [notes, setTodoNotes] = useState<UserTodoList[]>([]);
+  const [notes, setNotes] = useState<UserCalendar[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<"date" | "alphabet">("date");
@@ -29,20 +28,21 @@ const Page = () => {
   const notesPerPage = 12;
 
   useEffect(() => {
-    const fetchTodoNotes = async () => {
+    const fetchNotes = async () => {
       try {
-        const response = await getUser({ type: "todos" });
-        console.log(response);
-
+        const response = await getUser({ type: "calendars" });
+        console.log(response)
         if (response.success === false) {
           toast({
             variant: "destructive",
             title: "Something went wrong.",
             description: response.message,
           });
+        }else{
+          setNotes(response.data.calendars);
         }
 
-        setTodoNotes(response.data.todos);
+
       } catch (error: any) {
         toast({
           variant: "destructive",
@@ -52,7 +52,7 @@ const Page = () => {
       }
     };
 
-    fetchTodoNotes();
+    fetchNotes();
   }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,9 +60,9 @@ const Page = () => {
   };
 
   const handleAddButton = async () => {
-    let response = await createTodoList();
+    let response = await createCalendar();
     if (response.success) {
-      router.push(`/dashboard/todo-list/${response.data._id}`);
+      router.push(`/calendar/${response.data._id}`);
     } else {
       toast({
         variant: "destructive",
@@ -73,7 +73,6 @@ const Page = () => {
   };
 
 
-
   const handleDeleteClick = (id: string,title:string) => {
     setNoteToDelete({id:id,title:title});
     setOpen(true);
@@ -81,10 +80,10 @@ const Page = () => {
 
   const handleConfirmDelete = async () => {
     if (noteToDelete) {
-      const response = await deleteTodoList({ id: noteToDelete.id });
+      const response = await deleteCalendar({ id: noteToDelete.id });
 
       if (response.success) {
-        setTodoNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
+        setNotes((notes) => notes.filter((note) => note._id !== noteToDelete.id));
       } else {
         toast({
           variant: "destructive",
@@ -98,7 +97,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col bg-muted/40 max-w-full min-w-full">
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:px-10">
+      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <SmallHeader>
           <div className="relative w-full md:w-[200px] lg:w-[336px]">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -122,7 +121,7 @@ const Page = () => {
             handleAddButton={handleAddButton}
             setCurrentPage={setCurrentPage}
             setSortOrder={setSortOrder}
-            type="todo-list"
+            type="calendar"
           />
           
         </main>
@@ -132,7 +131,7 @@ const Page = () => {
         setOpen={setOpen}
         handleConfirmDelete={handleConfirmDelete}
         noteToDelete={noteToDelete?.title}
-        type="todo list"
+        type="calendar note"
       />
     </div>
   );

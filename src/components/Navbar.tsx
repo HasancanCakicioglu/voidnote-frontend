@@ -24,7 +24,7 @@ const Navbar = () => {
           <Link href="/features">
             <div className="hover:text-gray-300">{t("features")}</div>
           </Link>
-          <Link href="/dashboard">
+          <Link href="/note">
             <div className="hover:text-gray-300">{t("notes")}</div>
           </Link>
           <Link href="/about">

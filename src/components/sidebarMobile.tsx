@@ -40,35 +40,35 @@ const SidebarMobile = () => {
                   <span className="sr-only">Menu</span>
                 </Link>
                 <Link
-                  href="/dashboard/note"
+                  href="/note"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <NotebookText className="h-5 w-5" />
                   {t("note")}
                 </Link>
                 <Link
-                  href="/dashboard/tree-note"
+                  href="/tree-note"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <FolderTree className="h-5 w-5" />
                   {t("tree")}
                 </Link>
                 <Link
-                  href="/dashboard/todo-list"
+                  href="/todo-list"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <ListTodo className="h-5 w-5" />
                   {t("todolist")}
                 </Link>
                 <Link
-                  href="/dashboard/calendar"
+                  href="/calendar"
                   className="flex items-center gap-4 px-2.5 text-foreground"
                 >
                   <CalendarDays className="h-5 w-5" />
                   {t("calendar")}
                 </Link>
                 <Link
-                  href="/dashboard/analytics"
+                  href="/analytics"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Settings className="h-5 w-5" />
@@ -76,7 +76,7 @@ const SidebarMobile = () => {
                 </Link>
 
                 <Link
-                  href="/dashboard/settings"
+                  href="/settings"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Settings className="h-5 w-5" />

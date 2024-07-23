@@ -9,15 +9,23 @@ const i18nMiddleware = createMiddleware({
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get('access_token');
+  const url = req.nextUrl.clone();
 
-  // Define your protected routes pattern
-  const protectedRoutesPattern = new RegExp('/(en|tr)/note.*|/note.*');
+  // Define your protected routes patterns
+  const protectedRoutes = ['/note', '/tree-note', '/calendar', '/todo-list', '/analytics', '/profile'];
+  const loginRegisterRoutes = ['/login', '/register'];
 
-  // If the request is for a protected route and there's no token, redirect to /login
-  if (protectedRoutesPattern.test(req.nextUrl.pathname) && !token) {
-    const url = req.nextUrl.clone()
+  // Check if the request is for login/register and the user has an access token
+  if (loginRegisterRoutes.some(route => req.nextUrl.pathname.includes(route)) && token) {
     const lang = req.nextUrl.pathname.split('/')[1];
-    url.pathname = `${lang}/login`
+    url.pathname = `/${lang}/note`;
+    return NextResponse.redirect(url);
+  }
+
+  // Check if the request is for protected routes and the user does not have an access token
+  if (protectedRoutes.some(route => req.nextUrl.pathname.includes(route)) && !token) {
+    const lang = req.nextUrl.pathname.split('/')[1];
+    url.pathname = `/${lang}/register`;
     return NextResponse.redirect(url);
   }
 
@@ -32,5 +40,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/(en|tr)/:path*', '/note/:path*'],
+  matcher: ['/', '/(en|tr)/:path*'],
 };
