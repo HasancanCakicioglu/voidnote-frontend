@@ -1,6 +1,5 @@
-import Link from "next/link"
+"use server"
 import {
-    LineChart,
     FolderTree,
     NotebookText,
     CalendarDays,
@@ -15,10 +14,13 @@ import { Button } from "@/components/ui/button"
 
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { useTranslations } from "next-intl";
+import { Link } from '@/navigations';
 
 
 
 const SidebarMobile = () => {
+  const t = useTranslations("Sidebar")
     return (
         <div className="flex md:hidden">
             <Sheet>
@@ -42,28 +44,35 @@ const SidebarMobile = () => {
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <NotebookText className="h-5 w-5" />
-                  Note
+                  {t("note")}
                 </Link>
                 <Link
                   href="/dashboard/tree-note"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <FolderTree className="h-5 w-5" />
-                  Tree Note
+                  {t("tree")}
                 </Link>
                 <Link
                   href="/dashboard/todo-list"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <ListTodo className="h-5 w-5" />
-                  Todo List
+                  {t("todolist")}
                 </Link>
                 <Link
                   href="/dashboard/calendar"
                   className="flex items-center gap-4 px-2.5 text-foreground"
                 >
                   <CalendarDays className="h-5 w-5" />
-                  Calendar Note
+                  {t("calendar")}
+                </Link>
+                <Link
+                  href="/dashboard/analytics"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Settings className="h-5 w-5" />
+                  {t("analytics")}
                 </Link>
 
                 <Link
@@ -71,7 +80,7 @@ const SidebarMobile = () => {
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Settings className="h-5 w-5" />
-                  Settings
+                  {t("settings")}
                 </Link>
               </nav>
             </SheetContent>

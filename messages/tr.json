@@ -1,0 +1,64 @@
+{
+    "Home": {
+        "welcome": "VoidNote",
+        "description": "Düşüncelerinizi ve görevlerinizi verimli bir şekilde düzenlemenize yardımcı olacak olağanüstü <link>özelliklere</link> sahip gelişmiş bir çevrimiçi not alma aracı. Bu harika <link>özellikleri</link> keşfedin ve VoidNote ile verimliliğinizi artırın.",
+        "getstarted": "Hadi Başlayalım",
+        "numberofusers": "Kullanıcı Sayısı",
+        "creatednotes": "Oluşturulan Notlar",
+        "saveddata": "Kaydedilen Veri"
+    },
+    "Navbar": {
+        "pricing": "Fiyatlandırma",
+        "features": "Özellikler",
+        "notes": "Notlar",
+        "about": "Hakkında",
+        "profile": "Profil",
+        "logout": "Çıkış Yap",
+        "login": "Giriş Yap",
+        "register": "Kayıt Ol",
+        "createanaccount": "Hesap Oluştur",
+        "lightmode": "Aydınlık",
+        "darkmode": "Karanlık",
+        "systemmode": "Sistem",
+        "support": "Destek"
+    },
+    "Login": {
+        "title": "Giriş Yap",
+        "emailLabel": "E-posta adresi",
+        "passwordLabel": "Şifre",
+        "loginButton": "Giriş Yap",
+        "errorMessage": "Giriş yapılamadı. Lütfen tekrar deneyin."
+    },
+    "Register": {
+        "title": "Kayıt Ol",
+        "usernameLabel": "Kullanıcı Adı",
+        "emailLabel": "E-posta adresi",
+        "passwordLabel": "Şifre",
+        "passwordConfirmLabel": "Şifreyi doğrula",
+        "submitButton": "Gönder",
+        "submitting": "Gönderiliyor...",
+        "alreadyHaveAccount": "Zaten bir hesabınız var mı?",
+        "logIn": "Giriş yap",
+        "signInWith": "Veya şununla giriş yap",
+        "verificationCodeSent": "Doğrulama Kodu Gönderildi",
+        "verificationCodeSentDescription": "Bir doğrulama kodu gönderildi",
+        "timeRemaining": "Kalan süre",
+        "enterVerificationCode": "Doğrulama kodunu girin",
+        "closeButton": "Kapat",
+        "okButton": "Tamam",
+        "passwordsDoNotMatch": "Şifreler eşleşmiyor",
+        "failedToRegister": "Kayıt başarısız oldu. Lütfen tekrar deneyin.",
+        "failedToVerify": "Doğrulama başarısız oldu. Lütfen tekrar deneyin.",
+        "failedToLoginWithGoogle": "Google ile giriş yapılamadı",
+        "googleError": "Bir şeyler yanlış gitti.",
+        "submitError": "Gönderme başarısız oldu. Lütfen tekrar deneyin."
+    },
+    "Sidebar":{
+        "note":"Not",
+        "tree":"Ağaç",
+        "todolist":"Todo-Liste",
+        "calendar":"Takvim",
+        "analytics":"Analizler",
+        "settings":"Ayarlar"
+    }
+}

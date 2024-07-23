@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LineChart,
@@ -13,10 +12,14 @@ import {
   Settings,
 } from 'lucide-react';
 import { Separator } from "@/components/ui/separator";
+import { useTranslations } from 'next-intl';
+import { Link } from '@/navigations';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const pathname = usePathname(); // Mevcut yol bilgisini alır
+
+  const t = useTranslations("Sidebar")
 
   // Aktif rotanın belirlenmesi
   const isActive = (path: string) => pathname.startsWith(path);
@@ -41,7 +44,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <NotebookText className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Note</span>}
+          {open && <span className="ml-3 text-base">{t("note")}</span>}
           <span className="sr-only">Note</span>
         </Link>
 
@@ -50,7 +53,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/tree-note') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <FolderTree className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Tree</span>}
+          {open && <span className="ml-3 text-base">{t("tree")}</span>}
         </Link>
 
         <Link
@@ -58,7 +61,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/todo-list') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <ListTodo className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Todo List</span>}
+          {open && <span className="ml-3 text-base">{t("todolist")}</span>}
         </Link>
 
         <Link
@@ -66,7 +69,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/calendar') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <CalendarDays className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Calendar</span>}
+          {open && <span className="ml-3 text-base">{t("calendar")}</span>}
         </Link>
 
         <Link
@@ -74,7 +77,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/analytics') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <LineChart className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Analytics</span>}
+          {open && <span className="ml-3 text-base">{t("analytics")}</span>}
         </Link>
       </nav>
 
@@ -84,7 +87,7 @@ const Sidebar = () => {
           className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/dashboard/settings') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <Settings className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">Settings</span>}
+          {open && <span className="ml-3 text-base">{t("settings")}</span>}
         </Link>
       </nav>
     </div>

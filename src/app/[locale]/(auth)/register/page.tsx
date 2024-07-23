@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import Link from "next/link";
 import {
   Dialog,
   DialogTrigger,
@@ -25,13 +24,12 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-
 import { google, register, verifyEmail } from "@/actions/auth";
-import { useRouter } from "next/navigation";
-
 import { useDispatch } from "react-redux";
 import { updateAccountState } from "@/store/slice";
 import { toast } from "@/components/ui/use-toast";
+import { Link, useRouter } from "@/navigations";
+import { useTranslations } from "next-intl";
 
 const formSchema = z
   .object({
@@ -48,6 +46,7 @@ const formSchema = z
 export default function Home() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const t = useTranslations("Register");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -111,7 +110,7 @@ export default function Home() {
       }
       setIsSubmitting(false);
     } catch (error) {
-      setErrorMessage("Failed to register. Please try again.");
+      setErrorMessage(t("submitError"));
     }
   };
 
@@ -129,7 +128,7 @@ export default function Home() {
         setErrorMessageDialog(data.message);
       }
     } catch (error) {
-      setErrorMessageDialog("Failed to verify. Please try again.");
+      setErrorMessageDialog(t("failedToVerify"));
     }
   };
 
@@ -138,7 +137,7 @@ export default function Home() {
       {/* Left Side: Form */}
       <div className="flex flex-col items-center justify-center w-full lg:w-1/2 p-10 ">
         <div className="dark:bg-gray-800 rounded-lg p-8 shadow-lg w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-6 text-center ">Register</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">{t("title")}</h2>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
@@ -149,12 +148,12 @@ export default function Home() {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className=" dark:text-gray">Username</FormLabel>
+                    <FormLabel className="dark:text-gray">{t("usernameLabel")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="username"
+                        placeholder={t("usernameLabel")}
                         {...field}
-                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -166,15 +165,13 @@ export default function Home() {
                 name="emailAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className=" dark:text-gray">
-                      Email address
-                    </FormLabel>
+                    <FormLabel className="dark:text-gray">{t("emailLabel")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Email address"
+                        placeholder={t("emailLabel")}
                         type="email"
                         {...field}
-                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -186,13 +183,13 @@ export default function Home() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className=" dark:text-gray">Password</FormLabel>
+                    <FormLabel className="dark:text-gray">{t("passwordLabel")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Password"
+                        placeholder={t("passwordLabel")}
                         type="password"
                         {...field}
-                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -204,15 +201,13 @@ export default function Home() {
                 name="passwordConfirm"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className=" dark:text-gray">
-                      Password confirm
-                    </FormLabel>
+                    <FormLabel className="dark:text-gray">{t("passwordConfirmLabel")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Password confirm"
+                        placeholder={t("passwordConfirmLabel")}
                         type="password"
                         {...field}
-                        className="bg-white  border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -224,7 +219,7 @@ export default function Home() {
                 className="w-full bg-blue-600 dark:bg-blue-700 text-white dark:text-gray-200"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Submitting..." : "Submit"}
+                {isSubmitting ? t("submitting") : t("submitButton")}
               </Button>
               {errorMessage && (
                 <FormMessage className="text-red-500">
@@ -236,26 +231,26 @@ export default function Home() {
 
           <div className="mt-4 text-center">
             <p className="mb-4 ">
-              Already have an account?{" "}
+              {t("alreadyHaveAccount")}{" "}
               <Link href="/login" className="text-blue-500 hover:underline">
-                Log in
+                {t("logIn")}
               </Link>
             </p>
-            <p className="mb-4 ">Or sign in with</p>
+            <p className="mb-4 ">{t("signInWith")}</p>
             <GoogleOAuthProvider clientId="826732552126-6iab49okf9umiqdjg6utueln3omgcanf.apps.googleusercontent.com">
               <GoogleLogin
                 onSuccess={async (credentialResponse) => {
-                  if(credentialResponse.credential){
-                    let response = await google({id:credentialResponse.credential});
+                  if (credentialResponse.credential) {
+                    let response = await google({ id: credentialResponse.credential });
 
                     if (response.success) {
                       dispatch(updateAccountState({ email: response.data.email, profilePhotoUrl: response.data.image }));
                       router.push("/dashboard");
-                    }else{
+                    } else {
                       toast({
                         variant: "destructive",
-                        title: "Something went wrong.",
-                        description: response.message || "Failed to login with Google",
+                        title: t("googleError"),
+                        description: response.message || t("failedToLoginWithGoogle"),
                       });
                     }
                   }
@@ -263,8 +258,8 @@ export default function Home() {
                 onError={() => {
                   toast({
                     variant: "destructive",
-                    title: "Something went wrong.",
-                    description: "Failed to login with Google",
+                    title: t("googleError"),
+                    description: t("failedToLoginWithGoogle"),
                   });
                 }}
                 theme="filled_blue"
@@ -281,27 +276,27 @@ export default function Home() {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Verification Code Sent</DialogTitle>
+            <DialogTitle>{t("verificationCodeSent")}</DialogTitle>
             <DialogDescription>
-              A verification code has been sent to{" "}
-              {form.getValues("emailAddress")}. Please enter it below.
+              {t("verificationCodeSentDescription")}{" "}
+              {form.getValues("emailAddress")}. {t("enterVerificationCode")}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center">
             <p className="mb-4">
-              Time remaining: {Math.floor(countdown / 60)}:
+              {t("timeRemaining")}: {Math.floor(countdown / 60)}:
               {String(countdown % 60).padStart(2, "0")}s
             </p>
             <Input
-              placeholder="Enter verification code"
+              placeholder={t("enterVerificationCode")}
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
             />
           </div>
           <DialogDescription>{errorMessageDialog}</DialogDescription>
           <DialogFooter>
-            <Button onClick={() => setDialogOpen(false)}>Close</Button>
-            <Button onClick={handleOK}>OK</Button>
+            <Button onClick={() => setDialogOpen(false)}>{t("closeButton")}</Button>
+            <Button onClick={handleOK}>{t("okButton")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

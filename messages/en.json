@@ -1,0 +1,65 @@
+{
+    "Home": {
+        "welcome": "Welcome To VoidNote",
+        "description": "An advanced online note-taking tool with exceptional <link>features</link> to help you organize your thoughts and tasks efficiently. Discover these amazing <link>features</link> and enhance your productivity with VoidNote.",
+        "getstarted": "Get Started",
+        "numberofusers": "Number of Users",
+        "creatednotes": "Created Notes",
+        "saveddata": "Saved Data"
+    },
+    "Navbar": {
+        "pricing": "Pricing",
+        "features": "Features",
+        "notes": "Notes",
+        "about": "About",
+        "profile": "Profile",
+        "logout": "Logout",
+        "login": "Login",
+        "register": "Register",
+        "createanaccount": "Create an Account",
+        "lightmode": "Light",
+        "darkmode": "Dark",
+        "systemmode": "System",
+        "support": "Support"
+    },
+    "Login": {
+        "title": "Login",
+        "emailLabel": "Email address",
+        "passwordLabel": "Password",
+        "loginButton": "Login",
+        "errorMessage": "Failed to login. Please try again."
+    },
+    "Register": {
+        "title": "Register",
+        "usernameLabel": "Username",
+        "emailLabel": "Email address",
+        "passwordLabel": "Password",
+        "passwordConfirmLabel": "Password confirm",
+        "submitButton": "Submit",
+        "submitting": "Submitting...",
+        "alreadyHaveAccount": "Already have an account?",
+        "logIn": "Log in",
+        "signInWith": "Or sign in with",
+        "verificationCodeSent": "Verification Code Sent",
+        "verificationCodeSentDescription": "A verification code has been sent to",
+        "timeRemaining": "Time remaining",
+        "enterVerificationCode": "Enter verification code",
+        "closeButton": "Close",
+        "okButton": "OK",
+        "passwordsDoNotMatch": "Passwords do not match",
+        "failedToRegister": "Failed to register. Please try again.",
+        "failedToVerify": "Failed to verify. Please try again.",
+        "failedToLoginWithGoogle": "Failed to login with Google",
+        "googleError": "Something went wrong.",
+        "submitError": "Failed to submit. Please try again."
+    },
+    "Sidebar":{
+        "notes":"Notes",
+        "tree":"Tree",
+        "todolist":"To-Do List",
+        "calendar":"Calendar",
+        "analytics":"Analytics",
+        "settings":"Settings"
+
+    }
+}

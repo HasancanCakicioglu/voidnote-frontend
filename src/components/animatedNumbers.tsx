@@ -4,7 +4,7 @@ import { home } from '@/actions/main';
 import { useState, useEffect } from 'react';
 import { toast } from './ui/use-toast';
 import { homeSuccessResponse } from '@/entities/home';
-
+import { useTranslations } from "next-intl";
 
 
 
@@ -39,6 +39,8 @@ const AnimatedNumbers = () => {
   const [notes, setNotes] = useState(0);
   const [savedData, setSavedData] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const t = useTranslations("Home");
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -101,19 +103,19 @@ const AnimatedNumbers = () => {
         <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
           {formatNumber(users)}+
         </h3>
-        <p className="text-lg">Number of Users</p>
+        <p className="text-lg">{t("numberofusers")}</p>
       </div>
       <div className="mb-8 md:mb-0">
         <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
           {formatNumber(notes)}+
         </h3>
-        <p className="text-lg">Created Notes</p>
+        <p className="text-lg">{t("creatednotes")}</p>
       </div>
       <div>
         <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
           {formatSize(savedData)}+
         </h3>
-        <p className="text-lg">Saved Data</p>
+        <p className="text-lg">{t("saveddata")}</p>
       </div>
     </div>
   );

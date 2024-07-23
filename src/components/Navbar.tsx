@@ -1,11 +1,14 @@
 "use server";
-import Link from "next/link";
 import Image from "next/image";
 import { ModeToggle } from "./ModeToggle";
 import Account from "./account";
 import SidebarMobile from "./sidebarMobile";
+import {useTranslations} from 'next-intl';
+import { Link } from "@/navigations";
 
 const Navbar = () => {
+  const t = useTranslations("Navbar")
+
   return (
     <header className="py-4 border-b">
       <div className=" px-5 flex justify-between items-center">
@@ -16,16 +19,16 @@ const Navbar = () => {
         </Link>
         <nav className="hidden md:flex space-x-8">
           <Link href="/pricing">
-            <div className="hover:text-gray-300">Pricing</div>
+            <div className="hover:text-gray-300">{t("pricing")}</div>
           </Link>
           <Link href="/features">
-            <div className="hover:text-gray-300">Features</div>
+            <div className="hover:text-gray-300">{t("features")}</div>
           </Link>
           <Link href="/dashboard">
-            <div className="hover:text-gray-300">Notes</div>
+            <div className="hover:text-gray-300">{t("notes")}</div>
           </Link>
           <Link href="/about">
-            <div className="hover:text-gray-300">About</div>
+            <div className="hover:text-gray-300">{t("about")}</div>
           </Link>
         </nav>
         <div className="flex space-x-2 md:space-x-4">

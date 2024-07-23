@@ -1,6 +1,6 @@
 "use client";
 import { useSelector, useDispatch } from 'react-redux';
-import Link from 'next/link';
+import { Link } from "@/navigations";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from './ui/dropdown-menu';
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -10,11 +10,14 @@ import { deleteAccessToken } from '@/actions/auth';
 import { useRouter } from 'next/navigation';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CircleUser } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const Account = () => {
   const account = useSelector((state: RootState) => state.account);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const t = useTranslations("Navbar");
 
   const handleLogout = async () => {
     const response = await deleteAccessToken();
@@ -51,23 +54,23 @@ const Account = () => {
             <DropdownMenuLabel>{account.email}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/profile">Profile</Link>
+              <Link href="/profile">{t("profile")}</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/support">Support</Link>
+              <Link href="/support">{t("support")}</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>{t("logout")}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
         <div className="flex space-x-1 md:space-x-8 items-center">
           <div className='hidden md:flex items-center space-x-4'><Link href="/login">
-            <div className="hover:text-gray-300">Login</div>
+            <div className="hover:text-gray-300">{t("login")}</div>
           </Link>
           <Link href="/register">
             <button className="text-sm md:text-base text-white px-4 py-2 rounded bg-gradient-to-r from-purple-300 to-purple-800 hover:from-purple-100 hover:to-purple-700">
-              Create an Account
+            {t("createanaccount")}
             </button>
           </Link></div>
           <div className='flex md:hidden'>
@@ -83,12 +86,12 @@ const Account = () => {
             <div className="flex flex-col space-y-4">
               <Link href="/register">
                 <button className="text-sm md:text-base px-4 py-2 rounded hover:bg-gray-200 w-full">
-                  Create an Account
+                {t("createanaccount")}
                 </button>
               </Link>
               <Link href="/login">
                 <button className="text-sm md:text-base px-4 py-2 rounded hover:bg-gray-200 w-full">
-                  Login
+                {t("login")}
                 </button>
               </Link>
               
