@@ -8,6 +8,8 @@ import { RootState } from '@/store/store';
 import { logout } from '@/store/slice';
 import { deleteAccessToken } from '@/actions/auth';
 import { useRouter } from 'next/navigation';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CircleUser } from 'lucide-react';
 
 const Account = () => {
   const account = useSelector((state: RootState) => state.account);
@@ -60,14 +62,41 @@ const Account = () => {
         </DropdownMenu>
       ) : (
         <div className="flex space-x-1 md:space-x-8 items-center">
-          <Link href="/login">
+          <div className='hidden md:flex items-center space-x-4'><Link href="/login">
             <div className="hover:text-gray-300">Login</div>
           </Link>
           <Link href="/register">
             <button className="text-sm md:text-base text-white px-4 py-2 rounded bg-gradient-to-r from-purple-300 to-purple-800 hover:from-purple-100 hover:to-purple-700">
               Create an Account
             </button>
-          </Link>
+          </Link></div>
+          <div className='flex md:hidden'>
+          <Popover>
+        <PopoverTrigger asChild>
+          <Button size="icon" variant="outline" className="md:hidden ml-2">
+            <CircleUser className="h-5 w-5" />
+            <span className="sr-only">Toggle Menu</span>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-45 p-4 shadow-lg rounded-md">
+          <nav className="grid gap-6 text-lg font-medium">
+            <div className="flex flex-col space-y-4">
+              <Link href="/register">
+                <button className="text-sm md:text-base px-4 py-2 rounded hover:bg-gray-200 w-full">
+                  Create an Account
+                </button>
+              </Link>
+              <Link href="/login">
+                <button className="text-sm md:text-base px-4 py-2 rounded hover:bg-gray-200 w-full">
+                  Login
+                </button>
+              </Link>
+              
+            </div>
+          </nav>
+        </PopoverContent>
+      </Popover>
+          </div>
         </div>
       )}
     </div>
