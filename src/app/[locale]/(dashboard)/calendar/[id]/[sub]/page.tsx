@@ -6,6 +6,7 @@ import { getSubCalendar, updateSubCalendars } from "@/actions/calendar";
 import VariableSidebar from "@/components/variableSidebar";
 import { toast } from "@/components/ui/use-toast";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const NoteDetailPage = ({
   params,
@@ -13,6 +14,7 @@ const NoteDetailPage = ({
   params: { id: string; sub: string };
 }) => {
   const searchParams = useSearchParams();
+  const t = useTranslations("common");
 
   const [savedContent, setSavedContent] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -57,12 +59,6 @@ const NoteDetailPage = ({
     }
   };
 
-  const addTextFromParent = () => {
-    if (tiptapRef.current) {
-      tiptapRef.current.handleAddVariable("a");
-    }
-  };
-
   const handleSave = (content: string) => {
     setChanged(true);
     setSavedContent(content);
@@ -78,16 +74,25 @@ const NoteDetailPage = ({
           id_second: params.sub,
         });
 
-        if (!response) {
+        if (!response || !response.success) {
+          toast({
+            variant: "destructive",
+            title: "Get Sub Calendar",
+            description: "Get Sub Calendar Error",
+          });
           return;
-        }
-        console.log(response);
-        if ("data" in response) {
+        }else{
           setTitle(response.data.title);
           setSavedContent(response.data.content);
         }
-        setIsEditorReady(true); // Editörün hazır olduğunu belirtmek için state'i güncelliyoruz
-      } catch (error: any) {}
+        setIsEditorReady(true);
+      } catch (error: any) {
+        toast({
+          variant: "destructive",
+          title: "Get Sub Calendar",
+          description: error.message || "Get Sub Calendar Error",
+        });
+      }
     };
 
     fetchNote();
@@ -112,14 +117,12 @@ const NoteDetailPage = ({
       }
     }
 
-    // variables state'inde olan her değişkeni kontrol et ve boş dizi ekle
     variables.forEach((variable) => {
       if (!variablesMap.has(variable)) {
         variablesMap.set(variable, []);
       }
     });
 
-    console.log("bu mapdir = ",variablesMap)
 
     let response = await updateSubCalendars({
       id_first: params.id,
@@ -163,7 +166,7 @@ const NoteDetailPage = ({
               />
             )}
             {!isEditorReady && (
-              <p>Loading editor...</p> // Editör henüz hazır değilse yükleme durumu gösterilebilir
+              <p>{t("loading")}</p> // Editör henüz hazır değilse yükleme durumu gösterilebilir
             )}
           </div>
           <button
@@ -176,7 +179,7 @@ const NoteDetailPage = ({
         : "bg-gray-400 text-gray-700 cursor-not-allowed"
     }`}
           >
-            Save
+            {t("save")}
           </button>
         </div>
       </div>

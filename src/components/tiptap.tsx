@@ -27,7 +27,6 @@ const Tiptap = forwardRef<TiptapRef, TiptapProps>(({ description, onChange }, re
     },
     onUpdate({ editor }) {
       onChange(editor.getHTML());
-      console.log("naber")
     },
   });
 

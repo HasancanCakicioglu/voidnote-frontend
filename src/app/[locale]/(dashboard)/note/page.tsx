@@ -9,8 +9,6 @@ import SmallHeader from "@/components/smallHeader";
 import { toast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
 import { UserNotes } from "@/entities/user";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@components/ui/dialog'; // Make sure to use the correct path
-import { Button } from "@/components/ui/button";
 import ConfirmDeleteDialog from "@/components/confirmDelete";
 import { useRouter } from "@/navigations";
 

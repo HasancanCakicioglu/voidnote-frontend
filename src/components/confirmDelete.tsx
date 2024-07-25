@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 interface ConfirmDeleteDialogProps {
   open: boolean;
@@ -11,20 +12,20 @@ interface ConfirmDeleteDialogProps {
 }
 
 const ConfirmDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({ open, setOpen, noteToDelete, handleConfirmDelete, type }) => {
-
+  const t = useTranslations("confirmDelete");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
-        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogTitle>{t("confirmDeleteTitle")}</DialogTitle>
         <DialogDescription>
-          Are you sure you want to delete the '<span className="font-bold">{noteToDelete && noteToDelete !== "Untitled" ? noteToDelete : "Untitled"}</span>' {type}? This action cannot be undone.
+          {t("confirmDeleteDescription")} '<span className="font-bold">{noteToDelete && noteToDelete !== "Untitled" ? noteToDelete : "Untitled"}</span>' {type}? {t("confirmDeleteDescriptionSecond")}.
         </DialogDescription>
         <DialogFooter>
           <Button variant="secondary" onClick={() => setOpen(false)}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button variant="default" onClick={handleConfirmDelete}>
-            Yes, Delete
+            {t("yesDelete")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import SmallHeader from "@/components/smallHeader";
 import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
-import { UserCalendar, UserNotes } from "@/entities/user";
+import { UserCalendar } from "@/entities/user";
 import { createCalendar, deleteCalendar } from "@/actions/calendar";
 import ConfirmDeleteDialog from "@/components/confirmDelete";
 import { useRouter } from "@/navigations";

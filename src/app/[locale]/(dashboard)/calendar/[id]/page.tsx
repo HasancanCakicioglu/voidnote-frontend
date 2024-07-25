@@ -7,11 +7,13 @@ import { toast } from '@/components/ui/use-toast';
 import { Calendar } from '@/entities/calendar';
 import { CircleX } from 'lucide-react'; // Import the CircleX icon from Lucid React
 import { useRouter } from '@/navigations';
+import { useTranslations } from 'next-intl';
 
 const CalendarPage = ({ params }: { params: { id: string } }) => {
   const [calendar, setCalendar] = useState<Calendar | null>(null);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const t = useTranslations("common");
 
   const router = useRouter();
 
@@ -156,7 +158,7 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
           className={`min-h-[10vh] text-black relative py-2 cursor-pointer  ${note ? 'bg-blue-400' : 'border bg-gray-200 border-gray-300'} ${isToday ? 'bg-red-400' : ''} rounded-lg m-1 text-xs md:text-sm`}
           onClick={() => handleDateClick(date, note?._id)}
         >
-          {isToday ? 'Today' : day}
+          {isToday ? t("today") : day}
           {note?._id && (
             <div className="absolute top-1 right-1">
               <button
@@ -182,7 +184,7 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
     );
   };
 
-  if (!calendar) return <p className="text-gray-600">Loading...</p>;
+  if (!calendar) return <p className="text-gray-600">{t("loading")}</p>;
 
   return (
     <div className="sm:gap-4 sm:py-4 md:px-8 max-w-full min-w-full">

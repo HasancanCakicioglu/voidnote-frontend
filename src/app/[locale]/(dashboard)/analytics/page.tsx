@@ -11,8 +11,7 @@ import { UserAnalysis } from '@/entities/user';
 import { getCalendarVariables } from '@/actions/calendar';
 import { getNoteVariables } from '@/actions/note';
 import { getTreeNoteVariable } from '@/actions/tree';
-// Import getTreeVariables if you have an endpoint for it
-// import { getTreeVariables } from '@/actions/tree';
+import { useTranslations } from 'next-intl';
 
 interface VariableData {
   date?: Date;
@@ -27,6 +26,8 @@ const HomePage: React.FC = () => {
   const [variables, setVariables] = useState<VariableData[]>([]);
   const [notes, setNotes] = useState<UserAnalysis[]>([]);
 
+  const t = useTranslations("analysisPage");
+
   const colorPalette = [
     '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
     '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
@@ -36,12 +37,13 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const fetchNotes = async () => {
+      
       try {
         const response = await getUser({ type: analysisType.toLowerCase() + 's' });
         if (response.success === false) {
           toast({
             variant: "destructive",
-            title: "Something went wrong.",
+            title: t("somethingWentWrong"),
             description: response.message,
           });
         } else {
@@ -56,8 +58,8 @@ const HomePage: React.FC = () => {
       } catch (error: any) {
         toast({
           variant: "destructive",
-          title: "Something went wrong.",
-          description: error.message || "Error fetching notes",
+          title:  t("somethingWentWrong"),
+          description: error.message || t("errorFetchingNotes"),
         });
       }
     };
@@ -198,7 +200,7 @@ const HomePage: React.FC = () => {
     if (response?.success === false) {
       toast({
         variant: "destructive",
-        title: "Something went wrong.",
+        title: t("somethingWentWrong"),
         description: response.message,
       });
       return;
@@ -234,8 +236,8 @@ const HomePage: React.FC = () => {
     } else {
       toast({
         variant: "destructive",
-        title: "Unexpected data format.",
-        description: "The data received is not in the expected format.",
+        title: t("unexpectedDataFormat"),
+        description: t("errorFetchingNotes"),
       });
     }
   };
@@ -246,14 +248,14 @@ const HomePage: React.FC = () => {
     <div className="flex flex-grow w-full">
       <div className="flex flex-col p-4 w-full">
         <Head>
-          <title>Analysis Page</title>
+          <title>{t("title")}</title>
         </Head>
         <header className="mb-4 text-center">
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">Analysis Page</h1>
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">{t("title")}</h1>
         </header>
         <div className="flex flex-row justify-between items-center mb-4">
           <div className="mr-4 flex-1">
-            <label className="block text-sm font-medium mb-1">Note Type</label>
+            <label className="block text-sm font-medium mb-1">{t("noteType")}</label>
             <Select value={analysisType} onValueChange={(e)=>{
               setNoteID("")
               setVariables([])
@@ -261,20 +263,20 @@ const HomePage: React.FC = () => {
               setAnalysisType(e)
             }}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select analysis type" />
+                <SelectValue placeholder={t("selectAnalysisType")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="note">Note</SelectItem>
-                <SelectItem value="tree">Tree</SelectItem>
-                <SelectItem value="calendar">Calendar</SelectItem>
+                <SelectItem value="note">{t("note")}</SelectItem>
+                <SelectItem value="tree">{t("tree")}</SelectItem>
+                <SelectItem value="calendar">{t("calendar")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="mr-4 flex-1">
-            <label className="block text-sm font-medium mb-1">Title</label>
+            <label className="block text-sm font-medium mb-1">{t("titleLabel")}</label>
             <Select value={noteID} onValueChange={(e) => handleNoteTitleChange(e)}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select note title" />
+                <SelectValue placeholder={t("selectNoteTitle")} />
               </SelectTrigger>
               <SelectContent>
                 {notes.map((note) => (
@@ -302,7 +304,7 @@ const HomePage: React.FC = () => {
           <div
             className={`${isSidebarOpen ? 'block' : 'hidden'} lg:block w-full lg:w-1/4 border-l p-4`}
           >
-            <h3 className="text-lg font-medium mb-2">Variables</h3>
+            <h3 className="text-lg font-medium mb-2">{t("variables")}</h3>
             <div className="flex flex-wrap gap-4">
               {Array.from(new Set(variables.flatMap(vd => Array.from(vd.variables.keys())))).map((variable) => (
                 <div key={variable} className="flex items-center">

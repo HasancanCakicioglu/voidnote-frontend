@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, ListFilter, Save } from 'lucide-react';
 import { toast } from "@/components/ui/use-toast";
 import SmallHeader from '@/components/smallHeader';
+import { useTranslations } from 'next-intl';
 
 const TodoListPage = ({ params }: { params: { id: string } }) => {
   const [todos, setTodos] = useState<subTodo[]>([]);
@@ -16,6 +17,8 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useState<string>("priority");
   const [changed, setChanged] = useState<boolean>(false);
+
+  const t = useTranslations("common");
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -145,7 +148,7 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
           <div className="relative w-full sm:w-auto">
             <input
               type="text"
-              placeholder="Search..."
+              placeholder={t("searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="border p-2 rounded-md border-gray-700 pl-10 w-full"
@@ -158,8 +161,8 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
               onChange={(e) => setSortOption(e.target.value)}
               className="border p-2 rounded-md border-gray-700 w-full"
             >
-              <option value="priority">Priority</option>
-              <option value="completed">Completed</option>
+              <option value="priority">{t("priority")}</option>
+              <option value="completed">{t("completed")}</option>
             </select>
           
           </div>
@@ -178,15 +181,15 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
           onChange={(e) => setPriority(Number(e.target.value) as 1 | 2 | 3)}
           className="border p-2 rounded-md mb-2 sm:mb-0 border-gray-700"
         >
-          <option value={1}>Priority 1</option>
-          <option value={2}>Priority 2</option>
-          <option value={3}>Priority 3</option>
+          <option value={1}>{t("priority")} 1</option>
+          <option value={2}>{t("priority")} 2</option>
+          <option value={3}>{t("priority")} 3</option>
         </select>
         <button
           onClick={handleAddTodo}
           className="bg-gray-700 py-2 px-4 rounded-md text-white ml-0 sm:ml-2"
         >
-          Add
+          {t("add")}
         </button>
       </div>
       <div className="flex flex-col space-y-2">
@@ -199,20 +202,20 @@ const TodoListPage = ({ params }: { params: { id: string } }) => {
           >
             <span className={todo.completed ? "line-through text-white" : ""}>{todo.content}</span>
             <div className="flex items-center space-x-2">
-              <span className="text-xs">Priority: {todo.priority}</span>
+              <span className="text-xs">{t("priority")}: {todo.priority}</span>
               <button
                 onClick={() => handleCompleteTodo(todo._id)}
                 className={`py-1 px-2 rounded-md ${
                   todo.completed ? "bg-green-500" : "bg-gray-600"
                 } text-white`}
               >
-                {todo.completed ? "Undo" : "Complete"}
+                {todo.completed ? t("undo") : t("complete")}
               </button>
               <button
                 onClick={() => handleDeleteTodo(todo._id)}
                 className="bg-red-500 text-white py-1 px-2 rounded-md"
               >
-                Delete
+                {t("delete")}
               </button>
             </div>
           </div>

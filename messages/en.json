@@ -1,65 +1,187 @@
 {
-    "Home": {
-        "welcome": "Welcome To VoidNote",
-        "description": "An advanced online note-taking tool with exceptional <link>features</link> to help you organize your thoughts and tasks efficiently. Discover these amazing <link>features</link> and enhance your productivity with VoidNote.",
-        "getstarted": "Get Started",
-        "numberofusers": "Number of Users",
-        "creatednotes": "Created Notes",
-        "saveddata": "Saved Data"
+  "Home": {
+    "welcome": "Welcome To VoidNote",
+    "description": "An advanced online note-taking tool with exceptional <link>features</link> to help you organize your thoughts and tasks efficiently. Discover these amazing <link>features</link> and enhance your productivity with VoidNote.",
+    "getstarted": "Get Started",
+    "numberofusers": "Number of Users",
+    "creatednotes": "Created Notes",
+    "saveddata": "Saved Data"
+  },
+  "Navbar": {
+    "pricing": "Pricing",
+    "features": "Features",
+    "notes": "Notes",
+    "about": "About",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "createanaccount": "Create an Account",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "support": "Support"
+  },
+  "Login": {
+    "title": "Login",
+    "emailLabel": "Email address",
+    "passwordLabel": "Password",
+    "loginButton": "Login",
+    "errorMessage": "Failed to login. Please try again."
+  },
+  "Register": {
+    "title": "Register",
+    "usernameLabel": "Username",
+    "emailLabel": "Email address",
+    "passwordLabel": "Password",
+    "passwordConfirmLabel": "Password confirm",
+    "submitButton": "Submit",
+    "submitting": "Submitting...",
+    "alreadyHaveAccount": "Already have an account?",
+    "logIn": "Log in",
+    "signInWith": "Or sign in with",
+    "verificationCodeSent": "Verification Code Sent",
+    "verificationCodeSentDescription": "A verification code has been sent to",
+    "timeRemaining": "Time remaining",
+    "enterVerificationCode": "Enter verification code",
+    "closeButton": "Close",
+    "okButton": "OK",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "failedToRegister": "Failed to register. Please try again.",
+    "failedToVerify": "Failed to verify. Please try again.",
+    "failedToLoginWithGoogle": "Failed to login with Google",
+    "googleError": "Something went wrong.",
+    "submitError": "Failed to submit. Please try again."
+  },
+  "Sidebar": {
+    "note": "Note",
+    "tree": "Tree",
+    "todolist": "To-Do List",
+    "calendar": "Calendar",
+    "analytics": "Analytics",
+    "settings": "Settings"
+  },
+  "features": {
+    "title": "VoidNote",
+    "description": "An online note-taking application with various features to help you stay organized.",
+    "analyticsTitle": "Analytics Page",
+    "analyticsDescription": "Track and visualize variables recorded in your notes. Easily monitor trends and insights through dynamic graphs.",
+    "recordingVariablesTitle": "Recording Variables",
+    "recordingVariablesDescription": "In your notes, you can record variables using a specific format. For example, if you want to track different metrics, you can write them as follows:",
+    "visualizingVariablesTitle": "Visualizing Variables",
+    "visualizingVariablesDescription": "On the analytics page, you can select the variables you've recorded in your notes and visualize them through dynamic graphs. This feature helps you monitor and analyze your data effectively.",
+    "note": {
+      "title": "Note",
+      "description": "A simple yet powerful way to jot down quick thoughts, ideas, or reminders. All your notes are saved online and can be accessed from anywhere."
     },
-    "Navbar": {
-        "pricing": "Pricing",
-        "features": "Features",
-        "notes": "Notes",
-        "about": "About",
-        "profile": "Profile",
-        "logout": "Logout",
-        "login": "Login",
-        "register": "Register",
-        "createanaccount": "Create an Account",
-        "light": "Light",
-        "dark": "Dark",
-        "system": "System",
-        "support": "Support"
+    "treeNote": {
+      "title": "Tree Note",
+      "description": "Organize your notes hierarchically, creating structured outlines for complex ideas. Tree notes help you manage and visualize your notes in a more organized manner."
     },
-    "Login": {
-        "title": "Login",
-        "emailLabel": "Email address",
-        "passwordLabel": "Password",
-        "loginButton": "Login",
-        "errorMessage": "Failed to login. Please try again."
+    "todoList": {
+      "title": "To-Do List",
+      "description": "Keep track of tasks and prioritize your day with a flexible to-do list feature. Manage your daily tasks efficiently and never miss an important deadline."
     },
-    "Register": {
-        "title": "Register",
-        "usernameLabel": "Username",
-        "emailLabel": "Email address",
-        "passwordLabel": "Password",
-        "passwordConfirmLabel": "Password confirm",
-        "submitButton": "Submit",
-        "submitting": "Submitting...",
-        "alreadyHaveAccount": "Already have an account?",
-        "logIn": "Log in",
-        "signInWith": "Or sign in with",
-        "verificationCodeSent": "Verification Code Sent",
-        "verificationCodeSentDescription": "A verification code has been sent to",
-        "timeRemaining": "Time remaining",
-        "enterVerificationCode": "Enter verification code",
-        "closeButton": "Close",
-        "okButton": "OK",
-        "passwordsDoNotMatch": "Passwords do not match",
-        "failedToRegister": "Failed to register. Please try again.",
-        "failedToVerify": "Failed to verify. Please try again.",
-        "failedToLoginWithGoogle": "Failed to login with Google",
-        "googleError": "Something went wrong.",
-        "submitError": "Failed to submit. Please try again."
+    "calendarNote": {
+      "title": "Calendar Note",
+      "description": "Schedule events, deadlines, and important dates with an integrated calendar view. Add notes to specific dates and keep track of your schedule effortlessly."
     },
-    "Sidebar":{
-        "note":"Note",
-        "tree":"Tree",
-        "todolist":"To-Do List",
-        "calendar":"Calendar",
-        "analytics":"Analytics",
-        "settings":"Settings"
-
-    }
+    "recordingVariablesNote": "Ensure your recorded variables are consistent to make the most out of the analytics feature."
+  },
+  "support": {
+    "title": "Support",
+    "generalSupportTitle": "General Support",
+    "generalSupportText": "Welcome to the VoidNote support page. Here you can find answers to common questions and get help with various aspects of using our platform. Whether you need assistance with your account, technical support, or just want to learn more about our features, we’re here to help.",
+    "accountManagementTitle": "Account Management",
+    "accountManagementText": "If you need help managing your account, such as updating your profile information, changing your password, or verifying your email address, please visit our Account Management section. Here are some common issues and their solutions:",
+    "updatingProfile": "Updating Profile Information: Go to your profile page and click on the 'Edit Profile' button to update your personal details.",
+    "changingPassword": "Changing Password: Navigate to the 'Settings' page and select 'Change Password' to update your password.",
+    "emailVerification": "Email Verification: If you haven’t received your verification email, please check your spam folder or click on 'Resend Verification Email' on the login page.",
+    "technicalSupportTitle": "Technical Support",
+    "technicalSupportText": "Encountering technical issues? Our technical support team is here to assist you. Below are some common technical issues and their troubleshooting steps:",
+    "loginIssues": "Login Issues: Ensure that you are entering the correct email and password. If you’ve forgotten your password, use the 'Forgot Password' link to reset it.",
+    "performanceProblems": "Performance Problems: Clear your browser cache and cookies, and make sure you are using the latest version of your web browser.",
+    "featureRequests": "Feature Requests: We welcome feedback and suggestions! Please use our contact form to submit your ideas for new features or improvements.",
+    "contactUsTitle": "Contact Us",
+    "contactUsText": "If you can’t find the answer to your question or need further assistance, please don’t hesitate to contact us. Our support team is available to help you with any issues you may have. You can reach us via email at support@voidnote.com or by filling out our online contact form. We aim to respond to all inquiries within 24 hours. Thank you for using VoidNote!"
+  },
+  "about": {
+    "title": "About VoidNote",
+    "paragraph1": "Welcome to VoidNote, where innovation meets productivity. We are dedicated to revolutionizing the way you organize your thoughts and tasks.",
+    "paragraph2": "At VoidNote, our mission is simple yet ambitious: to empower individuals and teams to achieve more through intuitive note-taking solutions. Whether you're a student, professional, or creative thinker, VoidNote is designed to elevate your productivity and creativity.",
+    "paragraph3": "Join us on this journey to transform how you capture ideas and streamline your workflow. Discover the limitless possibilities of structured note-taking with VoidNote.",
+    "paragraph4": "Let VoidNote be your partner in turning ideas into reality, effortlessly."
+  },
+  "analysisPage": {
+    "title": "Analysis",
+    "noteType": "Note Type",
+    "titleLabel": "Title",
+    "variables": "Variables",
+    "selectAnalysisType": "Select analysis type",
+    "selectNoteTitle": "Select note title",
+    "somethingWentWrong": "Something went wrong.",
+    "unexpectedDataFormat": "Unexpected data format.",
+    "errorFetchingNotes": "Error fetching notes",
+    "note": "Note",
+    "tree": "Tree",
+    "calendar": "Calendar",
+    "today": "Today"
+  },
+  "common":{
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "deleteConfirmation": "Are you sure you want to delete this item?",
+    "next": "Next",
+    "previous": "Previous",
+    "done": "Done",
+    "search": "Search",
+    "searchPlaceholder": "Search...",
+    "noResults": "No results found",
+    "loadingMore": "Loading more...",
+    "noMoreResults": "No more results",
+    "priority": "Priority",
+    "completed": "Completed",
+    "undo": "Undo",
+    "complete": "Complete",
+    "treenotes": "Tree Notes",
+    "openvariables": "Open Variables",
+    "variables": "Variables",
+    "addVariable": "Add Variable",
+    "today": "Today",
+    "gridView": "Grid View",
+    "rowView": "Row View",
+    "addnote": "Add Note",
+    "sort": "Sort",
+    "export": "Export",
+    "date":"Date",
+    "sortby":"Sort by",
+    "alphabet":"Alphabet"
+  },
+  "confirmDelete":{
+    
+      "confirmDeleteTitle": "Confirm Delete",
+      "confirmDeleteDescription": "Are you sure you want to delete the ",
+      "confirmDeleteDescriptionSecond":" This action cannot be undone.",
+      "cancel": "Cancel",
+      "yesDelete": "Yes, Delete"
+    
+  },
+  "footer":{
+    "footerText": "© 2024 Your Company. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  }
+  
 }

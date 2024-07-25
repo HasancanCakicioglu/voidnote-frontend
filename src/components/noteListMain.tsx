@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import NotesCards from "@/components/noteCards"; // Varsayalım ki bu bileşen halihazırda tanımlı
 import { UserCalendar, UserNotes, UserTodoList, UserTreeNotes } from "@/entities/user";
 import definitions from "@/constants/definition";
+import { useTranslations } from "next-intl";
 
 type NoteListMainProps = {
   notes: UserNotes[] | UserTreeNotes[] | UserTodoList[] | UserCalendar[];
@@ -51,6 +52,8 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
   const startIndex = (currentPage - 1) * notesPerPage;
   const endIndex = startIndex + notesPerPage;
 
+  const t = useTranslations("common")
+
   return (
     <Tabs defaultValue="grid">
       <div className="flex items-center mb-2">
@@ -60,14 +63,14 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
             value="grid"
           >
             <LayoutGrid size={18} />
-            <span className="ml-2 hidden sm:inline">Grid View</span>
+            <span className="ml-2 hidden sm:inline">{t("gridView")}</span>
           </TabsTrigger>
           <TabsTrigger
             className="flex items-center px-4 py-2 font-medium  transition-colors duration-200 ease-in-out hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-2   data-[state=active]:border-b-2 data-[state=active]:border-blue-500"
             value="row"
           >
             <Rows3 size={18} />
-            <span className="ml-2 hidden sm:inline">Row View</span>
+            <span className="ml-2 hidden sm:inline">{t("rowView")}</span>
           </TabsTrigger>
         </TabsList>
         <div className="ml-auto flex items-center gap-2">
@@ -79,7 +82,7 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
                 className="h-8 gap-1 flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
               >
                 <ListFilter className="h-4 w-4 text-gray-600" />
-                <span className="sr-only sm:not-sr-only sm:ml-2">Sort</span>
+                <span className="sr-only sm:not-sr-only sm:ml-2">{t("sort")}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -87,7 +90,7 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
               align="end"
             >
               <DropdownMenuLabel className="px-4 py-2 text-sm font-semibold text-gray-800">
-                Sort by
+                {t("sortby")}
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="border-t border-gray-200" />
               <DropdownMenuCheckboxItem
@@ -95,27 +98,27 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
                 checked={sortOrder === "date"}
                 onSelect={() => setSortOrder("date")}
               >
-                Date
+                {t("date")}
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 className="px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                 checked={sortOrder === "alphabet"}
                 onSelect={() => setSortOrder("alphabet")}
               >
-                Alphabet
+                {t("alphabet")}
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button size="sm" variant="outline" className="h-8 gap-1">
             <File className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Export
+              {t("export")}
             </span>
           </Button>
           <Button size="sm" className="h-8 gap-1" onClick={handleAddButton}>
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Note
+              {t("addnote")}
             </span>
           </Button>
         </div>
@@ -154,7 +157,7 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Previous
+                {t("previous")}
               </Button>
               <Button
                 size="sm"
@@ -166,7 +169,7 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
                 }
                 disabled={endIndex >= notes.length}
               >
-                Next
+                {t("next")}
               </Button>
             </div>
           </CardFooter>
@@ -206,7 +209,7 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Previous
+                {t("previous")}
               </Button>
               <Button
                 size="sm"
@@ -218,7 +221,7 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
                 }
                 disabled={endIndex >= notes.length}
               >
-                Next
+                {t("next")}
               </Button>
             </div>
           </CardFooter>

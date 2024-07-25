@@ -1,30 +1,27 @@
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 const AboutPage: React.FC = () => {
+  const t = useTranslations('about');
+
   return (
     <div className="container mx-auto px-6 py-12 text-center">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-          About VoidNote
+          {t('title')}
         </h1>
         <div className="text-lg text-gray-800 dark:text-gray-300">
           <p className="mb-4">
-            Welcome to VoidNote, where innovation meets productivity. We are dedicated
-            to revolutionizing the way you organize your thoughts and tasks.
+            {t('paragraph1')}
           </p>
           <p className="mb-4">
-            At VoidNote, our mission is simple yet ambitious: to empower individuals
-            and teams to achieve more through intuitive note-taking solutions. Whether
-            you're a student, professional, or creative thinker, VoidNote is designed
-            to elevate your productivity and creativity.
+            {t('paragraph2')}
           </p>
           <p className="mb-4">
-            Join us on this journey to transform how you capture ideas and streamline
-            your workflow. Discover the limitless possibilities of structured note-taking
-            with VoidNote.
+            {t('paragraph3')}
           </p>
           <p>
-            Let VoidNote be your partner in turning ideas into reality, effortlessly.
+            {t('paragraph4')}
           </p>
         </div>
       </div>

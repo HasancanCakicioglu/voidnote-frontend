@@ -1,11 +1,13 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import TiptapEditor, { TiptapRef } from "@/components/tiptap"; // Örneğin, TiptapEditor bileşeninin doğru yolu buraya ekleyin
-import { getNote, updateNote } from "@/actions/note"; // getNote fonksiyonunun doğru yolu buraya ekleyin
+import TiptapEditor, { TiptapRef } from "@/components/tiptap";
+import { getNote, updateNote } from "@/actions/note"; 
 import SmallHeader from "@/components/smallHeader";
 import { toast } from "@/components/ui/use-toast";
 import { getNoteSuccessResponse } from "@/entities/note";
 import VariableSidebar from "@/components/variableSidebar";
+import { parseVariables } from "@/utility/parseVariables";
+import { useTranslations } from "next-intl";
 
 const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   const [savedContent, setSavedContent] = useState<string>("");
@@ -19,6 +21,8 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   const [open, setOpen] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState<number | null>(null);
   const [titleToDelete, setTitleToDelete] = useState<string | null>(null);
+
+  const t = useTranslations("common");
 
   const handleVariableClick = (e: string) => {
     if (tiptapRef.current) {
@@ -93,37 +97,15 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
       }
     };
 
-    fetchNote(); // fetchNote fonksiyonunu useEffect içinde çağırın
-  }, []); // useEffect'in id parametresine bağımlı olmasını sağlıyoruz
+    fetchNote(); 
+  }, []); 
 
   const buttonClick = async () => {
-    const variablesMap = new Map<string, number[]>();
-    const regex = /(\w+)\[(\d+)\]/g;
-    let match;
-
-    while ((match = regex.exec(savedContent)) !== null) {
-      const variable = match[1];
-      const value = parseInt(match[2], 10);
-
-      if (variables.includes(variable)) {
-        if (!variablesMap.has(variable)) {
-          variablesMap.set(variable, [value]);
-        } else {
-          variablesMap.get(variable)?.push(value);
-        }
-      }
-    }
-    const variablesObject = Array.from(variablesMap.entries()).reduce((acc, [key, value]) => {
-      acc[key] = value;
-      return acc;
-    }, {} as { [key: string]: number[] });
-
-
     let response = await updateNote({
       id: params.id,
       title: title,
       content: savedContent,
-      variables: variablesObject,
+      variables: parseVariables(variables, savedContent),
       brief: getPlainTextPreview(savedContent, 50),
     });
 
@@ -154,7 +136,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
             className="text-2xl font-bold mb-4"
           />
           <div className="min-w-full rounded-md overflow-hidden max-w-[60vw] flex flex-grow">
-            {isEditorReady && ( // Editör hazır olduğunda gösterilecek
+            {isEditorReady && ( 
               <TiptapEditor
                 ref={tiptapRef}
                 description={savedContent}
@@ -162,7 +144,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
               />
             )}
             {!isEditorReady && (
-              <p>Loading editor...</p> // Editör henüz hazır değilse yükleme durumu gösterilebilir
+              <p>{t("loading")}</p> 
             )}
           </div>
           <button
@@ -175,7 +157,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
         : "bg-gray-400 text-gray-700 cursor-not-allowed"
     }`}
           >
-            Save
+            {t("save")}
           </button>
         </div>
       </div>

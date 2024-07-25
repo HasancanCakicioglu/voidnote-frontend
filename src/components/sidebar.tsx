@@ -84,16 +84,6 @@ const Sidebar = () => {
           {open && <span className="ml-3 text-base">{t("analytics")}</span>}
         </Link>
       </nav>
-
-      <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-        <Link
-          href="/settings"
-          className={`flex h-9 w-full items-center justify-start rounded-lg transition-colors md:h-8 ${isActive('/settings') ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-        >
-          <Settings className="h-5 w-5 ml-2" />
-          {open && <span className="ml-3 text-base">{t("settings")}</span>}
-        </Link>
-      </nav>
     </div>
   );
 };
