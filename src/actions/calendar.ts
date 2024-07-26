@@ -32,7 +32,7 @@ export async function createCalendar(): Promise<SuccessResponse | ErrorResponse>
     
       return response.data;
     } catch (error: any) {
-        console.log(error)
+  
       return handleApiError(error);
     }
   }
@@ -102,7 +102,6 @@ export async function getCalendar(data: IdInterface): Promise<getCalendarSuccess
   export async function createSubCalendars(data:createSubCalendar): Promise<SuccessResponse | ErrorResponse> {
     try {
       const token = cookies().get("access_token")
-      console.log(data)
   
       if (!token) {
         return {
@@ -164,7 +163,6 @@ export async function getSubCalendar(data: IdsInterface): Promise<getCalendarSuc
 export async function updateSubCalendars(data:updateSubCalendar): Promise<SuccessResponse | ErrorResponse> {
   try {
     const token = cookies().get("access_token")
-    console.log(data)
 
     if (!token) {
       return {
@@ -186,7 +184,6 @@ export async function updateSubCalendars(data:updateSubCalendar): Promise<Succes
   
     return response.data;
   } catch (error: any) {
-      console.log(error)
     return handleApiError(error);
   }
 }
@@ -216,7 +213,6 @@ export async function deleteSubCalendars(data:IdsInterface): Promise<SuccessResp
   
     return response.data;
   } catch (error: any) {
-      console.log(error)
     return handleApiError(error);
   }
 }

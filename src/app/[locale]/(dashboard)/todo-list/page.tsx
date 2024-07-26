@@ -30,7 +30,6 @@ const Page = () => {
     const fetchTodoNotes = async () => {
       try {
         const response = await getUser({ type: "todos" });
-        console.log(response);
 
         if (response.success === false) {
           toast({

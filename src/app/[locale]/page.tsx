@@ -1,4 +1,3 @@
-"use server"
 import Image from "next/image";
 import AnimatedNumbers from "@/components/animatedNumbers";
 import { useTranslations } from "next-intl";
@@ -9,7 +8,7 @@ const Home = () => {
 
   return (
     <div className="mt-10 md:mt-0 flex flex-col grow transition-colors duration-500 min-w-full">
-      <main className="container mx-auto my-auto">
+      <main className="container mx-auto my-auto px-4 max-w-7xl">
         <section className="flex flex-col md:flex-row items-center mb-16">
           <div className="md:w-1/2 px-4">
             <h1 className="text-6xl lg:text-8xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
@@ -42,7 +41,7 @@ const Home = () => {
           </div>
         </section>
 
-        <section className="mt-16 text-center">
+        <section className="-mt-16 text-center">
           <AnimatedNumbers />
         </section>
       </main>

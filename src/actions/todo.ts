@@ -139,7 +139,7 @@ export async function createSubTodoList(
 addSubTodoListSuccessResponse | ErrorResponse
 > {
 try {
-  console.log(data)
+
   const token = cookies().get("access_token");
   if (!token) {
     return {

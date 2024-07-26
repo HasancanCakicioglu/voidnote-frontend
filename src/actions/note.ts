@@ -80,7 +80,7 @@ export async function updateNote(
 ): Promise<createNoteSuccessResponse | ErrorResponse> {
   try {
     const token = cookies().get("access_token");
-    console.log(data);
+
     if (!token) {
       return {
         success: false,

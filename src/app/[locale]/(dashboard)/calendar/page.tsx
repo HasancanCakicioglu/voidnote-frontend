@@ -30,7 +30,7 @@ const Page = () => {
     const fetchNotes = async () => {
       try {
         const response = await getUser({ type: "calendars" });
-        console.log(response)
+    
         if (response.success === false) {
           toast({
             variant: "destructive",

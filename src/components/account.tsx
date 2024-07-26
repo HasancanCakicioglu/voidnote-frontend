@@ -21,7 +21,6 @@ const Account = () => {
 
   const handleLogout = async () => {
     const response = await deleteAccessToken();
-    console.log(response);
     if (response) {
       dispatch(logout());
       router.push('/');
