@@ -153,7 +153,6 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
       parent_id: id,
     });
     if (response.success) {
-      console.log("response data = ",response.data)
       setTreeNotes((notes) => [...notes, {
         _id: response.data._id,
         title: "",
@@ -162,7 +161,6 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
         parent_id: id,
         updatedAt: new Date(),
       }]);
-      console.log("notesss",notes)
       setid(response.data._id);
     } else {
       toast({

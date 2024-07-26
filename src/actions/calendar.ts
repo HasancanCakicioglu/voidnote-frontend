@@ -2,7 +2,7 @@
 import apiClient from "@/lib/axios";
 import { cookies } from "next/headers";
 import { handleApiError } from "./api";
-import { getCalendarSuccessResponse,createSubCalendar, Calendar, SubCalendar, updateSubCalendar , getCalendarVariablesSuccessResponse} from "@/entities/calendar";
+import { getCalendarSuccessResponse,createSubCalendar,updateSubCalendar , getCalendarVariablesSuccessResponse} from "@/entities/calendar";
 import ErrorResponse from "@/entities/api_error";
 import { IdInterface, IdsInterface } from "@/entities/common";
 import SuccessResponse from "@/entities/api_success";

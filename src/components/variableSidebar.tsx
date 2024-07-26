@@ -1,7 +1,7 @@
 import React from "react";
 import { Trash } from "lucide-react";
 import ConfirmDeleteDialog from "./confirmDelete";
-import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent, SheetClose ,SheetTitle} from "@components/ui/sheet";
 import { useTranslations } from "next-intl";
 
 interface VariableSidebarProps {
@@ -45,11 +45,12 @@ const VariableSidebar: React.FC<VariableSidebarProps> = ({
       <div className="lg:hidden">
         <Sheet open={openVariableSidebar} onOpenChange={setOpenVariableSidebar}>
           <SheetTrigger>
-            <button className="fixed bottom-4 right-4 bg-purple-400 text-white p-3 rounded-full shadow-lg">
+            <div className="fixed bottom-4 right-4 bg-purple-400 text-white p-3 rounded-full shadow-lg">
               {t("openvariables")}
-            </button>
+            </div>
           </SheetTrigger>
-          <SheetContent>
+          <SheetContent aria-labelledby="dialog-title">
+          <SheetTitle>Variable</SheetTitle> 
             <div className="p-4">
               <h2 className="text-2xl font-bold text-center">{t("variables")}</h2>
               <hr className="my-3" />
@@ -61,12 +62,12 @@ const VariableSidebar: React.FC<VariableSidebarProps> = ({
                   className="flex-1 border border-gray-300 rounded-l-md px-2 py-1 w-1/12"
                   placeholder={t("addVariable")}
                 />
-                <button
+                <div
                   onClick={handleAddItem}
                   className="flex-none bg-blue-500 text-white px-2 py-1 rounded-r-md"
                 >
                   {t("add")}
-                </button>
+                </div>
               </div>
 
               <ul>
@@ -117,12 +118,12 @@ const VariableSidebar: React.FC<VariableSidebarProps> = ({
                 className="flex-1 border border-gray-300 rounded-l-md px-2 py-1 w-1/12"
                 placeholder={t("addVariable")}
               />
-              <button
+              <div
                 onClick={handleAddItem}
                 className="flex-none bg-blue-500 text-white px-2 py-1 rounded-r-md"
               >
                 {t("add")}
-              </button>
+              </div>
             </div>
 
             <ul>
@@ -135,7 +136,7 @@ const VariableSidebar: React.FC<VariableSidebarProps> = ({
                   <div className="flex flex-grow">
                     <span className="flex-grow">{item}</span>
                   </div>
-                  <button
+                  <div
                     onClick={(e) => {
                       e.stopPropagation();
                       setIndexToDelete(index);
@@ -145,7 +146,7 @@ const VariableSidebar: React.FC<VariableSidebarProps> = ({
                     className="text-red-500 hover:text-red-700 ml-2"
                   >
                     <Trash className="h-4 w-4" />
-                  </button>
+                  </div>
                 </li>
               ))}
             </ul>

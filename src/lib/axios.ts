@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000/api', // Backend URL
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // Backend URL
 });
 
 // Request Interceptor (istek gönderilmeden önce yapılacak işlemler)
