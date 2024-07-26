@@ -37,14 +37,13 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const fetchNotes = async () => {
-      
       try {
         const response = await getUser({ type: analysisType.toLowerCase() + 's' });
         if (response.success === false) {
           toast({
             variant: "destructive",
-            title: t("somethingWentWrong"),
-            description: response.message,
+            title: "Something went wrong.",
+            description: response.message || "Error fetching notes",
           });
         } else {
           if (analysisType === 'note') {
@@ -58,8 +57,8 @@ const HomePage: React.FC = () => {
       } catch (error: any) {
         toast({
           variant: "destructive",
-          title:  t("somethingWentWrong"),
-          description: error.message || t("errorFetchingNotes"),
+          title:  "Something went wrong.",
+          description: error.message || "Error fetching notes",
         });
       }
     };

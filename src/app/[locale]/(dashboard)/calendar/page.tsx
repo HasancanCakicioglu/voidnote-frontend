@@ -7,12 +7,12 @@ import { Input } from "@/components/ui/input";
 import { getUser } from "@/actions/user";
 import { useEffect, useState } from "react";
 import SmallHeader from "@/components/smallHeader";
-import { useToast } from "@/components/ui/use-toast";
 import NoteListMain from "@/components/noteListMain";
 import { UserCalendar } from "@/entities/user";
 import { createCalendar, deleteCalendar } from "@/actions/calendar";
 import ConfirmDeleteDialog from "@/components/confirmDelete";
 import { useRouter } from "@/navigations";
+import { toast } from "@/components/ui/use-toast";
 
 const Page = () => {
   const [notes, setNotes] = useState<UserCalendar[]>([]);
@@ -23,7 +23,6 @@ const Page = () => {
   const [noteToDelete, setNoteToDelete] = useState<{id:string,title:string} | null>(null);
 
   const router = useRouter();
-  const { toast } = useToast();
 
   const notesPerPage = 12;
 

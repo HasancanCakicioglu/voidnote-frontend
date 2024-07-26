@@ -95,7 +95,7 @@ const AnimatedNumbers = () => {
     animateCount(setUsers, users);
     animateCount(setNotes, notes);
     animateCount(setSavedData, savedData);
-  }, [loading]);
+  }, [loading,users, notes, savedData]);
 
   return (
     <div className="flex flex-col md:flex-row justify-around text-gray-700 dark:text-gray-300">

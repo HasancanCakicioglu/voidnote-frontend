@@ -15,7 +15,10 @@ export interface TiptapRef {
   handleAddVariable: (variable:string) => void;
 }
 
+
+
 const Tiptap = forwardRef<TiptapRef, TiptapProps>(({ description, onChange }, ref) => {
+
 
   const editor = useEditor({
     extensions: [StarterKit, Underline, Highlight.configure({ multicolor: true })],
@@ -111,5 +114,7 @@ const Tiptap = forwardRef<TiptapRef, TiptapProps>(({ description, onChange }, re
     </div>
   );
 });
+
+Tiptap.displayName = "Tiptap";
 
 export default Tiptap;

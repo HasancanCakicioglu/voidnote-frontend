@@ -1,4 +1,4 @@
-
+"use server"
 import Image from "next/image";
 import AnimatedNumbers from "@/components/animatedNumbers";
 import { useTranslations } from "next-intl";

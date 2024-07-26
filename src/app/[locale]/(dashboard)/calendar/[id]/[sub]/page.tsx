@@ -97,7 +97,7 @@ const NoteDetailPage = ({
 
     fetchNote();
     setChanged(false);
-  }, []);
+  }, [params.id, params.sub]);
 
   const buttonClick = async () => {
     const variablesMap = new Map<string, number[]>();

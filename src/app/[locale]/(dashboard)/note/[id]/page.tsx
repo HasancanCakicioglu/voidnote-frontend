@@ -98,7 +98,7 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
     };
 
     fetchNote(); 
-  }, []); 
+  }, [params.id]); 
 
   const buttonClick = async () => {
     let response = await updateNote({
