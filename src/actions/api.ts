@@ -3,6 +3,9 @@ import ErrorResponse from "@/entities/api_error";
 // Ortak hata işleme yardımcı fonksiyonu
 export function handleApiError(error: any): ErrorResponse {
     if (error.response && error.response.data) {
+      console.log("buna bak 1= ",error);
+      console.log("buna bak 2= ",error.response);
+      console.log("buna bak 3= ",error.response.data);
       const { success, status, message, data,validation } = error.response.data;
       return {
         success: success || false,
