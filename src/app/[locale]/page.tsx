@@ -11,7 +11,14 @@ const Home = () => {
       <main className="container mx-auto my-auto px-4 max-w-7xl">
         <section className="flex flex-col md:flex-row items-center mb-16">
           <div className="md:w-1/2 px-4">
-            <h1 className="text-6xl lg:text-8xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
+            <h1
+              className="text-6xl lg:text-8xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text"
+              style={{
+                lineHeight: "1.2",
+                WebkitBackgroundClip: "text",
+                color: "transparent",
+              }}
+            >
               {t("welcome")}
             </h1>
             <p className="text-xl text-gray-700 dark:text-gray-300 mb-4">

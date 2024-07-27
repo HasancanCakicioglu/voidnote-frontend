@@ -87,22 +87,22 @@ const AnimatedNumbers = () => {
   return (
     <div className="flex flex-row justify-around text-gray-700 dark:text-gray-300">
       <div className="mb-8 md:mb-0">
-        <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
           {formatNumber(users)}+
         </h3>
-        <p className="text-lg">{t("numberofusers")}</p>
+        <p className="text-md lg:text-lg">{t("numberofusers")}</p>
       </div>
       <div className="mb-8 md:mb-0">
-        <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
           {formatNumber(notes)}+
         </h3>
-        <p className="text-lg">{t("creatednotes")}</p>
+        <p className="text-md lg:text-lg">{t("creatednotes")}</p>
       </div>
       <div>
-        <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
+        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-400 to-purple-800 text-transparent bg-clip-text">
           {formatSize(savedData)}+
         </h3>
-        <p className="text-lg">{t("saveddata")}</p>
+        <p className="text-md lg:text-lg">{t("saveddata")}</p>
       </div>
     </div>
   );

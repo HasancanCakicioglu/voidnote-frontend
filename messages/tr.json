@@ -185,5 +185,23 @@
     "footerText": "© 2024 Şirketiniz. Tüm hakları saklıdır.",
     "privacyPolicy": "Gizlilik Politikası",
     "termsOfService": "Hizmet Şartları"
+  },
+  "definitions": {
+    "note": {
+      "name": "Not",
+      "description": "Genellikle düşünceleri, fikirleri veya hatırlatıcıları yakalamak ve düzenlemek için kullanılan bir bilgi parçasının dijital temsili. Dijital not alma işleminde, verimliliği ve düzenlemeyi artırmak için çeşitli araçlar ve teknikler kullanılır."
+    },
+    "tree-note": {
+      "name": "Ağaç Notu",
+      "description": "Notları düzenlemek ve yönetmek için kullanılan hiyerarşik bir yapı. Ağaç notları, iç içe geçme ve kategorilere ayırma olanağı sağlayarak, karmaşık bilgi setlerini yönetmeyi kolaylaştırır."
+    },
+    "calendar": {
+      "name": "Takvim",
+      "description": "Etkinlikler, randevular ve programlar gibi zamana bağlı bilgileri yönetmek için bir araç. Takvimler, tarihler ve faaliyetlerin görsel bir temsilini sağlayarak planlama ve organizasyona yardımcı olur."
+    },
+    "todo-list": {
+      "name": "Yapılacaklar Listesi",
+      "description": "Tamamlanması gereken görevlerin veya aktivitelerin bir listesi, genellikle öncelik veya son tarih sırasına göre düzenlenir. Yapılacaklar listeleri, bireylerin ilerlemeyi takip etmelerine, zamanı etkili bir şekilde yönetmelerine ve görevleri önceliklendirmelerine yardımcı olur."
+    }
   }
 }

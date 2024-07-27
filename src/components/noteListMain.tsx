@@ -53,6 +53,7 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
   const endIndex = startIndex + notesPerPage;
 
   const t = useTranslations("common")
+  const d = useTranslations("definitions")
 
   return (
     <Tabs defaultValue="grid">
@@ -119,13 +120,11 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
       </div>
       <TabsContent value="grid">
         <Card x-chunk="dashboard-06-chunk-0">
-          <CardHeader>
-            <CardTitle>{definitions[type].name}</CardTitle>
-            <CardDescription>
-            {definitions[type].description}
-            </CardDescription>
-            <Separator />
-          </CardHeader>
+        <CardHeader>
+      <CardTitle>{d(`${type}.name`)}</CardTitle>
+      <CardDescription>{d(`${type}.description`)}</CardDescription>
+      <Separator />
+    </CardHeader>
           <CardContent>
             <NotesCards
               notes={notes}
