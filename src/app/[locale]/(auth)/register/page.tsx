@@ -123,6 +123,7 @@ export default function Home() {
 
       if (data.status === 200) {
         setDialogOpen(false);
+        dispatch(updateAccountState({ email: data.data.email, profilePhotoUrl: "" }));
         router.push("/note");
       } else {
         setErrorMessageDialog(data.message);

@@ -167,7 +167,12 @@
     "export": "Dışa Aktar",
     "date":"Tarih",
     "sortby":"Sırala",
-    "alphabet":"Alfabe"
+    "alphabet":"Alfabe",
+    "showing": "gösteriliyor",
+    "to":"den",
+    "of":"e",
+    "notes":"notlar"
+
   },
   "confirmDelete": {
     "confirmDeleteTitle": "Silme Onayı",

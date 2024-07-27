@@ -109,12 +109,6 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button size="sm" variant="outline" className="h-8 gap-1">
-            <File className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              {t("export")}
-            </span>
-          </Button>
           <Button size="sm" className="h-8 gap-1" onClick={handleAddButton}>
             <PlusCircle className="h-3.5 w-3.5" />
             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -146,9 +140,9 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
           </CardContent>
           <CardFooter className="flex justify-between items-center">
             <div className="text-xs text-muted-foreground">
-              Showing <strong>{startIndex + 1}</strong> to{" "}
-              <strong>{Math.min(endIndex, notes.length)}</strong> of{" "}
-              <strong>{notes.length}</strong> notes
+              {t("showing")} <strong>{startIndex + 1}</strong> {t("to")}{" "}
+              <strong>{Math.min(endIndex, notes.length)}</strong> {t("of")}{" "}
+              <strong>{notes.length}</strong> {t("notes")}
             </div>
             <div className="flex space-x-2">
               <Button

@@ -167,7 +167,11 @@
     "export": "Export",
     "date":"Date",
     "sortby":"Sort by",
-    "alphabet":"Alphabet"
+    "alphabet":"Alphabet",
+    "showing": "showing",
+    "to":"to",
+    "of":"of",
+    "notes":"notes"
   },
   "confirmDelete":{
     

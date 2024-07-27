@@ -20,9 +20,6 @@ const Navbar = () => {
           </Link>
         </div>
         <nav className="hidden md:flex space-x-8">
-          <Link href="/pricing">
-            <div className="hover:text-gray-300">{t("pricing")}</div>
-          </Link>
           <Link href="/features">
             <div className="hover:text-gray-300">{t("features")}</div>
           </Link>
