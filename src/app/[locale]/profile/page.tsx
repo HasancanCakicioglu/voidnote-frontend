@@ -7,6 +7,9 @@ import { RootState } from '@/store/store';
 import { getUser } from '@/actions/user';
 import { toast } from '@/components/ui/use-toast';
 import LocaleSwitcher from '@/components/localeSwitcher';
+import { deleteAccessToken } from '@/actions/auth';
+import {useRouter } from "@/navigations";
+
 
 
 interface LenNotes {
@@ -21,6 +24,8 @@ const ProfilePage: React.FC = () => {
   const account = useSelector((state: RootState) => state.account);
   const profileInitial = account.email ? account.email.charAt(0).toUpperCase() : '';
   const [lenNotes, setLenNotes] = useState<LenNotes>({ notes: 0, trees: 0, todos: 0, calendars: 0 });
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -52,13 +57,22 @@ const ProfilePage: React.FC = () => {
     fetchNotes();
   }, []);
 
+
+  const handleLogout = async () => {
+    const response = await deleteAccessToken();
+    if (response) {
+      dispatch(logout());
+      router.push('/');
+    }
+  };
+
   return (
     <div className="container mx-auto px-6 py-12">
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Profile</h1>
           <button
-            onClick={() => dispatch(logout())}
+            onClick={handleLogout}
             className="text-red-500 hover:text-red-700 font-semibold"
           >
             Logout

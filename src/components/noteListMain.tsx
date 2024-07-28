@@ -171,10 +171,8 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
       <TabsContent value="row">
         <Card x-chunk="dashboard-06-chunk-0">
           <CardHeader>
-            <CardTitle>{definitions[type].name}</CardTitle>
-            <CardDescription>
-              {definitions[type].description}
-            </CardDescription>
+          <CardTitle>{d(`${type}.name`)}</CardTitle>
+          <CardDescription>{d(`${type}.description`)}</CardDescription>
             <Separator />
           </CardHeader>
           <CardContent>
@@ -191,9 +189,9 @@ const NoteListMain: React.FC<NoteListMainProps> = ({
           </CardContent>
           <CardFooter className="flex justify-between items-center">
             <div className="text-xs text-muted-foreground">
-              Showing <strong>{startIndex + 1}</strong> to{" "}
-              <strong>{Math.min(endIndex, notes.length)}</strong> of{" "}
-              <strong>{notes.length}</strong> notes
+            {t("showing")} <strong>{startIndex + 1}</strong> {t("to")}{" "}
+              <strong>{Math.min(endIndex, notes.length)}</strong> {t("of")}{" "}
+              <strong>{notes.length}</strong> {t("notes")}
             </div>
             <div className="flex space-x-2">
               <Button

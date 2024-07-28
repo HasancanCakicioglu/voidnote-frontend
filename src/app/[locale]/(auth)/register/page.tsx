@@ -149,12 +149,12 @@ export default function Home() {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-gray">{t("usernameLabel")}</FormLabel>
+                    <FormLabel className="">{t("usernameLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder={t("usernameLabel")}
                         {...field}
-                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 -100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -166,13 +166,13 @@ export default function Home() {
                 name="emailAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-gray">{t("emailLabel")}</FormLabel>
+                    <FormLabel className="">{t("emailLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder={t("emailLabel")}
                         type="email"
                         {...field}
-                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 -100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -184,13 +184,13 @@ export default function Home() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-gray">{t("passwordLabel")}</FormLabel>
+                    <FormLabel className="">{t("passwordLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder={t("passwordLabel")}
                         type="password"
                         {...field}
-                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 -100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -202,13 +202,13 @@ export default function Home() {
                 name="passwordConfirm"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="dark:text-gray">{t("passwordConfirmLabel")}</FormLabel>
+                    <FormLabel className="">{t("passwordConfirmLabel")}</FormLabel>
                     <FormControl>
                       <Input
                         placeholder={t("passwordConfirmLabel")}
                         type="password"
                         {...field}
-                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                        className="bg-white border-gray-300 dark:border-gray-600 text-gray-900 -100"
                       />
                     </FormControl>
                     <FormMessage />
@@ -217,7 +217,7 @@ export default function Home() {
               />
               <Button
                 type="submit"
-                className="w-full bg-blue-600 dark:bg-blue-700 text-white dark:text-gray-200"
+                className="w-full bg-blue-600 dark:bg-blue-700 text-white -200"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? t("submitting") : t("submitButton")}
