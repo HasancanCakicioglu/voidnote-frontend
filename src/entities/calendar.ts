@@ -40,3 +40,7 @@ export interface getCalendarVariablesSuccessResponse extends SuccessResponse
         };
     }[];
 }
+
+export interface updateCalendarData extends IdInterface{
+    title:string | undefined,
+}

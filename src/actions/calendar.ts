@@ -2,7 +2,7 @@
 import apiClient from "@/lib/axios";
 import { cookies } from "next/headers";
 import { handleApiError } from "./api";
-import { getCalendarSuccessResponse,createSubCalendar,updateSubCalendar , getCalendarVariablesSuccessResponse} from "@/entities/calendar";
+import { getCalendarSuccessResponse,createSubCalendar,updateSubCalendar , getCalendarVariablesSuccessResponse, updateCalendarData} from "@/entities/calendar";
 import ErrorResponse from "@/entities/api_error";
 import { IdInterface, IdsInterface } from "@/entities/common";
 import SuccessResponse from "@/entities/api_success";
@@ -36,6 +36,36 @@ export async function createCalendar(): Promise<SuccessResponse | ErrorResponse>
       return handleApiError(error);
     }
   }
+
+  export async function updateCalendar(data: updateCalendarData): Promise<SuccessResponse | ErrorResponse> {
+    try {
+      const token = cookies().get("access_token")
+  
+      if (!token) {
+        return {
+          success: false,
+          message: "Access token not found",
+          status: 401,
+          data: new Map<string, any>(),
+          validation: new Map<string, any>(),
+        };
+      }
+      const response = await apiClient.post<SuccessResponse>(
+        `/calendar/update/${data.id}`,data,{
+          headers: {
+            Authorization: `Bearer ${token.value}`,
+          },
+          }
+      );
+  
+    
+      return response.data;
+    } catch (error: any) {
+  
+      return handleApiError(error);
+    }
+  }
+
 
 
 export async function getCalendar(data: IdInterface): Promise<getCalendarSuccessResponse | ErrorResponse> {

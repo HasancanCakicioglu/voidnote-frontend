@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import SmallHeader from '@/components/smallHeader';
-import { createSubCalendars, deleteSubCalendars, getCalendar } from '@/actions/calendar';
+import { createSubCalendars, deleteSubCalendars, getCalendar, updateCalendar } from '@/actions/calendar';
 import { toast } from '@/components/ui/use-toast';
 import { Calendar } from '@/entities/calendar';
-import { CircleX } from 'lucide-react'; // Import the CircleX icon from Lucid React
+import { CircleX, Save } from 'lucide-react'; // Import the CircleX icon from Lucid React
 import { useRouter } from '@/navigations';
 import { useTranslations } from 'next-intl';
 
@@ -14,6 +14,9 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const t = useTranslations("common");
+
+  const [changed, setChanged] = useState<boolean>(false);
+  const [title, setTitle] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -30,6 +33,7 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
             });
           } else {
             setCalendar(response.data);
+            setTitle(response.data.title);
           }
         } catch (error: any) {
           toast({
@@ -176,12 +180,31 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
         </div>
       );
     }
+
+  
   
     return (
+    
       <div className="grid grid-cols-7 text-center border border-gray-600 rounded-lg p-1">
         {dates}
       </div>
     );
+  };
+  const saveTitle = async () => {
+    let response = await updateCalendar({
+      id: params.id,
+      title: title ?? undefined,
+    });
+
+    if (response && response.success) {
+      setChanged(false);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong.",
+        description: response.message,
+      });
+    }
   };
 
   if (!calendar) return <p className="text-gray-600">{t("loading")}</p>;
@@ -190,7 +213,27 @@ const CalendarPage = ({ params }: { params: { id: string } }) => {
     <div className="sm:gap-4 sm:py-4 md:px-8 max-w-full min-w-full">
       <SmallHeader/>
       <div className="flex flex-col max-w-[90vw] p-4 mx-auto">
-        <h1 className="text-xl md:text-2xl font-bold mb-4">{calendar.title}</h1>
+      <div className="flex items-center w-full sm:w-auto mb-2 sm:mb-1">
+          <input
+            type="text"
+            value={title || "Untitled"}
+            onChange={(e) => {
+              setChanged(true);
+              setTitle(e.target.value);
+            }}
+            placeholder="Title"
+            className="border p-2 rounded-md border-gray-700 mr-2 flex-grow sm:flex-grow-0"
+          />
+          <button
+            disabled={!changed}
+            onClick={saveTitle}
+            className={`border p-2 py-2 px-4 rounded-md ${
+              changed ? "bg-primary text-primary-foreground" : "bg-gray-400 text-gray-700 cursor-not-allowed"
+            }`}
+          >
+            <Save />
+          </button>
+        </div>
         {renderHeader()}
         {renderDaysOfWeek()}
         {renderDates()}
