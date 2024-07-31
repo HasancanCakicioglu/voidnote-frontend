@@ -31,15 +31,23 @@ const NoteDetailPage = ({ params }: { params: { id: string } }) => {
   };
 
   const handleAddItem = () => {
-    if (inputValue.trim() !== "" && !variables.includes(inputValue)) {
-      setvariables([...variables, inputValue]);
-      setInputValue("");
-    } else if (variables.includes(inputValue)) {
+    const trimmedInputValue = inputValue.trim();
+  
+    if (trimmedInputValue === "" || /\s/.test(trimmedInputValue)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Input",
+        description: "Variables cannot contain spaces or be empty",
+      });
+    } else if (variables.includes(trimmedInputValue)) {
       toast({
         variant: "destructive",
         title: "Duplicate",
         description: "You cannot add more than one of the same variable",
       });
+    } else {
+      setvariables([...variables, trimmedInputValue]);
+      setInputValue("");
     }
   };
 
